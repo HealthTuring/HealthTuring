@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HealthturingServerApplication {
 
 	public static void main(String[] args) {
+		
 		SpringApplication.run(HealthturingServerApplication.class, args);
+
+		
 	}
 
 }
