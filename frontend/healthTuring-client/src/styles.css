@@ -1,2 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+:root {
+  /* Colors */
+  --primary-blue: #2DABB9;
+
+  /* Font */
+  --font-primary: "Roboto", sans-serif;
+  --font-title: "Merriweather", serif;
+}
+
+body {
+  font-family: var(--font-primary);
+}
