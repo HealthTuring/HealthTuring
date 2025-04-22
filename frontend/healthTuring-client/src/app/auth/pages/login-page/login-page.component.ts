@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../../utils/form-utils';
 import { RouterLink } from '@angular/router';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -15,7 +16,7 @@ export class LoginPageComponent {
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.pattern(FormUtils.emailPattern)]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required, Validators.pattern(FormUtils.passwordPattern)]]
   });
 
 

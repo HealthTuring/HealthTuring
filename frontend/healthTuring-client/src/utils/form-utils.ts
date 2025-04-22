@@ -1,25 +1,16 @@
 import { AbstractControl, FormArray, FormGroup, ValidationErrors } from "@angular/forms";
 
-function sleep() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(true);
-    }, 2500)
-  })
-}
-
 export class FormUtils {
 
   // Expresiones regulares
-  static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
   static emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
-  static notOnlySpacesPattern = '^[a-zA-Z0-9]+$';
+  static passwordPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$';
 
   static getTextError(errors: ValidationErrors) {
     for (const key of Object.keys(errors)) {
       switch (key) {
         case 'required':
-          return 'Este campo es requerido';
+          return 'Este campo es obligatorio';
         case 'minlength':
           return `Mínimo de ${errors[key].requiredLength} caracteres`;
         case 'min':
@@ -33,8 +24,10 @@ export class FormUtils {
         case 'pattern':
           if (errors['pattern'].requiredPattern === FormUtils.emailPattern) {
             return 'Formato de correo electrónico inválido';
+          } else if (errors['pattern'].requiredPattern === FormUtils.passwordPattern) {
+            return 'La contraseña debe tener al menos 8 caracteres, con una mayúscula, una minúscula, un número y un carácter especial (@$!%*?&).'
           }
-          return 'Error de patrón contra expresión regular'
+          return 'Error de patrón contra expresión regular';
         default:
           return `Error de validación no controlado ${key}`
       }
@@ -70,15 +63,8 @@ export class FormUtils {
 
   }
 
-  static isFieldOneEqualFieldTwo(field1: string, field2: string) {
-    return (formGroup: AbstractControl) => {
-      const field1Value = formGroup.get(field1)?.value;
-      const field2Value = formGroup.get(field2)?.value;
-      return field1Value === field2Value ? null : { passwordsNotEqual: true};
-    }
-  }
-
-  static async checkingServerResponse(control: AbstractControl): Promise<ValidationErrors | null> {
+  // TODO Validar si el correo existe en la bd (peticion con los correos de usuario a backend)
+/*   static async checkingServerResponse(control: AbstractControl): Promise<ValidationErrors | null> {
     await sleep(); // 2 segundos y medio
     const formValue = control.value;
 
@@ -88,7 +74,7 @@ export class FormUtils {
       }
     }
     return null;
-  }
+  } */
 
   static notAdmin(control: AbstractControl): ValidationErrors | null {
     return (control.value === 'Admin') ? {noAdmin: true} : null;
