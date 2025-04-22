@@ -72,6 +72,28 @@ public class User implements UserDetails{
         this.role = role;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    
+
     
     
 }
