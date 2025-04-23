@@ -44,6 +44,7 @@
 
             <div class="flex flex-col relative flex-1 group">
               <input type="password" id="password" placeholder=" "
+                [type]="showPassword ? 'text' : 'password'" 
                 [class]="formUtils.isValidField(loginForm, 'password') ? 'border-red-600' : 'border-gray-500'"
                 class="w-full p-2 rounded text-gray-700 outline-none border border-gray-500 group__input"
                 formControlName="password" />
@@ -52,8 +53,8 @@
                 class="absolute bg-white top-2.5 left-2.5 mb-1.5 text-sm transition-all duration-500 group__label">
                 Contraseña
               </label>
-              <span class="material-icons-outlined absolute right-3 top-2.5 text-gray-500 cursor-pointer">
-                visibility
+              <span class="material-icons-outlined absolute right-3 top-2.5 text-gray-500 select-none cursor-pointer" (click)="togglePasswordVisibility()">
+                {{ showPassword ? 'visibility' : 'visibility_off' }}
               </span>
               @if (formUtils.isValidField(loginForm, 'password')) {
               <span class="text-red-600 text-sm m-1">
@@ -61,6 +62,20 @@
               </span>
               }
             </div>
+
+            <div class="flex items-center justify-end space-x-2 mt-4">
+                <input
+                  class="w-5 h-5 border-gray-500 rounded"
+                  type="checkbox"
+                  id="isDoctor"
+                  formControlName="isDoctor"
+                />
+                <label 
+                  class="text-gray-700 text-sm select-none cursor-pointer" 
+                  for="isDoctor">
+                    Soy médico/a
+                </label>
+              </div>
 
             <button type="submit" class="w-full bg-primary text-white py-2 m-0 rounded font-semibold">
                 Continuar

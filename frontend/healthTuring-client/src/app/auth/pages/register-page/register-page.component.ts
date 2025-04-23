@@ -12,12 +12,19 @@ export class RegisterPageComponent {
 
   private fb = inject(FormBuilder);
   formUtils = FormUtils;
+  showPassword: boolean = false;
 
   loginForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.pattern(FormUtils.emailPattern)]],
-    password: ['', [Validators.required, Validators.pattern(FormUtils.passwordPattern)]]
+    password: ['', [Validators.required, Validators.pattern(FormUtils.passwordPattern)]],
+    isDoctor: [false],
   });
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+    console.log('hola')
+  }
 
   onSubmit() {
     this.loginForm.markAllAsTouched();
