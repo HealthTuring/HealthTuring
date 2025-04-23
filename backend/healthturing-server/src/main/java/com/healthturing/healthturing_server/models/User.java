@@ -6,7 +6,7 @@ import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.healthturing.healthturing_server.models.enums.Role;
+import com.healthturing.healthturing_server.models.enums.RoleEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,27 +30,28 @@ public class User implements UserDetails{
     private String name;
 
     @Column(nullable = false)
-    private String lastname;
-
-    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private Role role;
+    private RoleEnum role;
+
+    @Column (nullable = false)
+    private boolean enabled;
 
 
 
 
     public User(){
-        this.role=Role.User;
+        
     }
 
-    public User(String email, String name, String lastname, String password){
-        this();
+    public User(String email, String name, String password, RoleEnum role ){
+        //this();
         this.email=email;
         this.name=name;
-        this.lastname=lastname;
         this.password=password;
+        this.role=role;
+        this.enabled=false;
     }
 
     @Override
@@ -68,7 +69,7 @@ public class User implements UserDetails{
         return email;
     }
 
-    public void setRole(Role role) {
+    public void setRole(RoleEnum role) {
         this.role = role;
     }
 
@@ -84,11 +85,8 @@ public class User implements UserDetails{
         return name;
     }
 
-    public String getLastname() {
-        return lastname;
-    }
 
-    public Role getRole() {
+    public RoleEnum getRole() {
         return role;
     }
 

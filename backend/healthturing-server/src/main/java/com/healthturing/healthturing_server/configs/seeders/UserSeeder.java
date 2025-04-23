@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.healthturing.healthturing_server.models.User;
-import com.healthturing.healthturing_server.models.enums.Role;
+import com.healthturing.healthturing_server.models.enums.RoleEnum;
 import com.healthturing.healthturing_server.repositories.UserRepository;
 
 @Component
@@ -30,9 +30,11 @@ public class UserSeeder implements CommandLineRunner{
     public void run(String... args){
         if(userRepository.count() == 0){
             User admin = new User("admin@mail.com" , "adminName", "administrator", passwordEncoder.encode("adminpass"));
-            admin.setRole(Role.Admin);
+            //admin.setRole(Role.Admin);
 
             User user = new User("user@mail.com" , "userName", "userlastname", passwordEncoder.encode("userpass"));
+
+            User doctor = new User("doc@mail.com", "doctor", "doctorLN", passwordEncoder.encode("docpass"));
 
             userRepository.saveAll(List.of(admin, user));
 
