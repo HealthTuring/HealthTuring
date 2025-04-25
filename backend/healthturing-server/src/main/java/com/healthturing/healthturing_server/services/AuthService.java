@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties.AssertingParty.Verification;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,9 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
+    @Value("${url.client}")
+    private String clientUrl;
+
 
     @Transactional(readOnly = true)
     public List<User> findAll() {
@@ -57,7 +62,7 @@ public class AuthService {
         VerificationToken verificationToken = new VerificationToken(user, token, expiration);
         
         
-        registerApplication(email, verificationToken);
+        registerUser(email, verificationToken.getToken());
     }
 
     
@@ -65,7 +70,7 @@ public class AuthService {
         Optional<User> userOptional = userRepository.findByEmail(email);
     
         if (userOptional.isEmpty()) {
-            throw new UserNotFoundException("Email o contraseña incorrectos.");
+            throw new UsernameNotFoundException("Email o contraseña incorrectos.");
         }
 
         User user = userOptional.get();
@@ -79,7 +84,7 @@ public class AuthService {
         return jwtService.generateToken(user);
     }
 
-     public void registerUser(String email, String token) {
+    public void registerUser(String email, String token) {
 
         String confirmationLink = clientUrl + "/auth/email-confirmation/" + token;
         String htmlContent = "<html>"
