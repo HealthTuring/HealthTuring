@@ -6,13 +6,16 @@ import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.healthturing.healthturing_server.models.enums.RoleEnum;
+import com.healthturing.healthturing_server.models.enums.Role;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,10 +36,13 @@ public class User implements UserDetails{
     private String password;
 
     @Column(nullable = false)
-    private RoleEnum role;
+    private Role role;
 
     @Column (nullable = false)
     private boolean enabled;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, optional = true)
+    private VerificationToken verificationToken;
 
 
 
@@ -45,12 +51,12 @@ public class User implements UserDetails{
         
     }
 
-    public User(String email, String name, String password, RoleEnum role ){
+    public User(String email, String name, String password){
         //this();
         this.email=email;
         this.name=name;
         this.password=password;
-        this.role=role;
+        this.role=Role.ROLE_USER;
         this.enabled=false;
     }
 
@@ -69,7 +75,7 @@ public class User implements UserDetails{
         return email;
     }
 
-    public void setRole(RoleEnum role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -86,10 +92,23 @@ public class User implements UserDetails{
     }
 
 
-    public RoleEnum getRole() {
+    public Role getRole() {
         return role;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public VerificationToken getVerificationToken() {
+        return verificationToken;
+    }
+
+    
     
 
     
