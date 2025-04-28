@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../../utils/form-utils';
 import { RouterLink } from '@angular/router';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
