@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.healthturing.healthturing_server.exceptions.EmailEmitErrorException;
 import com.healthturing.healthturing_server.exceptions.EmailNotConfirmedException;
 import com.healthturing.healthturing_server.exceptions.UserAlreadyExistsException;
-import com.healthturing.healthturing_server.exceptions.UserNotFoundException;
 import com.healthturing.healthturing_server.models.User;
 import com.healthturing.healthturing_server.models.VerificationToken;
 import com.healthturing.healthturing_server.repositories.UserRepository;
@@ -50,6 +50,7 @@ public class AuthService {
     }
 
 
+
     @Transactional(readOnly = true)
     public List<User> findAll() {
         return (List<User>) userRepository.findAll();
@@ -84,7 +85,7 @@ public class AuthService {
         Optional<User> userOptional = userRepository.findByEmail(email);
     
         if (userOptional.isEmpty()) {
-            throw new UserNotFoundException("Email o contraseña incorrectos.");
+            throw new UsernameNotFoundException("Email o contraseña incorrectos.");
         }
 
         User user = userOptional.get();
