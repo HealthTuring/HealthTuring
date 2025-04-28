@@ -1,25 +1,23 @@
 package com.healthturing.healthturing_server.services;
 
-
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties.AssertingParty.Verification;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.healthturing.healthturing_server.models.Role;
+import com.healthturing.healthturing_server.exceptions.EmailEmitErrorException;
+import com.healthturing.healthturing_server.exceptions.EmailNotConfirmedException;
+import com.healthturing.healthturing_server.exceptions.UserAlreadyExistsException;
 import com.healthturing.healthturing_server.models.User;
 import com.healthturing.healthturing_server.models.VerificationToken;
-import com.healthturing.healthturing_server.models.enums.RoleEnum;
-import com.healthturing.healthturing_server.repositories.RoleRepository;
 import com.healthturing.healthturing_server.repositories.UserRepository;
+import com.healthturing.healthturing_server.repositories.VerificationTokenRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,20 +25,30 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthService {
 
-     @Autowired
-    private UserRepository userRepository;
+    @Value("${url.client}")
+    private String clientUrl;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired //no va autowired
-    private PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
 
     @Autowired
     private JwtService jwtService;
 
-    @Value("${url.client}")
-    private String clientUrl;
+    @Autowired
+    private EmailSenderService emailSenderService;
+
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
+
+    private final AuthenticationManager authenticationManager;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthService(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder){
+        this.authenticationManager=authenticationManager;
+        this.passwordEncoder=passwordEncoder;
+    }
+
 
 
     @Transactional(readOnly = true)
@@ -50,19 +58,26 @@ public class AuthService {
 
 
     @Transactional
-    public void register(String email, String name, String password, RoleEnum role) {
+    public void register(String email, String name, String password) {
+
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new UserAlreadyExistsException("El usuario ya existe");
+        }
 
         //TODO: Validaciones de campos
 
-        User user = new User(email, name, passwordEncoder.encode(password), role);
+        User user = new User(email, name, passwordEncoder.encode(password));
         Long expiration = System.currentTimeMillis()+ 1000 *3600 * 24 * 3;
         String token = jwtService.UserAppToken(user, expiration);
 
         //TODO ver si es necesario cambiar la fecha de expiracion a formato date para almacenarla mejor
-        VerificationToken verificationToken = new VerificationToken(user, token, expiration);
+        //VerificationToken verificationToken = new VerificationToken(user, token, expiration);
+        //verificationTokenRepository.save(verificationToken);
+
+        userRepository.save(user);
         
         
-        registerUser(email, verificationToken.getToken());
+        //registerUser(email, verificationToken.getToken());
     }
 
     
@@ -75,7 +90,9 @@ public class AuthService {
 
         User user = userOptional.get();
 
-        if (!user.isEmailConfirm()) {
+        System.out.println(user.getName());
+
+        if (!user.isEnabled()) {
             throw new EmailNotConfirmedException("Debes confirmar tu correo antes de iniciar sesión.");
         }
     
@@ -83,6 +100,8 @@ public class AuthService {
     
         return jwtService.generateToken(user);
     }
+
+
 
     public void registerUser(String email, String token) {
 
@@ -98,21 +117,22 @@ public class AuthService {
         try {
             emailSenderService.sendHtmlEmail(email, "Confirmación de Registro", htmlContent);
         } catch (Exception e) {
-            throw new ErrorSendEmailException("Error al enviar el email de confirmación");
+            throw new EmailEmitErrorException("Error al enviar el email de confirmación");
         }
     }
 
     public String confirmEmail(String token) {
-        Optional<User> userOptional = userRepository.findByConfirmationToken(token);
 
-        if (!userOptional.isPresent()) {
-            throw new InvalidTokenException("Token de confirmación inválido");
-        }
+        //TODO: hacer errores de orElseThrow de verToken y user
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token).orElseThrow();
 
-        User user = userOptional.orElseThrow();
-        user.setEmailConfirm(true);
-        user.setConfirmationToken(null);
+        User user = userRepository.findByVerificationToken(verificationToken).orElseThrow();
+
+        user.setEnabled(true);
+
         userRepository.save(user);
+
+        verificationTokenRepository.delete(verificationToken);
 
         return "Email confirmado con éxito";
     }

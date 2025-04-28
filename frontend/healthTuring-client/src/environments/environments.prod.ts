@@ -1,3 +1,3 @@
 export const environments = {
-  baseUrl: 'http://localhost:8080/'
+  baseUrl: 'http://healthturing.duckdns.org/'
 }

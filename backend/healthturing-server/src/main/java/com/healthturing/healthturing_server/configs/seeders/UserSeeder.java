@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.healthturing.healthturing_server.models.User;
-import com.healthturing.healthturing_server.models.enums.RoleEnum;
+import com.healthturing.healthturing_server.models.enums.Role;
 import com.healthturing.healthturing_server.repositories.UserRepository;
 
 @Component
@@ -29,14 +29,18 @@ public class UserSeeder implements CommandLineRunner{
     @Override
     public void run(String... args){
         if(userRepository.count() == 0){
-            User admin = new User("admin@mail.com" , "adminName", "administrator", passwordEncoder.encode("adminpass"));
-            //admin.setRole(Role.Admin);
+            User admin = new User("admin@mail.com" , "adminName", passwordEncoder.encode("adminpass"));
+            admin.setRole(Role.ROLE_ADMIN);
+            admin.setEnabled(true);
 
-            User user = new User("user@mail.com" , "userName", "userlastname", passwordEncoder.encode("userpass"));
+            User user = new User("user@mail.com" , "userName", passwordEncoder.encode("userpass"));
+            user.setEnabled(true);
 
-            User doctor = new User("doc@mail.com", "doctor", "doctorLN", passwordEncoder.encode("docpass"));
+            User doctor = new User("doc@mail.com", "doctor", passwordEncoder.encode("docpass"));
+            doctor.setRole(Role.ROLE_DOC);
+            doctor.setEnabled(true);
 
-            userRepository.saveAll(List.of(admin, user));
+            userRepository.saveAll(List.of(admin, user, doctor));
 
             System.out.println("Usuarios creados con éxito");
         }else{

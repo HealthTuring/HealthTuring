@@ -18,10 +18,10 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
-    @Value("{jwt.secret}")
+    @Value("${jwt.secret}")
     private String secretkey;
 
-    public String generateUserToken (User user){
+    public String generateToken (User user){
         return Jwts.builder()
         .subject(user.getEmail())
         .claim("id", user.getId())

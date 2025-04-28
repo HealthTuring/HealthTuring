@@ -13,5 +13,10 @@ public class ApiController {
     public String prueba() {
         return "http://localhost:8080/swagger-ui/index.html#/api-controller/prueba";
     }
+
+    @GetMapping("/hola")
+    public String holaMundo() {
+        return "¡Hola mundo desde Spring Boot!";
+    }
     
 }
