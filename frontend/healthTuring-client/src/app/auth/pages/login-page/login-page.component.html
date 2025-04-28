@@ -10,7 +10,8 @@
         <input type="email" id="email" placeholder=" "
           [class]="formUtils.isValidField(loginForm, 'email') ? 'border-red-600' : 'border-gray-500'"
           class="w-full p-2 rounded text-gray-700 outline-none border transition-all duration-300 group__input"
-          formControlName="email" />
+          formControlName="email"
+        />
         <label for="email"
           [class]="formUtils.isValidField(loginForm, 'email') ? 'text-red-600' : 'text-gray-700'"
           class="absolute bg-white top-2.5 left-2.5 mb-1.5 text-sm transition-all duration-300 group__label">
@@ -26,16 +27,19 @@
 
       <div class="flex flex-col relative flex-1 group mb-2">
         <input type="password" id="password" placeholder=" "
+          [type]="showPassword ? 'text' : 'password'"
           [class]="formUtils.isValidField(loginForm, 'password') ? 'border-red-600' : 'border-gray-500'"
           class="w-full p-2 rounded text-gray-700 outline-none border border-gray-500 group__input"
-          formControlName="password" />
+          formControlName="password"
+          value="$Userpass1"
+        />
         <label for="password"
           [class]="formUtils.isValidField(loginForm, 'password') ? 'text-red-600' : 'text-gray-700'"
           class="absolute bg-white top-2.5 left-2.5 mb-1.5 text-sm transition-all duration-500 group__label">
           Contraseña
         </label>
-        <span class="material-icons-outlined absolute right-3 top-2.5 text-gray-500 cursor-pointer">
-          visibility
+        <span class="material-icons-outlined absolute right-3 top-2.5 text-gray-500 select-none cursor-pointer" (click)="togglePasswordVisibility()">
+          {{ showPassword ? 'visibility' : 'visibility_off' }}
         </span>
         @if (formUtils.isValidField(loginForm, 'password')) {
         <span class="text-red-600 text-sm m-1">

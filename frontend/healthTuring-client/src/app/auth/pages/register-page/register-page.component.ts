@@ -23,7 +23,6 @@ export class RegisterPageComponent {
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
-    console.log('hola')
   }
 
   onSubmit() {
