@@ -64,7 +64,7 @@ public class JwtService {
             .getPayload();
             return claimsResolver.apply(claims);
         }catch(Exception e){
-            //Hacer excepcion personalizada
+            //TODO: Hacer excepcion personalizada
             throw new RuntimeException("hola");
         }
     }
@@ -75,6 +75,11 @@ public class JwtService {
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+
+    public String extractRole(String token){
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
 
