@@ -1,8 +1,6 @@
 package com.healthturing.healthturing_server.services;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,14 +98,6 @@ public class AuthService {
         }
 
         return jwtService.generateToken(user);
-    }
-
-    public Map<String, Object> checkAuthStatus(User user) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("user", user);
-        response.put("token", jwtService.generateToken(user));
-
-        return response;
     }
 
     public void registerUser(String email, String token) {

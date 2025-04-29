@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +22,6 @@ import com.healthturing.healthturing_server.exceptions.EmailNotConfirmedExceptio
 import com.healthturing.healthturing_server.exceptions.InvalidTokenException;
 import com.healthturing.healthturing_server.exceptions.UserAlreadyExistsException;
 import com.healthturing.healthturing_server.exceptions.UserNotFoundException;
-import com.healthturing.healthturing_server.models.User;
 import com.healthturing.healthturing_server.services.AuthService;
 
 import jakarta.validation.Valid;
@@ -73,11 +72,6 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error interno del servidor"));
         }
-    }
-
-    @GetMapping("/check-status")
-    public Map<String, Object> checkAuthStatus(@RequestBody User user) {
-        return authService.checkAuthStatus(user);
     }
 
     @PutMapping("/email-confirmation")

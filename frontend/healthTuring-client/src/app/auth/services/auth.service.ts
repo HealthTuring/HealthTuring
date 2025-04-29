@@ -1,84 +1,55 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 
 import { catchError, map, Observable, of } from 'rxjs';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { User } from '../interfaces/user.interface';
-import { AuthResponse } from '../interfaces/auth.response';
-import { CHECK_STATUS_ENDPOINT, LOGIN_ENDPOINT } from '../../config';
+import { LOGIN_ENDPOINT } from '../../config';
 import { Router } from '@angular/router';
 
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
     private _authStatus = signal<AuthStatus>('checking');
-    private _user = signal<User | null>(null);
-    private _token = signal<string | null>(localStorage.getItem('token'));
+    private _token = signal<string | null>(sessionStorage.getItem('token'));
 
     private http = inject(HttpClient);
     private router = inject(Router);
 
-    checkStatusResource = rxResource({
-        loader: () => this.checkStatus(),
-    });
-
-    authStatus = computed<AuthStatus>(() => {
-        if (this._authStatus() === 'checking') return 'checking';
-
-        if (this._user()) {
-            return 'authenticated';
-        }
-
-        return 'not-authenticated';
-    });
-
-    user = computed(() => this._user());
+    authStatus = computed<AuthStatus>(() => this._authStatus());
     token = computed(this._token);
 
+    constructor() {
+        const token = sessionStorage.getItem('token');
+        if (token) {
+          this._authStatus.set('authenticated');
+        } else {
+          this._authStatus.set('not-authenticated');
+        }
+      }
+
     login(email: string, password: string): Observable<boolean> {
-        return this.http.post<AuthResponse>(LOGIN_ENDPOINT, { email, password }).pipe(
-            map((resp) => this.handleAuthSuccess(resp)),
+        return this.http.post<{token: string}>(LOGIN_ENDPOINT, { email, password }).pipe(
+            map(({token}) => this.handleAuthSuccess(token)),
             catchError((error) => this.handleAuthError(error))
         );
     }
 
-    checkStatus(): Observable<boolean> {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            this.logout();
-            return of(false);
-        }
-
-        return this.http.get<AuthResponse>(CHECK_STATUS_ENDPOINT, {})
-            .pipe(
-                map((resp) => this.handleAuthSuccess(resp)),
-                catchError((error: any) => this.handleAuthError(error))
-            );
-    }
-
     logout() {
-        this._user.set(null);
         this._token.set(null);
         this._authStatus.set('not-authenticated');
-
-        localStorage.removeItem('token');
-
+        sessionStorage.removeItem('token');
         this.router.navigateByUrl('/auth/login', { replaceUrl: true });
     }
 
-    private handleAuthSuccess({ token, user }: AuthResponse) {
-        console.log('Auth success', { token, user });
-        this._user.set(user);
+    private handleAuthSuccess(token: string) {
         this._authStatus.set('authenticated');
         this._token.set(token);
-
-        localStorage.setItem('token', token);
-
+        sessionStorage.setItem('token', token);
         return true;
     }
 
-    private handleAuthError(error: any) {
+    private handleAuthError(error: HttpErrorResponse) {
         this.logout();
         return of(false);
     }
