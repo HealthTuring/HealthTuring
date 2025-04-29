@@ -8,9 +8,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication
+@EnableScheduling
 @PropertySource("classpath:emailconfig.properties")
 @EnableJpaRepositories("com.healthturing.healthturing_server.repositories")
-@EnableScheduling
 public class HealthturingServerApplication {
 
 	public static void main(String[] args) {
