@@ -6,8 +6,19 @@ export function authInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ) {
-  const token = inject(AuthService).token();
+  const authService = inject(AuthService);
+  const token = authService.token();
 
+  const publicEndpoints = [
+    '/api/auth/login',
+    '/api/auth/register',
+  ];
+
+  const isPublic = publicEndpoints.some(endpoint => req.url.includes(endpoint));
+
+  if (isPublic) {
+    return next(req); 
+  }
   const newReq = req.clone({
     headers: req.headers.append('Authorization', `Bearer ${token}`),
   });

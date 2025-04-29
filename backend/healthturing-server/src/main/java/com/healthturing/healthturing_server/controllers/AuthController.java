@@ -1,8 +1,5 @@
 package com.healthturing.healthturing_server.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,24 +50,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequestDTO request) {
+    public ResponseEntity<String> login(@RequestBody LoginRequestDTO request) {
         try {
             String token = authService.login(request.getEmail(), request.getPassword());
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", token);
-
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .body(response);
-
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+                    .body(token);
         } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Email o contraseña incorrectos"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe nigún usuario registrado con este email");
         } catch (EmailNotConfirmedException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", "Debes confirmar tu correo antes de iniciar sesión."));
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Debes confirmar tu correo antes de iniciar sesión");
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Credenciales incorrectas"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Las credenciales introducidas son incorrectas");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error interno del servidor"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
 

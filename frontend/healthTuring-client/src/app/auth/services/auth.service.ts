@@ -24,15 +24,17 @@ export class AuthService {
     constructor() {
         const token = sessionStorage.getItem('token');
         if (token) {
-          this._authStatus.set('authenticated');
+            this._authStatus.set('authenticated');
         } else {
-          this._authStatus.set('not-authenticated');
+            this._authStatus.set('not-authenticated');
         }
-      }
+    }
 
     login(email: string, password: string): Observable<boolean> {
-        return this.http.post<{token: string}>(LOGIN_ENDPOINT, { email, password }).pipe(
-            map(({token}) => this.handleAuthSuccess(token)),
+        return this.http.post(LOGIN_ENDPOINT, { email, password }, { responseType: 'text' }).pipe(
+            map((token: string) => {
+                return this.handleAuthSuccess(token);
+            }),
             catchError((error) => this.handleAuthError(error))
         );
     }
@@ -52,12 +54,10 @@ export class AuthService {
     }
 
     private handleAuthError(error: HttpErrorResponse) {
-        console.log('Error during authentication:', error);
-        this.toastr.error(error.error, 'Authentication Error', {
+        this.toastr.error(error.error, 'Error de Autenticación', {
             timeOut: 3000,
             progressBar: true,
             closeButton: true,
-            positionClass: 'toast-bottom-right',
         });
         this.logout();
         return of(false);

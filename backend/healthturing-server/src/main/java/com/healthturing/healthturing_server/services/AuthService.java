@@ -82,7 +82,7 @@ public class AuthService {
         Optional<User> userOptional = userRepository.findByEmail(email);
 
         if (userOptional.isEmpty()) {
-            throw new UserNotFoundException("Email o contraseña incorrectos.");
+            throw new UserNotFoundException("No existe nigún usuario registrado con este email");
         }
 
         User user = userOptional.get();
@@ -94,7 +94,7 @@ public class AuthService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Credenciales incorrectas.");
+            throw new BadCredentialsException("Las credenciales introducidas son incorrectas");
         }
 
         return jwtService.generateToken(user);

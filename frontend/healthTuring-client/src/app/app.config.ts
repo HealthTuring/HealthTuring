@@ -19,6 +19,8 @@ export const appConfig: ApplicationConfig = {
       ])
     ),
     provideAnimations(),
-    provideToastr(),
+    provideToastr({
+      preventDuplicates: true,
+    }),
   ],
 };
