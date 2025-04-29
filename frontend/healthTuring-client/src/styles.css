@@ -1,2 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+@import 'ngx-toastr/toastr';
+
+:root {
+  /* Colors */
+  --primary-blue: #2DABB9;
+  --light-blue: #81CDD5;
+  --lightness-blue: #EAF7F8;
+  --dark-blue: #299AA7;
+
+  /* Font */
+  --font-primary: "Roboto", sans-serif;
+  --font-title: "Merriweather", serif;
+}
+
+body {
+  font-family: var(--font-primary);
+}

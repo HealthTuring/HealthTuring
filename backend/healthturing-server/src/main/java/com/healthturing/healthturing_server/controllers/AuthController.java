@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,62 +27,57 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-
     private final AuthService authService;
 
     public AuthController(AuthService authService) {
         this.authService = authService;
-      }
-
-
-
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequestDTO request) {
         try {
-        authService.register(request.getEmail(), request.getName(), request.getPassword());
-        return ResponseEntity.ok("Usuario registrado correctamente");
+            authService.register(request.getEmail(), request.getName(), request.getPassword());
+            return ResponseEntity.ok("Usuario registrado correctamente");
         } catch (UserAlreadyExistsException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario ya existe");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario ya existe");
         } catch (EmailEmitErrorException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Error al enviar el email de confirmación");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error al enviar el email de confirmación");
         } catch (IllegalArgumentException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Datos de registro inválidos");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Datos de registro inválidos");
         } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO request) {
         try {
-        String token = authService.login(request.getEmail(), request.getPassword());
-        return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
-            .body(token);
+            String token = authService.login(request.getEmail(), request.getPassword());
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+                    .body(token);
         } catch (UserNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email o contraseña incorrectos");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe nigún usuario registrado con este email");
         } catch (EmailNotConfirmedException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Debes confirmar tu correo antes de iniciar sesión.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Debes confirmar tu correo antes de iniciar sesión");
         } catch (BadCredentialsException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Las credenciales introducidas son incorrectas");
         } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
 
     @PutMapping("/email-confirmation")
     public ResponseEntity<String> emailConfirm(@RequestBody String token) {
         try {
-        authService.confirmEmail(token);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE).body("Correo Validado");
+            authService.confirmEmail(token);
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+                    .body("Correo Validado");
         } catch (InvalidTokenException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token no válido");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token no válido");
         } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
-
-
 
 }
