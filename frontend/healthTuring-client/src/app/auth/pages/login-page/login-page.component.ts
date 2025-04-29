@@ -30,16 +30,17 @@ export class LoginPageComponent {
 
   onSubmit() {
     this.loginForm.markAllAsTouched();
-    console.log(this.loginForm.value);
 
-    const { email = '', password = '' } = this.loginForm.value;
+    if (this.loginForm.valid) {
+      const { email = '', password = '' } = this.loginForm.value;
 
-    this.authService.login(email!, password!).subscribe((isAuthenticated) => {
-      if (isAuthenticated) {
-        this.router.navigateByUrl('/home');
-        return;
-      }
-    });
+      this.authService.login(email!, password!).subscribe((isAuthenticated) => {
+        if (isAuthenticated) {
+          this.router.navigateByUrl('/home');
+          return;
+        }
+      });
+    }
 
   }
 
