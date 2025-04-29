@@ -61,8 +61,13 @@ public class JwtService {
                     .build().parseSignedClaims(token)
                     .getPayload();
             return claimsResolver.apply(claims);
+<<<<<<< HEAD
         } catch (Exception e) {
             // Hacer excepcion personalizada
+=======
+        }catch(Exception e){
+            //TODO: Hacer excepcion personalizada
+>>>>>>> develop
             throw new RuntimeException("hola");
         }
     }
@@ -71,7 +76,20 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
+<<<<<<< HEAD
     public int extractUserId(String token) throws Exception {
+=======
+
+    public String extractRole(String token){
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
+
+
+    
+
+
+    public int extractUserId(String token) throws Exception{
+>>>>>>> develop
         return extractClaim(token, claims -> claims.get("id", Integer.class));
     }
 

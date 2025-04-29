@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.healthturing.healthturing_server.exceptions.EmailEmitErrorException;
 import com.healthturing.healthturing_server.exceptions.EmailNotConfirmedException;
 import com.healthturing.healthturing_server.exceptions.UserAlreadyExistsException;
-import com.healthturing.healthturing_server.exceptions.UserNotFoundException;
 import com.healthturing.healthturing_server.models.User;
 import com.healthturing.healthturing_server.models.VerificationToken;
 import com.healthturing.healthturing_server.repositories.UserRepository;
