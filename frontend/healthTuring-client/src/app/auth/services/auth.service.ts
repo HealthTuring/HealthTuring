@@ -1,9 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { catchError, map, Observable, of } from 'rxjs';
 import { LOGIN_ENDPOINT } from '../../config';
-import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 
@@ -15,6 +16,7 @@ export class AuthService {
 
     private http = inject(HttpClient);
     private router = inject(Router);
+    private toastr = inject(ToastrService);
 
     authStatus = computed<AuthStatus>(() => this._authStatus());
     token = computed(this._token);
@@ -50,6 +52,13 @@ export class AuthService {
     }
 
     private handleAuthError(error: HttpErrorResponse) {
+        console.log('Error during authentication:', error);
+        this.toastr.error(error.error, 'Authentication Error', {
+            timeOut: 3000,
+            progressBar: true,
+            closeButton: true,
+            positionClass: 'toast-bottom-right',
+        });
         this.logout();
         return of(false);
     }
