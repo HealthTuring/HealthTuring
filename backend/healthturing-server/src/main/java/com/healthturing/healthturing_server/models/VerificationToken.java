@@ -10,6 +10,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Entidad que representa los tokens para habilitar usuarios no habilitados
+ * Representada en la base de datos como tabla "verification_token"
+ * Contiene String(token) Long(expirationDate) y un User enlazado obligatoriamente
+ */
 @Entity
 @Table(name = "verification_token")
 public class VerificationToken {
@@ -28,10 +33,19 @@ public class VerificationToken {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    /**
+     * Constructor vacío de la entidad para manejo de entidades de Springboot
+     */
     public VerificationToken(){
         
     }
 
+    /**
+     * Constructor de la entidad empleado al registrar un nuevo usuario
+     * @param user
+     * @param token
+     * @param expiration
+     */
     public VerificationToken(User user, String token, Long expiration){
         this.user = user;
         this.token = token;

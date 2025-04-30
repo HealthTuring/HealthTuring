@@ -9,12 +9,23 @@ import org.springframework.stereotype.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
+/**
+ * Servicio encargado de enviar emails
+ * Emplea JavaMailSender
+ */
 @Service
 public class EmailSenderService {
 
     @Autowired
     private JavaMailSender javaMailSender;
 
+
+    /**
+     * Envía un email a un correo destino
+     * @param to email destinatario
+     * @param subject Asunto
+     * @param text Texto
+     */
     public void sendEmail(String to, String subject, String text) {
         if (to == null || to.isEmpty() || subject == null || subject.isEmpty() || text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Los parámetros del email no pueden ser nulos o vacíos");
@@ -29,6 +40,15 @@ public class EmailSenderService {
         System.out.println("El correo ha sido enviado con éxito a: " + to);
     }
 
+
+
+    /**
+     * Envía email con formato html a un destinatario
+     * @param to email destinatario
+     * @param subject Asunto
+     * @param htmlContent Contenido HTML
+     * @throws MessagingException
+     */
     public void sendHtmlEmail(String to, String subject, String htmlContent) throws MessagingException {
         if (to == null || to.isEmpty() || subject == null || subject.isEmpty() || htmlContent == null || htmlContent.isEmpty()) {
             throw new IllegalArgumentException("Los parámetros del email no pueden ser nulos o vacíos");

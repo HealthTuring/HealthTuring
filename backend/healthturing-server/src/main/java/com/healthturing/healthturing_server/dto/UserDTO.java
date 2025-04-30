@@ -1,5 +1,10 @@
 package com.healthturing.healthturing_server.dto;
 
+/**
+ * DTO User
+ * Especifica la información del usuario que se tiene que emitir al front
+ * Aún no está implementado del todo
+ */
 public class UserDTO {
 
     private String name;
