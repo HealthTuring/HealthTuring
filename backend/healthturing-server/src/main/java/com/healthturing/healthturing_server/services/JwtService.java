@@ -35,14 +35,14 @@ public class JwtService {
      */
     public String generateToken (User user){
         return Jwts.builder()
-        .subject(user.getEmail())
-        .claim("id", user.getId())
-        .claim("role", user.getRole())
-        .claim("name", user.getName())
-        .issuedAt(new Date())
-        .expiration(new Date(System.currentTimeMillis() + 1000 *3600))
-        .signWith(getSigningKey())
-        .compact();
+                .subject(user.getEmail())
+                .claim("id", user.getId())
+                .claim("role", user.getRole())
+                .claim("name", user.getName())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 3600))
+                .signWith(getSigningKey())
+                .compact();
     }
 
     /**
@@ -52,12 +52,12 @@ public class JwtService {
      */
     public String generateTokenPassword(User user){
         return Jwts.builder()
-        .subject(user.getEmail())
-        .claim("id", user.getId())
-        .issuedAt(new Date())
-        .expiration(new Date(System.currentTimeMillis() + 1000 *3600 * 24))
-        .signWith(getSigningKey())
-        .compact();
+                .subject(user.getEmail())
+                .claim("id", user.getId())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 3600 * 24))
+                .signWith(getSigningKey())
+                .compact();
     }
 
     /**
@@ -68,12 +68,12 @@ public class JwtService {
      */
     public String UserAppToken(User user, Long expiration){
         return Jwts.builder()
-        .subject(user.getEmail())
-        .claim("key", "ApplicationToken")
-        .issuedAt(new Date())
-        .expiration(new Date(expiration))
-        .signWith(getSigningKey())
-        .compact();
+                .subject(user.getEmail())
+                .claim("key", "ApplicationToken")
+                .issuedAt(new Date())
+                .expiration(new Date(expiration))
+                .signWith(getSigningKey())
+                .compact();
     }
 
 
@@ -87,9 +87,9 @@ public class JwtService {
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         try{
             final Claims claims = Jwts.parser()
-            .verifyWith(getSigningKey())
-            .build().parseSignedClaims(token)
-            .getPayload();
+                    .verifyWith(getSigningKey())
+                    .build().parseSignedClaims(token)
+                    .getPayload();
             return claimsResolver.apply(claims);
         } catch (JwtException e) {
             throw new InvalidJwtException("Token inválido o expirado");
@@ -162,7 +162,6 @@ public class JwtService {
     Date expirationDate = extractClaim(token, Claims::getExpiration);
     return expirationDate.before(new Date());
   }
-
 
 
 }
