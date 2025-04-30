@@ -107,4 +107,8 @@ public class User implements UserDetails{
         return verificationToken;
     }
 
+    public void setVerificationToken(VerificationToken verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
 }
