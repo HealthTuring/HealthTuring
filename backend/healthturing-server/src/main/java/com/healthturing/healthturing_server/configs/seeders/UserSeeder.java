@@ -11,6 +11,11 @@ import com.healthturing.healthturing_server.models.User;
 import com.healthturing.healthturing_server.models.enums.Role;
 import com.healthturing.healthturing_server.repositories.UserRepository;
 
+/**
+ * Seeder de la entidad User
+ * Crea los usuarios admin, user, y doc, cada uno con su rol correspondiente. En caso de ya existir datos se omite el seeder
+ * Requiere del repositorio de Usuario para crearlos, BCryptPasswordEncoder para encriptar las contraseñas
+ */
 @Component
 public class UserSeeder implements CommandLineRunner{
 
@@ -23,8 +28,6 @@ public class UserSeeder implements CommandLineRunner{
     public UserSeeder(){
         this.passwordEncoder=new BCryptPasswordEncoder();
     }
-
-    //BCryptPassword encoder
 
     @Override
     public void run(String... args){

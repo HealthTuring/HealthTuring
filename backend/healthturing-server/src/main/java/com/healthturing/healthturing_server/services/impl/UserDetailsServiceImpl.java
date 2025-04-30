@@ -7,7 +7,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.healthturing.healthturing_server.repositories.UserRepository;
-
+/**
+ * IMPL de UserDetailsService de Springframework
+ * Permite el correcto funcionamiento de spring con usuario para JwtAuthenticationFilter y springSecurity
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 

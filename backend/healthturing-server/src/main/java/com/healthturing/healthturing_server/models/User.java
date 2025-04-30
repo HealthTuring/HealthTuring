@@ -18,6 +18,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Entidad que representa los usuarios del sistema
+ * Representada en la base de datos como tabla "users"
+ * Contiene String(email, constraseña, nombre) Role(role), Boolean(enabled) y puede tener un verificationToken
+ * de la tabla verification_Token enlazado o ninguno si el usuario ya está habilitado
+ */
 @Entity
 @Table(name = "users")
 public class User implements UserDetails{
@@ -44,8 +50,18 @@ public class User implements UserDetails{
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, optional = true)
     private VerificationToken verificationToken;
 
-    public User(){}
 
+
+    /**
+     * Constructor vacío de la clase utilizado por springboot para manejo de entidades
+     */
+    public User(){
+        
+    }
+
+    /*
+     * Constructor de usuario empleado al registrar un usuario, se asigna por defecto el rol User y el estado enabled false
+     */
     public User(String email, String name, String password){
         //this();
         this.email=email;

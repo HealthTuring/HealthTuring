@@ -15,16 +15,33 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.healthturing.healthturing_server.configs.entrypoint.JwtAuthenticationEntryPoint;
 import com.healthturing.healthturing_server.configs.filters.JwtAuthenticationFilter;
 
+
+/**
+ * Clase de configuración de Springboot Security
+ * Define los filtros, el AuthenticationManager y el passwordEncoder.
+ * Usa JWT para la autenticación con tokens.
+ */
 @Configuration
 @EnableMethodSecurity 
 public class SecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+  /**
+   * Constructor de JwtAuthenticationFilter
+   * @param jwtAuthenticationFilter
+   */
   public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
   }
 
+
+  /**
+   * @param http
+   * @param jwtAuthenticationEntryPoint
+   * @return
+   * @throws Exception
+   */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http,
       JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) throws Exception {
@@ -45,6 +62,9 @@ public class SecurityConfig {
 
     return http.build();
   }
+
+
+
 
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {

@@ -1,5 +1,9 @@
 package com.healthturing.healthturing_server.dto;
 
+/**
+ * DTO de request Register
+ * Especifica la estructura que tiene que recibir la petición a Register en AuthController para realizar el registro de nuevo usuario
+ */
 public class RegisterRequestDTO {
     private String email;
     private String name;

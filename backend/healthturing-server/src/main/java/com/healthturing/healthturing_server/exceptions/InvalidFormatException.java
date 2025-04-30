@@ -4,12 +4,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Excepción temporal para controlar error de email no confirmado
+ * Excepción temporal para controlar error de formato de los parámetros recibidos
  * Futura optimización
  */
 @ResponseStatus(HttpStatus.CONFLICT)
-public class EmailNotConfirmedException extends RuntimeException{
-    public EmailNotConfirmedException(String message){
+public class InvalidFormatException extends RuntimeException{
+    public InvalidFormatException(String message) {
         super(message);
     }
+    
 }
+
+
+

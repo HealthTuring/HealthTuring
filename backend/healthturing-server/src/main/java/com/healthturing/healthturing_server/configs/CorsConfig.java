@@ -6,6 +6,10 @@ package com.healthturing.healthturing_server.configs;
  import org.springframework.web.servlet.config.annotation.CorsRegistry;
  import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  
+ /**
+  * Configuración de Cors
+  * Toma de las variables de entorno el cors habilitado y permite de este que se hagan solicitudes Get, Post, Put, Delete, Options con cualquier header
+  */
  @Configuration
  public class CorsConfig {
  
