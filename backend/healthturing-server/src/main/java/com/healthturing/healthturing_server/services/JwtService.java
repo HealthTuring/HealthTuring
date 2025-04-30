@@ -39,7 +39,7 @@ public class JwtService {
         .subject(user.getEmail())
         .claim("id", user.getId())
         .issuedAt(new Date())
-        .expiration(new Date(System.currentTimeMillis() + 1000 *3600 * 24))
+        .expiration(new Date(System.currentTimeMillis() + 1))
         .signWith(getSigningKey())
         .compact();
     }
@@ -86,7 +86,7 @@ public class JwtService {
     
 
 
-    public int extractUserId(String token) throws Exception{
+    public int extractUserId(String token) throws RuntimeException{
         return extractClaim(token, claims -> claims.get("id", Integer.class));
     }
 

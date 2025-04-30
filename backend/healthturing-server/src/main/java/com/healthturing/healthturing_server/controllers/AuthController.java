@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,10 +16,15 @@ import com.healthturing.healthturing_server.dto.LoginRequestDTO;
 import com.healthturing.healthturing_server.dto.RegisterRequestDTO;
 import com.healthturing.healthturing_server.exceptions.EmailEmitErrorException;
 import com.healthturing.healthturing_server.exceptions.EmailNotConfirmedException;
+import com.healthturing.healthturing_server.exceptions.EmailSendingException;
+import com.healthturing.healthturing_server.exceptions.InvalidPasswordException;
 import com.healthturing.healthturing_server.exceptions.InvalidTokenException;
+import com.healthturing.healthturing_server.exceptions.SamePasswordException;
+import com.healthturing.healthturing_server.exceptions.TokenExpiredException;
 import com.healthturing.healthturing_server.exceptions.UserAlreadyExistsException;
 import com.healthturing.healthturing_server.exceptions.UserNotFoundException;
 import com.healthturing.healthturing_server.services.AuthService;
+import com.healthturing.healthturing_server.services.PasswordResetService;
 
 import jakarta.validation.Valid;
 
@@ -28,10 +33,12 @@ import jakarta.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
+    private final PasswordResetService passwordResetService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, PasswordResetService passwordResetService) {
         this.authService = authService;
-    }
+        this.passwordResetService = passwordResetService;
+    }   
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequestDTO request) {
@@ -80,4 +87,37 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/forget-password")
+    public ResponseEntity<String> requestPasswordReset(@RequestBody String email) {
+        try {
+            String token = passwordResetService.sendPasswordResetEmail(email);
+            return ResponseEntity.ok(token);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe nigún usuario registrado con este email");
+        } catch (EmailSendingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al enviar el correo de restablecimiento de contraseña");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
+        }
+    }
+  
+    @PutMapping("/reset-password/{token}")
+    public ResponseEntity<String> resetPassword(@PathVariable String token, @RequestBody String newPassword) {
+        try {
+            passwordResetService.resetPassword(token, newPassword);
+            return ResponseEntity.ok("Contraseña restablecida correctamente");
+        } catch (TokenExpiredException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("El token de restablecimiento de contraseña ha expirado.");
+        } catch (InvalidTokenException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El token proporcionado es inválido.");
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado.");
+        } catch (InvalidPasswordException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (SamePasswordException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
+        }
+    }
 }
