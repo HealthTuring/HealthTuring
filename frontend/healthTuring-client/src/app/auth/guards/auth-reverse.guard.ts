@@ -1,0 +1,23 @@
+import { inject, Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+@Injectable({ providedIn: 'root' })
+export class AuthReverseGuard implements CanActivate {
+
+    private authService = inject(AuthService);
+    private router = inject(Router);
+
+    canActivate(): boolean {
+        console.log(this.authService.authStatus())
+        const isAuthenticated = this.authService.authStatus() === 'authenticated';
+        console.log('AuthReverseGuard: isAuthenticated =', isAuthenticated);
+
+        if (isAuthenticated) {
+            this.router.navigate(['/home']);
+            return false;
+        }
+        return true;
+
+    }
+}
