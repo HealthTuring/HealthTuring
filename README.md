@@ -14,7 +14,7 @@
 
 <h2>Bibliografía</h2>
 
-## Documentación Backend
+<h3>Documentación Backend</h3>
 
 - [Spring Framework](https://docs.spring.io/spring-framework/reference/index.html)
 - [Spring Email Sender (JavaMailSender)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/mail/javamail/JavaMailSender.html)
@@ -24,7 +24,7 @@
 - [JWT (JSON Web Tokens)](https://jwt.io/)
 - [Docker](https://docs.docker.com/)
 
-## Documentación Frontend
+<h3>Documentación Frontend</h3>
 
 - [Angular](https://angular.dev/overview)
 - [ngx-toastr (Toast Notifications)](https://www.npmjs.com/package/ngx-toastr)
