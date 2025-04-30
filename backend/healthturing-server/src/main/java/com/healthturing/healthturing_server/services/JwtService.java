@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.healthturing.healthturing_server.exceptions.InvalidJwtException;
 import com.healthturing.healthturing_server.models.User;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -63,9 +65,8 @@ public class JwtService {
             .build().parseSignedClaims(token)
             .getPayload();
             return claimsResolver.apply(claims);
-        }catch(Exception e){
-            //TODO: Hacer excepcion personalizada
-            throw new RuntimeException("hola");
+        } catch (JwtException e) {
+            throw new InvalidJwtException("Token inválido o expirado");
         }
     }
 
