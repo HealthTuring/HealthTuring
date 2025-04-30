@@ -16,4 +16,5 @@ public interface VerificationTokenRepository extends JpaRepository<VerificationT
 
     @Query("SELECT t FROM VerificationToken t WHERE t.token=:token")
     Optional<VerificationToken> findvalidar(String token);
+
 }

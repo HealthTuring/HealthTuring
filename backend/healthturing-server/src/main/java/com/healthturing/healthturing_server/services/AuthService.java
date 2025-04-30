@@ -90,8 +90,7 @@ public class AuthService {
         userRepository.save(user);
         verificationTokenRepository.save(verificationToken);
 
-        System.out.println("Token antes de enviar email");
-        System.out.println(token);
+
 
         registerUser(email, token);
     }
@@ -136,31 +135,24 @@ public class AuthService {
         }
     }
 
+    @Transactional
     public String confirmEmail(String token) {
 
-        System.out.println("Token recibido en autentic");
+        VerificationToken verificationToken =  verificationTokenRepository.findByToken(token)
+        .orElseThrow(() -> new InvalidTokenException("Token no válido"));
 
-        System.out.println(token);
 
-        // TODO: hacer errores de orElseThrow de verToken y user
-        Optional<VerificationToken> tok = verificationTokenRepository.findByToken(token.replace("\"", "").trim());
+        User user = userRepository.findByVerificationToken(verificationToken)
+        .orElseThrow(() -> new InvalidJwtException("El token no es válido"));
 
-        if(!tok.isPresent()){
-            throw new InvalidTokenException("No se encontró el token");
-        }
-
-        VerificationToken verificationToken = tok.get();
-
-        System.out.println("VEr token");
-        System.out.println(verificationToken);
-
-        User user = userRepository.findByVerificationToken(verificationToken).orElseThrow(() -> new InvalidJwtException("El token no es válido"));
 
         user.setEnabled(true);
+        user.setVerificationToken(null);
 
         userRepository.save(user);
 
         verificationTokenRepository.delete(verificationToken);
+        verificationTokenRepository.flush();
 
         return "Email confirmado con éxito";
     }
