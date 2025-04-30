@@ -83,7 +83,6 @@ public class AuthService {
         Long expiration = System.currentTimeMillis() + 1000 * 3600 * 24 * 3;
         String token = UUID.randomUUID().toString().replace("-", "");
 
-        // TODO ver si es necesario cambiar la fecha de expiracion a formato date para
         VerificationToken verificationToken = new VerificationToken(user, token,
         expiration);
         
@@ -141,6 +140,9 @@ public class AuthService {
         VerificationToken verificationToken =  verificationTokenRepository.findByToken(token)
         .orElseThrow(() -> new InvalidTokenException("Token no válido"));
 
+        if(verificationToken.getExpireDate()<System.currentTimeMillis()){
+            throw new InvalidTokenException("Token no válido");
+        }
 
         User user = userRepository.findByVerificationToken(verificationToken)
         .orElseThrow(() -> new InvalidJwtException("El token no es válido"));
