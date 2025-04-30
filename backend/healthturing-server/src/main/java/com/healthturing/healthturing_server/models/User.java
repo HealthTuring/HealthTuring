@@ -44,12 +44,7 @@ public class User implements UserDetails{
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, optional = true)
     private VerificationToken verificationToken;
 
-
-
-
-    public User(){
-        
-    }
+    public User(){}
 
     public User(String email, String name, String password){
         //this();
@@ -68,6 +63,10 @@ public class User implements UserDetails{
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -112,11 +111,4 @@ public class User implements UserDetails{
         this.verificationToken = verificationToken;
     }
 
-    
-
-    
-    
-
-    
-    
 }
