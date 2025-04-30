@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.healthturing.healthturing_server.exceptions.InvalidPasswordException;
 import com.healthturing.healthturing_server.exceptions.SamePasswordException;
+import com.healthturing.healthturing_server.exceptions.InvalidPasswordException;
 import com.healthturing.healthturing_server.exceptions.TokenExpiredException;
 import com.healthturing.healthturing_server.exceptions.UserNotFoundException;
 import com.healthturing.healthturing_server.models.User;
@@ -53,11 +53,8 @@ public class PasswordResetService {
 
 public void resetPassword(String token, String newPassword) {
     if (jwtService.isTokenExpired(token)) {
-        System.out.println("Token expired: " + token);
         throw new TokenExpiredException("El token de restablecimiento de contraseña ha expirado.");
     }
-
-    System.out.println("Token not expired: " + token);
 
     int userId = jwtService.extractUserId(token);
     User user = userRepository.findById(userId)

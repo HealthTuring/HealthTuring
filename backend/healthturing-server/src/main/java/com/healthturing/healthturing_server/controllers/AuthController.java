@@ -17,6 +17,7 @@ import com.healthturing.healthturing_server.dto.RegisterRequestDTO;
 import com.healthturing.healthturing_server.exceptions.EmailEmitErrorException;
 import com.healthturing.healthturing_server.exceptions.EmailNotConfirmedException;
 import com.healthturing.healthturing_server.exceptions.EmailSendingException;
+import com.healthturing.healthturing_server.exceptions.InvalidJwtException;
 import com.healthturing.healthturing_server.exceptions.InvalidPasswordException;
 import com.healthturing.healthturing_server.exceptions.InvalidTokenException;
 import com.healthturing.healthturing_server.exceptions.SamePasswordException;
@@ -93,7 +94,7 @@ public class AuthController {
             String token = passwordResetService.sendPasswordResetEmail(email);
             return ResponseEntity.ok(token);
         } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe nigún usuario registrado con este email");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (EmailSendingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al enviar el correo de restablecimiento de contraseña");
         } catch (Exception e) {
@@ -107,11 +108,11 @@ public class AuthController {
             passwordResetService.resetPassword(token, newPassword);
             return ResponseEntity.ok("Contraseña restablecida correctamente");
         } catch (TokenExpiredException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("El token de restablecimiento de contraseña ha expirado.");
-        } catch (InvalidTokenException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El token proporcionado es inválido.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("El tiempo de restablecimiento de contraseña ha expirado.");
+        } catch (InvalidJwtException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (InvalidPasswordException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (SamePasswordException e) {
@@ -120,4 +121,5 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
+    
 }
