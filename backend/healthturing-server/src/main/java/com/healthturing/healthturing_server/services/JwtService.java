@@ -127,7 +127,7 @@ public class JwtService {
      * @param token String
      * @return int
      */
-    public int extractUserId(String token) throws Exception{
+    public int extractUserId(String token) throws RuntimeException{
         return extractClaim(token, claims -> claims.get("id", Integer.class));
     }
 
