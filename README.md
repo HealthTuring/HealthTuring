@@ -12,6 +12,9 @@
     </li>
 </ul>
 
+<h2>Vídeo CheckPoint</h2>
+<a href="https://youtu.be/Zk5RYo0uuNk">Enlace</a>
+
 <h2>Bibliografía</h2>
 
 <h3>Documentación Backend</h3>
