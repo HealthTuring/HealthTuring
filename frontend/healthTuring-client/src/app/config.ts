@@ -7,3 +7,5 @@ export const API_URL = `${BASE_URL}api`;
 
 export const LOGIN_ENDPOINT = `${API_URL}/auth/login`;
 export const CHECK_STATUS_ENDPOINT = `${API_URL}/auth/check-status`;
+export const FORGET_PASSWORD_ENDPOINT = `${API_URL}/auth/forget-password`;
+export const RESET_PASSWORD_ENDPOINT = (token: string) => `${API_URL}/auth/reset-password/${token}`;
