@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * RestController con endpoints accesibles solo por el doctor, y el administrador
  * Protege las rutas definidas dentro de /doc, siendo necesario el rol Doc o Admin de la cuenta logeada
  */
-@PreAuthorize("hasAnyRole('DOC')")
+@PreAuthorize("hasAnyRole('DOC', 'ADMIN')")
 @RestController
 @RequestMapping("/doc")
 public class DocController {
