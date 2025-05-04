@@ -25,9 +25,10 @@ export class ForgetPasswordPageComponent {
 
     const email = this.forgetPasswordForm.controls['email'].value ?? '';
 
-    this.passwordResetService.requestPasswordReset(email).subscribe(() => {
-      this.router.navigateByUrl('/auth/login')
-      return;
+    this.passwordResetService.requestPasswordReset(email).subscribe((success) => {
+      if (success) {
+        this.router.navigateByUrl('/auth/login')
+      }
     })
   }
 

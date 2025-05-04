@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, signal, computed, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, map, Observable, of } from 'rxjs';
 import { FORGET_PASSWORD_ENDPOINT, RESET_PASSWORD_ENDPOINT } from '../../config';
@@ -13,8 +13,8 @@ export class PasswordResetService {
   requestPasswordReset(email: string): Observable<boolean> {
     return this.http.post(FORGET_PASSWORD_ENDPOINT, email, { responseType: 'text' }).pipe(
       map(() => {
-        this.toastr.success('Correo de restablecimiento enviado', 'Éxito', {
-          timeOut: 3000,
+        this.toastr.success('Accede a través del enlace del correo al restablecimiento de contraseña', 'Correo de restablecimiento enviado', {
+          timeOut: 5000,
           progressBar: true,
           closeButton: true,
         });
@@ -28,7 +28,7 @@ export class PasswordResetService {
     return this.http.put(RESET_PASSWORD_ENDPOINT(token), newPassword, { responseType: 'text' }).pipe(
       map(() => {
         this.toastr.success('Contraseña restablecida correctamente', 'Éxito', {
-          timeOut: 3000,
+          timeOut: 5000,
           progressBar: true,
           closeButton: true,
         });
