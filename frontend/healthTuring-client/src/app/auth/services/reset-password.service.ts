@@ -5,7 +5,7 @@ import { catchError, map, Observable, of } from 'rxjs';
 import { FORGET_PASSWORD_ENDPOINT, RESET_PASSWORD_ENDPOINT } from '../../config';
 
 @Injectable({ providedIn: 'root' })
-export class PasswordResetService {
+export class ResetPasswordService {
 
   private http = inject(HttpClient);
   private toastr = inject(ToastrService);
@@ -27,7 +27,7 @@ export class PasswordResetService {
   resetPassword(token: string, newPassword: string): Observable<boolean> {
     return this.http.put(RESET_PASSWORD_ENDPOINT(token), newPassword, { responseType: 'text' }).pipe(
       map(() => {
-        this.toastr.success('Contraseña restablecida correctamente', 'Éxito', {
+        this.toastr.success('Ya puede iniciar sesión con su nueva contraseña', 'Contraseña restablecida correctamente', {
           timeOut: 5000,
           progressBar: true,
           closeButton: true,

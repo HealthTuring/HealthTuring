@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../../utils/form-utils';
 import { Router, RouterLink } from '@angular/router';
-import { PasswordResetService } from '../../services/password-reset.service';
+import { ResetPasswordService } from '../../services/reset-password.service';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -13,7 +13,7 @@ export class ForgetPasswordPageComponent {
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  private passwordResetService = inject(PasswordResetService);
+  private resetPasswordService = inject(ResetPasswordService);
   formUtils = FormUtils;
 
   forgetPasswordForm = this.fb.group({
@@ -25,13 +25,11 @@ export class ForgetPasswordPageComponent {
 
     const email = this.forgetPasswordForm.controls['email'].value ?? '';
 
-    this.passwordResetService.requestPasswordReset(email).subscribe((success) => {
+    this.resetPasswordService.requestPasswordReset(email).subscribe((success) => {
       if (success) {
         this.router.navigateByUrl('/auth/login')
       }
-    })
+    });
   }
-
-
 
 }
