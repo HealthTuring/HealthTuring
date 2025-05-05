@@ -29,6 +29,11 @@ import com.healthturing.healthturing_server.services.PasswordResetService;
 
 import jakarta.validation.Valid;
 
+
+/**
+ * RestController con endpoints accesibles para el procedimiento de autenticación completo
+ * Sirve de entrada para login, register, email-confirmation, y devuelve el token en caso de login
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -41,6 +46,11 @@ public class AuthController {
         this.passwordResetService = passwordResetService;
     }   
 
+    /**
+     * Registra un nuevo usuario usando el método register de AuthService
+     * @param request Usuario a registrar -> Estructura request establecida mediante RegisterRequestDto
+     * @return ResponseEntity
+     */
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequestDTO request) {
         try {
@@ -51,12 +61,17 @@ public class AuthController {
         } catch (EmailEmitErrorException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error al enviar el email de confirmación");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Datos de registro inválidos");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
 
+    /**
+     * Verifica el inicio de sesión respecto al email y contraseña recibidos y devuelve el token de inicio de sesión
+     * @param request Email/Contraseña ->Estructura request de LoginRequestDto.java
+     * @return String token
+     */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO request) {
         try {
@@ -75,6 +90,12 @@ public class AuthController {
         }
     }
 
+
+    /**
+     * Verifica que el token recibido corresponda a un correo para activarlo y pueda realizar el inicio de sesión
+     * @param token 
+     * @return ResponseEntity
+     */
     @PutMapping("/email-confirmation")
     public ResponseEntity<String> emailConfirm(@RequestBody String token) {
         try {

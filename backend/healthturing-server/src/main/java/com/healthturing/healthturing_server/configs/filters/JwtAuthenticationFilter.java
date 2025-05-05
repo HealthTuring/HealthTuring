@@ -17,6 +17,11 @@ import java.util.List;
 
 import com.healthturing.healthturing_server.services.JwtService;
 
+/**
+ * Componente encargado de gestionar solicitudes y los tokens que recibe
+ * Verifica que los tokens son válidos y permite acceso sin token a peticiones auth 
+ * Requiere del servicio JwtService y UserDetailsService para obtener y contrastar el token
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -28,6 +33,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     this.userDetailsService = userDetailsService;
   }
 
+  
+  /** 
+   * Realiza el filtro de dirección de la solicitud y comprueba el token de ser necesario
+   * @param request
+   * @param response
+   * @param filterChain
+   * @throws ServletException
+   * @throws IOException
+   */
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
@@ -47,6 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
 
+    //Obtiene los datos del token recibido mediante jwtService
     token = authHeader.substring(7);
     username = jwtService.extractUsername(token);
     role = jwtService.extractRole(token);
@@ -54,9 +69,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
       UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-      //List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
       GrantedAuthority authority = new SimpleGrantedAuthority(role);
 
+      //Valida el token con los datos del usuario en la base de datos, junto con el rol del usuario
       if (jwtService.validateToken(token, userDetails)) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
             userDetails, null, List.of(authority));

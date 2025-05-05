@@ -1,5 +1,9 @@
 package com.healthturing.healthturing_server.dto;
 
+/**
+ * DTO de request Login
+ * Especifica la estructura que tiene que recibir la petición a login en AuthController para realizar el inicio de sesión
+ */
 public class LoginRequestDTO {
     private String email;
     private String password;

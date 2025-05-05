@@ -8,6 +8,10 @@ import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Clase de configuración de swagger
+ * Permite modificar la interfaz de swagger, como añadir un campo que emitir en todas las request(token auth), o cambiar titúlo u otros
+ */
 @Configuration
 @OpenAPIDefinition(
     security = @SecurityRequirement(name = "bearerAuth")
