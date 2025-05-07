@@ -50,7 +50,7 @@ public class EmailSenderService {
      * @throws MessagingException
      */
     public void sendHtmlEmail(String to, String subject, String htmlContent) throws MessagingException {
-        System.out.println("Primer paso");
+
         if (to == null || to.isEmpty() || subject == null || subject.isEmpty() || htmlContent == null || htmlContent.isEmpty()) {
             throw new IllegalArgumentException("Los parámetros del email no pueden ser nulos o vacíos");
         }
