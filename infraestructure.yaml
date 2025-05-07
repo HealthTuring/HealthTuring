@@ -1,0 +1,254 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Infraestructura de Angular + Spring Boot + MySQL en EC2 (2 Front, 2 Back, 1 DB)"
+
+Parameters:
+  KeyName:
+    Description: Nombre del par de claves EC2 existente
+    Type: AWS::EC2::KeyPair::KeyName
+
+Resources:
+
+  ### --- VPC y red ---
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+
+  Route:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  ### --- Subredes públicas ---
+  SubnetFront1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs '']
+
+  SubnetFront2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.2.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [1, !GetAZs '']
+
+  SubnetBack1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.3.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs '']
+
+  SubnetBack2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.4.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [1, !GetAZs '']
+
+  SubnetDB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.5.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs '']
+
+  SubnetAssoc1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetFront1
+      RouteTableId: !Ref RouteTable
+
+  SubnetAssoc2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetFront2
+      RouteTableId: !Ref RouteTable
+
+  SubnetAssoc3:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetBack1
+      RouteTableId: !Ref RouteTable
+
+  SubnetAssoc4:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetBack2
+      RouteTableId: !Ref RouteTable
+
+  SubnetAssoc5:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetDB
+      RouteTableId: !Ref RouteTable
+
+  ### --- Grupos de seguridad ---
+
+  SGFrontend:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Permitir HTTP/HTTPS/SSH desde Internet"
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+
+  SGBackend:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Permitir 8080 desde frontend y SSH"
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          SourceSecurityGroupId: !Ref SGFrontend
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  SGDatabase:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Permitir MySQL solo desde backend"
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Ref SGBackend
+
+  ### --- Instancias Frontend (x2) ---
+
+  FrontendInstance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      ImageId: ami-0c02fb55956c7d316
+      SubnetId: !Ref SubnetFront1
+      SecurityGroupIds: [!Ref SGFrontend]
+      Tags:
+        - Key: Name
+          Value: Frontend1
+
+  FrontendInstance2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      ImageId: ami-0c02fb55956c7d316
+      SubnetId: !Ref SubnetFront2
+      SecurityGroupIds: [!Ref SGFrontend]
+      Tags:
+        - Key: Name
+          Value: Frontend2
+
+  ### --- Instancias Backend (x2) ---
+
+  BackendInstance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      ImageId: ami-0c02fb55956c7d316
+      SubnetId: !Ref SubnetBack1
+      SecurityGroupIds: [!Ref SGBackend]
+      Tags:
+        - Key: Name
+          Value: Backend1
+
+  BackendInstance2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      ImageId: ami-0c02fb55956c7d316
+      SubnetId: !Ref SubnetBack2
+      SecurityGroupIds: [!Ref SGBackend]
+      Tags:
+        - Key: Name
+          Value: Backend2
+
+  ### --- Instancia Base de Datos (x1) ---
+
+  MySQLInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      ImageId: ami-0c02fb55956c7d316
+      SubnetId: !Ref SubnetDB
+      SecurityGroupIds: [!Ref SGDatabase]
+      Tags:
+        - Key: Name
+          Value: DB_MySQL
+
+  ### --- IPs Elásticas solo para una instancia de cada capa ---
+
+  EIPFrontend:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  EIPAssocFrontend:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      AllocationId: !GetAtt EIPFrontend.AllocationId
+      InstanceId: !Ref FrontendInstance1
+
+  EIPBackend:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  EIPAssocBackend:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      AllocationId: !GetAtt EIPBackend.AllocationId
+      InstanceId: !Ref BackendInstance1
+
+Outputs:
+  FrontendEIP:
+    Description: IP Pública del Frontend principal
+    Value: !Ref EIPFrontend
+  BackendEIP:
+    Description: IP Pública del Backend principal
+    Value: !Ref EIPBackend
