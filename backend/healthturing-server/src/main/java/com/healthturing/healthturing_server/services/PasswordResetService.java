@@ -31,7 +31,7 @@ public class PasswordResetService {
     }
 
     /**
-     * Envía un email al usuario con un token (expira en 24h) para restablecer la contaseña.
+     * Envía un email al usuario con un token (expira en 30min) para restablecer la contaseña.
      * @param email
      * @return
      */
