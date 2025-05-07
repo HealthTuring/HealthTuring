@@ -12,8 +12,8 @@ import { AuthService } from '../../services/auth.service';
 export class LoginPageComponent {
 
   private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
   private router = inject(Router);
+  private authService = inject(AuthService);
   formUtils = FormUtils;
 
   showPassword: boolean = false;
@@ -25,7 +25,6 @@ export class LoginPageComponent {
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
-    console.log(this.showPassword);
   }
 
   onSubmit() {

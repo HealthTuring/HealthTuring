@@ -51,13 +51,10 @@ public class User implements UserDetails{
     private VerificationToken verificationToken;
 
 
-
     /**
      * Constructor vacío de la clase utilizado por springboot para manejo de entidades
      */
-    public User(){
-        
-    }
+    public User(){}
 
     /*
      * Constructor de usuario empleado al registrar un usuario, se asigna por defecto el rol User y el estado enabled false

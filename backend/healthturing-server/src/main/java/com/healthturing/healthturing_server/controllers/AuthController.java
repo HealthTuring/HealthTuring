@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.healthturing.healthturing_server.dto.LoginRequestDTO;
 import com.healthturing.healthturing_server.dto.RegisterRequestDTO;
-import com.healthturing.healthturing_server.exceptions.EmailEmitErrorException;
 import com.healthturing.healthturing_server.exceptions.EmailNotConfirmedException;
 import com.healthturing.healthturing_server.exceptions.EmailSendingException;
 import com.healthturing.healthturing_server.exceptions.InvalidJwtException;
@@ -57,9 +56,9 @@ public class AuthController {
             authService.register(request.getEmail(), request.getName(), request.getPassword());
             return ResponseEntity.ok("Usuario registrado correctamente");
         } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario ya existe");
-        } catch (EmailEmitErrorException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error al enviar el email de confirmación");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (EmailSendingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {

@@ -68,11 +68,11 @@ public class AuthService {
 
     //Temporal pruebas
     //TODO: eliminar al finalizar pruebas
-    @Transactional(readOnly = true)
+/*     @Transactional(readOnly = true)
     public List<User> findAll() {
         return (List<User>) userRepository.findAll();
     }
-
+ */
 
     /**
      * Comprueba que los campos cumplen las condiciones para crear un nuevo usuario en la tabla usuario y enviar un email de verificación
@@ -81,7 +81,6 @@ public class AuthService {
      * @param password
      * @throws IllegalArgumentException que recoje los diferentes errores de formato
      */
-    @Transactional
     public void register(String email, String name, String password) {
 
         try{
@@ -97,7 +96,7 @@ public class AuthService {
                 throw new RuntimeException("La contraseña no cumple con los requisitos de seguridad");
             }
             if (userRepository.findByEmail(email).isPresent()) {
-                throw new UserAlreadyExistsException("El usuario ya existe");
+                throw new UserAlreadyExistsException("Ya existe un usuario registrado con este email");
             }
 
             User user = new User(email, name, passwordEncoder.encode(password));
@@ -152,7 +151,6 @@ public class AuthService {
      * @param token
      * @return
      */
-    @Transactional
     public String confirmEmail(String token) {
 
         VerificationToken verificationToken =  verificationTokenRepository.findByToken(token)

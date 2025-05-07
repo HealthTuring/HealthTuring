@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { catchError, map, Observable, of } from 'rxjs';
-import { LOGIN_ENDPOINT } from '../../config';
+import { LOGIN_ENDPOINT, REGISTER_ENDPOINT } from '../../config';
 import { ToastrService } from 'ngx-toastr';
 
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
@@ -36,6 +36,27 @@ export class AuthService {
                 return this.handleAuthSuccess(token);
             }),
             catchError((error) => this.handleAuthError(error))
+        );
+    }
+
+    register(email: string, name: string, password: string): Observable<boolean> {
+        return this.http.post(REGISTER_ENDPOINT, { email, name, password }, { responseType: 'text' }).pipe(
+            map(() => {
+            this.toastr.success('Revisa tu correo para confirmar tu cuenta antes de iniciar sesión.', 'Registro exitoso', {
+                timeOut: 5000,
+                progressBar: true,
+                closeButton: true,
+            });
+            return true;
+            }),
+            catchError((error) => {
+                this.toastr.error(error.error, 'Error de Autenticación', {
+                    timeOut: 3000,
+                    progressBar: true,
+                    closeButton: true,
+                });
+                return of(false);
+            })
         );
     }
 
