@@ -79,11 +79,11 @@ public class AuthController {
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
                     .body(token);
         } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe nigún usuario registrado con este email");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (EmailNotConfirmedException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Debes confirmar tu correo antes de iniciar sesión");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Las credenciales introducidas son incorrectas");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
@@ -100,9 +100,9 @@ public class AuthController {
         try {
             authService.confirmEmail(token);
             return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
-                    .body("Correo Validado");
+                    .body("Correo electrónico confirmado");
         } catch (InvalidTokenException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token no válido");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }

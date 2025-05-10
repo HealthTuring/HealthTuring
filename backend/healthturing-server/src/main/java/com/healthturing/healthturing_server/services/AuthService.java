@@ -1,6 +1,5 @@
 package com.healthturing.healthturing_server.services;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,9 +21,6 @@ import com.healthturing.healthturing_server.models.VerificationToken;
 import com.healthturing.healthturing_server.repositories.UserRepository;
 import com.healthturing.healthturing_server.repositories.VerificationTokenRepository;
 import com.healthturing.healthturing_server.validations.ValidationsFunctions;
-
-
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Servicio que gestiona las consultas relacionadas con la autenticación
@@ -65,14 +61,6 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
         this.emailTemplateService = emailTemplateService;
     }
-
-    //Temporal pruebas
-    //TODO: eliminar al finalizar pruebas
-/*     @Transactional(readOnly = true)
-    public List<User> findAll() {
-        return (List<User>) userRepository.findAll();
-    }
- */
 
     /**
      * Comprueba que los campos cumplen las condiciones para crear un nuevo usuario en la tabla usuario y enviar un email de verificación

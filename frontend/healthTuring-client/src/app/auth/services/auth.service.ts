@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { catchError, map, Observable, of } from 'rxjs';
-import { LOGIN_ENDPOINT, REGISTER_ENDPOINT } from '../../config';
+import { CONFIRM_EMAIL_ENDPOINT, LOGIN_ENDPOINT, REGISTER_ENDPOINT } from '../../config';
 import { ToastrService } from 'ngx-toastr';
 
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
@@ -58,6 +58,27 @@ export class AuthService {
                 return of(false);
             })
         );
+    }
+
+    confirmEmail(token: string): Observable<boolean> {
+      return this.http.put(CONFIRM_EMAIL_ENDPOINT, token, { responseType: 'text' }).pipe(
+        map((resp) => {
+          this.toastr.success(resp, 'Validación exitosa', {
+            timeOut: 5000,
+            progressBar: true,
+            closeButton: true,
+          });
+          return true;
+        }),
+        catchError((error) => {
+          this.toastr.error(error.error, 'Error de Verificación', {
+              timeOut: 3000,
+              progressBar: true,
+              closeButton: true,
+          });
+          return of(false);
+      })
+      )
     }
 
     logout() {

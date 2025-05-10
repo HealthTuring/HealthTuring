@@ -44,7 +44,7 @@
 
             <div class="flex flex-col relative flex-1 group">
               <input type="password" id="password" placeholder=" "
-                [type]="showPassword ? 'text' : 'password'" 
+                [type]="showPassword ? 'text' : 'password'"
                 [class]="formUtils.isValidField(registerForm, 'password') ? 'border-red-600' : 'border-gray-500'"
                 class="w-full p-2 rounded text-gray-700 outline-none border border-gray-500 group__input"
                 formControlName="password" />
@@ -70,14 +70,14 @@
                   id="isDoctor"
                   formControlName="isDoctor"
                 />
-                <label 
-                  class="text-gray-700 text-sm select-none cursor-pointer" 
+                <label
+                  class="text-gray-700 text-sm select-none cursor-pointer"
                   for="isDoctor">
                     Soy médico/a
                 </label>
               </div>
 
-            <button type="submit" class="w-full bg-primary text-white py-2 m-0 rounded font-semibold">
+            <button type="submit" class="w-full bg-primary text-white py-2 m-0 rounded font-semibold cursor-pointer">
                 Continuar
             </button>
 
