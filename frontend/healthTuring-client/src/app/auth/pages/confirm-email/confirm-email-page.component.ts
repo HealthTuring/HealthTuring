@@ -14,7 +14,6 @@ export class ConfirmEmailPageComponent implements OnInit {
 
   ngOnInit(): void {
     const token = this.activatedRoute.snapshot.paramMap.get('token') ?? '';
-
     this.authService.confirmEmail(token).subscribe();
   }
 
