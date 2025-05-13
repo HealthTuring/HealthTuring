@@ -1,0 +1,7 @@
+.bg-primary {
+    background-color: var(--primary-blue);
+}
+
+.mytitle-font {
+  font-family: var(--font-title);;
+}
