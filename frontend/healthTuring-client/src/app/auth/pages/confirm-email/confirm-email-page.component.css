@@ -5,3 +5,7 @@
 .text-light-blue {
   color: var(--light-blue);
 }
+
+.border-primary {
+  border-color: var(--primary-blue);
+}
