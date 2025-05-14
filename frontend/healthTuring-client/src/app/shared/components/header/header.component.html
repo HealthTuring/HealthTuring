@@ -1,13 +1,14 @@
-<header class="bg-primary text-white flex justify-between items-center px-6 py-3 shadow-md">
+<header class="bg-primary text-gray-800 flex justify-between items-center px-6 py-2 shadow-md">
 
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2">
         <img src="assets/svg/logoGruesoNegro.svg" alt="HealthTuring Logo" class="h-10 cursor-pointer" />
-        <h1 class="text-xl font-semibold mytitle-font">HealthTuring</h1>
+        <h1 class="sm:text-xl font-semibold mytitle-font text-white">
+             HealthTuring
+        </h1>
     </div>
-    <div class="flex items-center gap-2 bg-red-700 text-white p-2 rounded cursor-pointer">
-        <button (click)="logout()">Cerrar sesión</button>
-        <span class="material-icons-outlined">logout</span>
-    </div>
-    
+
+    <shared-profile-menu></shared-profile-menu>
 
 </header>
+<!-- <span class="text-primary">Health</span>
+             <span class="text-light-blue">Turing</span> -->

@@ -10,6 +10,4 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
 })
 export class HomePageComponent {
 
-  authService = inject(AuthService);
-
 }
