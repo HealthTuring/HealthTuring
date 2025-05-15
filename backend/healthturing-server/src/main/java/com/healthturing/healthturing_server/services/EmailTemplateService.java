@@ -68,7 +68,7 @@ public class EmailTemplateService {
     }
 
     public void sendConfirmationEmail(String email, String token) {
-        String confirmationLink = clientUrl + "/auth/email-confirmation/" + token;
+        String confirmationLink = clientUrl + "/auth/confirm-email/" + token;
         String htmlContent = String.format(
             """
                 <html>

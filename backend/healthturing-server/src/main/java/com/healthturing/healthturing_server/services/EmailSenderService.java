@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
@@ -26,6 +27,7 @@ public class EmailSenderService {
      * @param subject Asunto
      * @param text Texto
      */
+    @Async
     public void sendEmail(String to, String subject, String text) {
         if (to == null || to.isEmpty() || subject == null || subject.isEmpty() || text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Los parámetros del email no pueden ser nulos o vacíos");
@@ -49,6 +51,7 @@ public class EmailSenderService {
      * @param htmlContent Contenido HTML
      * @throws MessagingException
      */
+    @Async
     public void sendHtmlEmail(String to, String subject, String htmlContent) throws MessagingException {
 
         if (to == null || to.isEmpty() || subject == null || subject.isEmpty() || htmlContent == null || htmlContent.isEmpty()) {

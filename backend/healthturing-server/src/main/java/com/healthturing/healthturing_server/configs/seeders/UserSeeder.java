@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import com.healthturing.healthturing_server.repositories.UserRepository;
  * Crea los usuarios admin, user, y doc, cada uno con su rol correspondiente. En caso de ya existir datos se omite el seeder
  * Requiere del repositorio de Usuario para crearlos, BCryptPasswordEncoder para encriptar las contraseñas
  */
+@Order(1)
 @Component
 public class UserSeeder implements CommandLineRunner{
 
