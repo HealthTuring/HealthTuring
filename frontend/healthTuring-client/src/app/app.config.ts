@@ -4,9 +4,9 @@ import { provideHttpClient, withFetch, withInterceptors} from '@angular/common/h
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
-import { authInterceptor } from './auth/interceptors/auth.interceptor';
-import { provideToastr } from 'ngx-toastr';
 
+import { provideToastr } from 'ngx-toastr';
+import { authTokenInterceptor } from './core/interceptors/auth-token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withFetch(),
       withInterceptors([
-        authInterceptor
+        authTokenInterceptor
       ])
     ),
     provideAnimations(),
