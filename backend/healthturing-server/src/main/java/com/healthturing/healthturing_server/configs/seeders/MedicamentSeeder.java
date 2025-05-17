@@ -3,13 +3,15 @@ package com.healthturing.healthturing_server.configs.seeders;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.healthturing.healthturing_server.models.Medicament;
 import com.healthturing.healthturing_server.repositories.IngredientRepository;
 import com.healthturing.healthturing_server.repositories.MedicamentRepository;
 
-//@Order(1)
+@Order(4)
 @Component
 public class MedicamentSeeder implements CommandLineRunner{
 
@@ -21,6 +23,7 @@ public class MedicamentSeeder implements CommandLineRunner{
         this.ingredientRepository = ingredientRepository;
     }
 
+    @Transactional
     @Override
     public void run(String... args){
         System.out.println("Creando lista de medicamentos:");
@@ -73,7 +76,10 @@ public class MedicamentSeeder implements CommandLineRunner{
             med15.setIngredients(List.of(ingredientRepository.findByName("Diazepam").get()));
 
             Medicament med16 = new Medicament("Clonazepam", "Clonazepamum");
-            med16.setIngredients(List.of(ingredientRepository.findByName("Clonazepam").get()));
+            med16.setIngredients(List.of(
+                ingredientRepository.findByName("Clonazepam").get(),
+                ingredientRepository.findByName("Paracetamol").get()
+            ));
 
             Medicament med17 = new Medicament("Sertralina", "Sertralinum");
             med17.setIngredients(List.of(ingredientRepository.findByName("Sertralina").get()));
@@ -97,7 +103,10 @@ public class MedicamentSeeder implements CommandLineRunner{
             med23.setIngredients(List.of(ingredientRepository.findByName("Hidroclorotiazida").get()));
 
             Medicament med24 = new Medicament("Ranitidina", "Ranitidinum");
-            med24.setIngredients(List.of(ingredientRepository.findByName("Ranitidina").get()));
+            med24.setIngredients(List.of(
+                ingredientRepository.findByName("Ranitidina").get(),
+                ingredientRepository.findByName("Ibuprofeno").get()
+            )); 
 
             Medicament med25 = new Medicament("Esomeprazol", "Esomeprazolum");
             med25.setIngredients(List.of(ingredientRepository.findByName("Esomeprazol").get()));
@@ -109,7 +118,10 @@ public class MedicamentSeeder implements CommandLineRunner{
             med27.setIngredients(List.of(ingredientRepository.findByName("Prednisona").get()));
 
             Medicament med28 = new Medicament("Claritromicina", "Clarithromycinum");
-            med28.setIngredients(List.of(ingredientRepository.findByName("Claritromicina").get()));
+            med28.setIngredients(List.of(
+                ingredientRepository.findByName("Claritromicina").get(),
+                ingredientRepository.findByName("Ácido acetilsalicílico").get()
+            ));
 
             Medicament med29 = new Medicament("Tramadol", "Tramadolum");
             med29.setIngredients(List.of(ingredientRepository.findByName("Tramadol").get()));
@@ -118,33 +130,17 @@ public class MedicamentSeeder implements CommandLineRunner{
             med30.setIngredients(List.of(ingredientRepository.findByName("Codeína").get()));
 
 
-            //TODO: añadir al setingreients lista para que se añadan los medicamentos a la list a de los ingredientes
-            Medicament med31 = new Medicament("Claritromicina", "Clarithromycinum");
-            med31.setIngredients(List.of(
-                ingredientRepository.findByName("Claritromicina").get(),
-                ingredientRepository.findByName("Ácido acetilsalicílico").get()
-            ));
-
-            Medicament med32 = new Medicament("Clonazepam", "Clonazepamum");
-            med32.setIngredients(List.of(
-                ingredientRepository.findByName("Clonazepam").get(),
-                ingredientRepository.findByName("Paracetamol").get()
-            ));
-
-            Medicament med33 = new Medicament("Ranitidina", "Ranitidinum");
-            med33.setIngredients(List.of(
-                ingredientRepository.findByName("Ranitidina").get(),
-                ingredientRepository.findByName("Ibuprofeno").get()
-            ));
-
 
 
             medicamentRepository.saveAll(List.of(
                 med1, med2, med3, med4, med5, med6, med7, med8, med9, med10,
                 med11, med12, med13, med14, med15, med16, med17, med18, med19, med20,
-                med21, med22, med23, med24, med25, med26, med27, med28, med29, med30, med31, med32, med33
+                med21, med22, med23, med24, med25, med26, med27, med28, med29, med30
             ));
 
+            System.out.println("Se han creado los medicamentos adecuadamente");
+        }else {
+            System.out.println("Ya existen medicamentos registrados. Skipping seeder");
         }
     }
     

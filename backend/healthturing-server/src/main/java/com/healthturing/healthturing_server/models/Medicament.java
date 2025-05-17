@@ -86,9 +86,14 @@ public class Medicament {
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+
+        ingredients.forEach(ingredient -> {
+            ingredient.addMedicament(this);
+        });
+
     }
 
-    public void setIngredient(Ingredient ingredient){
+    public void addIngredient(Ingredient ingredient){
         this.ingredients.add(ingredient);
         ingredient.addMedicament(this);
     }

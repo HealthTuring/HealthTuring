@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.healthturing.healthturing_server.models.Ingredient;
 import com.healthturing.healthturing_server.repositories.IngredientRepository;
 
-//@Order(1)
+@Order(3)
 @Component
 public class IngredientSeeder implements CommandLineRunner{
 
