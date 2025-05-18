@@ -1,13 +1,10 @@
-<div class="relative inline-block text-left">
-    <!-- Imagen de perfil -->
+<div class="relative me-2">
     <div class="h-10 w-10 border border-white rounded-full overflow-hidden cursor-pointer" (click)="toggleMenu()">
         <img src="assets/img/login.webp" alt="Imagen de Perfil" class="w-full h-full object-cover" />
     </div>
 
-    <!-- Menú desplegable -->
     @if (menuOpen) {
-
-    <div class="absolute right-0 mt-1 w-48 bg-white border border-gray-200 rounded shadow-lg z-10">
+    <div class="absolute right-2 top-11 w-48 bg-white border border-gray-200 rounded shadow-lg z-10">
         <ul class="text-sm text-gray-700">
             <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer">
                 <span class="material-icons-outlined">person</span>
@@ -24,6 +21,5 @@
             </li>
         </ul>
     </div>
-
     }
 </div>
