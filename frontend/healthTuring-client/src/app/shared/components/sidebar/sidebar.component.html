@@ -1,19 +1,25 @@
 <!-- Sidebar -->
 <nav [ngClass]="{'w-64': !isCollapsed,'w-20': isCollapsed}"
-  class="bg-off-white h-screen text-gray-800 shadow-xl p-2 transition-all duration-300">
+  class="h-[calc(100vh-64px)] overflow-y-auto overflow-x-hidden text-gray-800 shadow-xl p-2 transition-all duration-200">
 
   <!-- Top section -->
-  <div class="text-xl font-semibold p-4">
-    <span class="text-primary">Health</span>
-    <span class="text-light-blue">Turing</span>
-  </div>
-  <button class="flex items-center gap-2" (click)="toggleSidebar()">
-    <span class="material-icons-outlined rotate-180">start</span>
-    <span>Colapsar</span>
-  </button>
+         <div class="flex items-end justify-center gap-2">
+           <img
+             src="assets/img/image.png"
+             alt="HealthTuring Logo"
+             class="h-10"
+           />
+           <h1 *ngIf="!isCollapsed" class="text-xl text-gray-800 font-semibold mytitle-font">
+              HealthTuring
+           </h1>
+         </div>
 
   <!-- Navigation items -->
-  <div class="px-4 space-y-2 mt-6">
+  <div class="px-4 space-y-2 mt-6 font-medium">
+    <button class="flex items-center space-x-3 p-2 text-sm" (click)="toggleSidebar()">
+        <span class="material-icons-outlined rotate-180">start</span>
+        <span *ngIf="!isCollapsed">Colapsar</span>
+    </button>
     <a class="flex items-center space-x-3 p-2 rounded">
       <span class="material-icons-outlined">medical_information</span>
       <span *ngIf="!isCollapsed">Historial Clínico</span>
