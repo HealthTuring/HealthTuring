@@ -1,0 +1,35 @@
+<!-- Sidebar -->
+<nav [ngClass]="{'w-64': !isCollapsed,'w-20': isCollapsed}"
+  class="bg-off-white h-screen text-gray-800 shadow-xl p-2 transition-all duration-300">
+
+  <!-- Top section -->
+  <div class="text-xl font-semibold p-4">
+    <span class="text-primary">Health</span>
+    <span class="text-light-blue">Turing</span>
+  </div>
+  <button class="flex items-center gap-2" (click)="toggleSidebar()">
+    <span class="material-icons-outlined rotate-180">start</span>
+    <span>Colapsar</span>
+  </button>
+
+  <!-- Navigation items -->
+  <div class="px-4 space-y-2 mt-6">
+    <a class="flex items-center space-x-3 p-2 rounded">
+      <span class="material-icons-outlined">medical_information</span>
+      <span *ngIf="!isCollapsed">Historial Clínico</span>
+    </a>
+    <a class="flex items-center space-x-3 p-2 rounded">
+      <span class="material-icons-outlined">event</span>
+      <span *ngIf="!isCollapsed">Calendario</span>
+    </a>
+    <a class="flex items-center space-x-3 p-2 rounded">
+      <span class="material-icons-outlined">support_agent</span>
+      <span *ngIf="!isCollapsed">Cita Online</span>
+    </a>
+    <a class="flex items-center space-x-3 p-2 rounded">
+      <span class="material-icons-outlined">vaccines</span>
+      <span *ngIf="!isCollapsed">Tratamientos</span>
+    </a>
+  </div>
+
+</nav>

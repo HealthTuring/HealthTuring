@@ -1,10 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { AuthService } from '../../../auth/services/auth.service';
+import { Component } from '@angular/core';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 
 @Component({
-  imports: [HeaderComponent, NavbarComponent],
+  imports: [HeaderComponent, SidebarComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
