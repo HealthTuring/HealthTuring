@@ -36,5 +36,33 @@ public class Ingredient {
         this.name = name;
     }
 
+    
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Medicament> getMedicaments() {
+        return medicaments;
+    }
+
+    public void setMedicaments(List<Medicament> medicaments) {
+        this.medicaments = medicaments;
+    }
+
+    public List<Patient> getAllergicPatients() {
+        return allergicPatients;
+    }
+
+    public void setAllergicPatients(List<Patient> allergicPatients) {
+        this.allergicPatients = allergicPatients;
+    }
+
+    public void addMedicament(Medicament medicament){
+        this.medicaments.add(medicament);
+    }
+
+    
+
 
 }

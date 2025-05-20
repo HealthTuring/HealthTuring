@@ -80,6 +80,27 @@ public class Medicament {
         this.incompatibilities.add(inc);
     }
 
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+
+        ingredients.forEach(ingredient -> {
+            ingredient.addMedicament(this);
+        });
+
+    }
+
+    public void addIngredient(Ingredient ingredient){
+        this.ingredients.add(ingredient);
+        ingredient.addMedicament(this);
+    }
+
+
+    
+
 
     
     
