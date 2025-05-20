@@ -55,7 +55,17 @@ public class IngredientSeeder implements CommandLineRunner{
                 new Ingredient("Prednisona"),
                 new Ingredient("Claritromicina"),
                 new Ingredient("Tramadol"),
-                new Ingredient("Codeína")
+                new Ingredient("Codeína"),
+                new Ingredient("AINEs"),
+                new Ingredient("Alcohol"),
+                new Ingredient("Aspirina"),
+                new Ingredient("Calcio"),
+                new Ingredient("Carbamazepina"),
+                new Ingredient("Clopidogrel"),
+                new Ingredient("Espironolactona"),
+                new Ingredient("Ketoconazol"),
+                new Ingredient("Metotrexato"),
+                new Ingredient("Verapamilo")
             );
             
             ingredientRepository.saveAll(ingredients);

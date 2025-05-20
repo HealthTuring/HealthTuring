@@ -129,13 +129,41 @@ public class MedicamentSeeder implements CommandLineRunner{
             Medicament med30 = new Medicament("Codeína", "Codeinum");
             med30.setIngredients(List.of(ingredientRepository.findByName("Codeína").get()));
 
+            Medicament med31 = new Medicament("AINEs", "AINEsum");
+            med31.setIngredients(List.of(ingredientRepository.findByName("AINEs").get()));
+
+            Medicament med32 = new Medicament("Alcohol", "Alcoholum");
+            med32.setIngredients(List.of(ingredientRepository.findByName("Alcohol").get()));
+
+            Medicament med33 = new Medicament("Calcio", "Calcioum");
+            med33.setIngredients(List.of(ingredientRepository.findByName("Calcio").get()));
+
+            Medicament med34 = new Medicament("Carbamazepina", "Carbamazepinaum");
+            med34.setIngredients(List.of(ingredientRepository.findByName("Carbamazepina").get()));
+
+            Medicament med35 = new Medicament("Clopidogrel", "Clopidogrelum");
+            med35.setIngredients(List.of(ingredientRepository.findByName("Clopidogrel").get()));
+
+            Medicament med36 = new Medicament("Espironolactona", "Espironolactonaum");
+            med36.setIngredients(List.of(ingredientRepository.findByName("Espironolactona").get()));
+
+            Medicament med37 = new Medicament("Ketoconazol", "Ketoconazolum");
+            med37.setIngredients(List.of(ingredientRepository.findByName("Ketoconazol").get()));
+
+            Medicament med38 = new Medicament("Metotrexato", "Metotrexatoum");
+            med38.setIngredients(List.of(ingredientRepository.findByName("Metotrexato").get()));
+
+            Medicament med39 = new Medicament("Verapamilo", "Verapamiloum");
+            med39.setIngredients(List.of(ingredientRepository.findByName("Verapamilo").get()));
+
 
 
 
             medicamentRepository.saveAll(List.of(
                 med1, med2, med3, med4, med5, med6, med7, med8, med9, med10,
                 med11, med12, med13, med14, med15, med16, med17, med18, med19, med20,
-                med21, med22, med23, med24, med25, med26, med27, med28, med29, med30
+                med21, med22, med23, med24, med25, med26, med27, med28, med29, med30,
+                med31, med32, med33, med34, med35, med36, med37, med38, med39
             ));
 
             System.out.println("Se han creado los medicamentos adecuadamente");
