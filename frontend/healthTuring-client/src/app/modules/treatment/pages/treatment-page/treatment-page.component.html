@@ -1,0 +1,32 @@
+<!-- tratamientos.component.html -->
+<h2>Tratamientos de </h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Medicamento</th>
+      <th>Dosis</th>
+      <th>Frecuencia</th>
+      <th>Duración</th>
+      <th>Inicio</th>
+      <th>Fin</th>
+      <th>Indicaciones</th>
+      <th>Incompatibilidades</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (t of tratamientos; track t.id_tratamientos) {
+      <tr>
+        <td>{{ t.medicamento }}</td>
+        <td>{{ t.dosis }}</td>
+        <td>{{ t.frecuencia }}</td>
+        <td>{{ t.duracion }}</td>
+        <td>{{ t.inicio }}</td>
+        <td>{{ t.fin || 'Indefinido' }}</td>
+        <td>{{ t.indicaciones }}</td>
+        <td>{{ t.incompatibilidades.join(', ') }}</td>
+      </tr>
+    }
+  </tbody>
+</table>
+

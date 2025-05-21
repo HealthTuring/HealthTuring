@@ -10,7 +10,7 @@ import { SelectPatientsComponent } from '../select-patients/select-patients.comp
 })
 export class SidebarComponent {
 
-  isCollapsed = false;
+  isCollapsed = true;
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
