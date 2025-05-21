@@ -1,15 +1,3 @@
-.text-primary {
-  color: var(--primary-blue);
-}
-
-.text-light-blue {
-  color: var(--light-blue);
-}
-
-.bg-light-blue {
-  background-color: var(--lightness-blue);
-}
-
 .mytitle-font {
   font-family: var(--font-title);;
 }

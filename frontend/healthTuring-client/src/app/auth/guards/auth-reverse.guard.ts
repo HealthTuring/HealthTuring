@@ -9,9 +9,7 @@ export class AuthReverseGuard implements CanActivate {
     private router = inject(Router);
 
     canActivate(): boolean {
-        console.log(this.authService.authStatus())
         const isAuthenticated = this.authService.authStatus() === 'authenticated';
-        console.log('AuthReverseGuard: isAuthenticated =', isAuthenticated);
 
         if (isAuthenticated) {
             this.router.navigate(['/home']);

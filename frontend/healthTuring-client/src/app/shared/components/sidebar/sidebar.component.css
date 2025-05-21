@@ -1,0 +1,7 @@
+.text-primary {
+  color: var(--primary-blue);
+}
+
+.text-light-blue {
+  color: var(--light-blue);
+}
