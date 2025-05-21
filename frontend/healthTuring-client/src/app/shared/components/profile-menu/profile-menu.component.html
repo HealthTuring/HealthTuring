@@ -1,0 +1,25 @@
+<div class="relative me-2">
+    <div class="h-10 w-10 border border-white rounded-full overflow-hidden cursor-pointer" (click)="toggleMenu()">
+        <img src="assets/img/login.webp" alt="Imagen de Perfil" class="w-full h-full object-cover" />
+    </div>
+
+    @if (menuOpen) {
+    <div class="absolute right-2 top-11 w-48 bg-white border border-gray-200 rounded shadow-lg z-10">
+        <ul class="text-sm text-gray-700">
+            <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer">
+                <span class="material-icons-outlined">person</span>
+                <span class="font-medium text-gray-800">Ver perfil</span>
+            </li>
+            <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-100 cursor-pointer">
+                <span class="material-icons-outlined">settings</span>
+                <span class="font-medium text-gray-800">Configuración</span>
+            </li>
+            <div class="border-t border-t-gray-200 mx-2 my-0.5"></div>
+            <li class="flex items-center gap-2 m-2 p-2 bg-red-700 hover:bg-red-600 text-white rounded cursor-pointer" (click)="logout()">
+                <span class="material-icons-outlined">logout</span>
+                <span class="font-medium">Cerrar sesión</span>
+            </li>
+        </ul>
+    </div>
+    }
+</div>

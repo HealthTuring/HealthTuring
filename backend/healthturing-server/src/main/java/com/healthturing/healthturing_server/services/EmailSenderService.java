@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
@@ -26,6 +27,7 @@ public class EmailSenderService {
      * @param subject Asunto
      * @param text Texto
      */
+    @Async
     public void sendEmail(String to, String subject, String text) {
         if (to == null || to.isEmpty() || subject == null || subject.isEmpty() || text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Los parámetros del email no pueden ser nulos o vacíos");
@@ -49,16 +51,22 @@ public class EmailSenderService {
      * @param htmlContent Contenido HTML
      * @throws MessagingException
      */
+    @Async
     public void sendHtmlEmail(String to, String subject, String htmlContent) throws MessagingException {
+
         if (to == null || to.isEmpty() || subject == null || subject.isEmpty() || htmlContent == null || htmlContent.isEmpty()) {
             throw new IllegalArgumentException("Los parámetros del email no pueden ser nulos o vacíos");
         }
 
-        String footer = "<p style='margin-top: 20px; font-size: 12px; color: #666; text-align: center; padding: 10px; border-top: 1px solid #ccc;'>"
-        + "Este correo electrónico ha sido enviado desde <a href='https://healthturing.duckdns.org' style='text-decoration: none; color: #337ab7;'>healthturing.duckdns.org</a>.<br/>"
-        + "Si tienes alguna pregunta o inquietud, no dudes en hacérnoslo saber.<br>¡Gracias por confiar en nosotros!</p>" + "<h2 style='text-align: center;'><span style='color:#2DABB9;'>Health</span><span style='color:#81CDD5;'>Turing</span></h2>";
+        String header = "<div style='padding: 10px; text-align: center; border-radius: 4px; background-color: #f8f8f8;'>"
+        + "<h1><span style='color:#2DABB9;'>Health</span><span style='color:#81CDD5;'>Turing</span></h1>"
+        + "</div>";
 
-        String htmlContentWithFooter = htmlContent + footer;
+        String footer = "<div style='padding: 10px; text-align: center; border-radius: 5px; background-color: #f8f8f8;'><p style='font-size: 12px; color: #666;'>"
+        + "Este correo electrónico ha sido enviado desde <a href='https://healthturing.duckdns.org' style='text-decoration: none; color: #337ab7;'>healthturing.duckdns.org</a>.<br/>"
+        + "Si tienes alguna pregunta o inquietud, no dudes en hacérnoslo saber.<br>¡Gracias por confiar en nosotros!</p>" + "<h2><span style='color:#2DABB9;'>Health</span><span style='color:#81CDD5;'>Turing</span></h2></div>";
+
+        String htmlContentWithFooter = header + htmlContent + footer;
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);

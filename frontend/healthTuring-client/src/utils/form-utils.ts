@@ -63,18 +63,14 @@ export class FormUtils {
 
   }
 
-  // TODO Validar si el correo existe en la bd (peticion con los correos de usuario a backend)
-/*   static async checkingServerResponse(control: AbstractControl): Promise<ValidationErrors | null> {
-    await sleep(); // 2 segundos y medio
-    const formValue = control.value;
+  static isFieldOneEqualFieldTwo(field1: string, field2: string) {
+    return (formGroup: AbstractControl) => {
+      const field1Value = formGroup.get(field1)?.value;
+      const field2Value = formGroup.get(field2)?.value;
 
-    if (formValue === 'hola@mundo.com') {
-      return {
-        emailTaken: true
-      }
-    }
-    return null;
-  } */
+      return field1Value === field2Value ? null : { passwordsNotEqual: true };
+    };
+  }
 
   static notAdmin(control: AbstractControl): ValidationErrors | null {
     return (control.value === 'Admin') ? {noAdmin: true} : null;

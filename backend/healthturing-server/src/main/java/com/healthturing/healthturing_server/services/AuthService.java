@@ -1,6 +1,5 @@
 package com.healthturing.healthturing_server.services;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.healthturing.healthturing_server.exceptions.EmailEmitErrorException;
 import com.healthturing.healthturing_server.exceptions.EmailNotConfirmedException;
 import com.healthturing.healthturing_server.exceptions.InvalidJwtException;
 import com.healthturing.healthturing_server.exceptions.InvalidTokenException;
@@ -23,8 +21,6 @@ import com.healthturing.healthturing_server.models.VerificationToken;
 import com.healthturing.healthturing_server.repositories.UserRepository;
 import com.healthturing.healthturing_server.repositories.VerificationTokenRepository;
 import com.healthturing.healthturing_server.validations.ValidationsFunctions;
-
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Servicio que gestiona las consultas relacionadas con la autenticación
@@ -45,17 +41,14 @@ public class AuthService {
     private JwtService jwtService;
 
     @Autowired
-    private EmailSenderService emailSenderService;
-
-    @Autowired
     private VerificationTokenRepository verificationTokenRepository;
-
-    private final AuthenticationManager authenticationManager;
-
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     private ValidationsFunctions validationsFunctions;
+
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailTemplateService emailTemplateService;
 
     /**
      * Constructor para las dependencias necesarias que no son services
@@ -63,19 +56,11 @@ public class AuthService {
      * @param passwordEncoder
      * @param validationsFunctions
      */
-    public AuthService(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
+    public AuthService(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, EmailTemplateService emailTemplateService) {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
-        
+        this.emailTemplateService = emailTemplateService;
     }
-
-    //Temporal pruebas
-    //TODO: eliminar al finalizar pruebas
-    @Transactional(readOnly = true)
-    public List<User> findAll() {
-        return (List<User>) userRepository.findAll();
-    }
-
 
     /**
      * Comprueba que los campos cumplen las condiciones para crear un nuevo usuario en la tabla usuario y enviar un email de verificación
@@ -84,7 +69,6 @@ public class AuthService {
      * @param password
      * @throws IllegalArgumentException que recoje los diferentes errores de formato
      */
-    @Transactional
     public void register(String email, String name, String password) {
 
         try{
@@ -100,7 +84,7 @@ public class AuthService {
                 throw new RuntimeException("La contraseña no cumple con los requisitos de seguridad");
             }
             if (userRepository.findByEmail(email).isPresent()) {
-                throw new UserAlreadyExistsException("El usuario ya existe");
+                throw new UserAlreadyExistsException("Ya existe un usuario registrado con este email");
             }
 
             User user = new User(email, name, passwordEncoder.encode(password));
@@ -113,20 +97,13 @@ public class AuthService {
             userRepository.save(user);
             verificationTokenRepository.save(verificationToken);
 
+            this.emailTemplateService.sendConfirmationEmail(email, token);
 
-
-            registerUser(email, token);
-    
-
-        }catch(RuntimeException e){
+        } catch(RuntimeException e) {
             throw new IllegalArgumentException(e.getMessage());
-
         }
-      
-
         
     }
-
 
 
     /**
@@ -157,37 +134,11 @@ public class AuthService {
         return jwtService.generateToken(user);
     }
 
-
-
-    /**
-     * Envía el email de registro junto con el token de verificación
-     * @param email
-     * @param token
-     */
-    public void registerUser(String email, String token) {
-
-        String confirmationLink = clientUrl + "/auth/email-confirmation/" + token;
-        String htmlContent = "<html>"
-                + "<body>"
-                + "<h1>Confirmación de Registro</h1>"
-                + "<p>Gracias por registrarte. Por favor, haz clic en el siguiente enlace para confirmar tu registro:</p>"
-                + "<a href=\"" + confirmationLink + "\">Confirmar Registro</a>"
-                + "</body>"
-                + "</html>";
-
-        try {
-            emailSenderService.sendHtmlEmail(email, "Confirmación de Registro", htmlContent);
-        } catch (Exception e) {
-            throw new EmailEmitErrorException("Error al enviar el email de confirmación");
-        }
-    }
-
     /**
      * Comprueba que el token recibido conincide con el almacenado en la base de datos, verifica el correo correspondiente y elimina el token de la base de datos
      * @param token
      * @return
      */
-    @Transactional
     public String confirmEmail(String token) {
 
         VerificationToken verificationToken =  verificationTokenRepository.findByToken(token)

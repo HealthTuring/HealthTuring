@@ -2,27 +2,25 @@
   <div class="max-w-screen-xl m-7 bg-white shadow rounded-lg flex justify-center flex-1">
 
     <!-- Contenedor principal derecho -->
-    <div class="lg:w-1/2 xl:w-5/12 px-12 py-10"> <!--  overflow-y-auto -->
+    <div class="lg:w-1/2 xl:w-5/12 px-6 md:px-12 py-10"> <!--  overflow-y-auto -->
 
         <!-- Logo + Título -->
-         <div class="flex items-center justify-center gap-1">
+         <div class="flex items-end justify-center gap-2">
            <img
-             src="assets/svg/logoGruesoNegro.svg"
+             src="assets/img/image.png"
              alt="HealthTuring Logo"
              class="h-10"
            />
-           <h1 class="text-xl font-semibold mytitle-font">
-             <span class="text-primary">Health</span>
-             <span class="text-light-blue">Turing</span>
+           <h1 class="text-xl text-gray-800 font-semibold mytitle-font">
+              HealthTuring
            </h1>
          </div>
-
 
           <router-outlet></router-outlet>
 
     </div>
     <div class="relative h-full overflow-hidden hidden lg:block lg:w-[calc(100%-480px)]">
-      <img src="assets/img/5.jpg" alt="" class="w-full h-full object-cover rounded-r-lg"/>
+      <img [src]="imageSrc" alt="Dynamic Img" class="w-full h-full object-cover rounded-r-lg" />
     </div>
   </div>
 </div>
