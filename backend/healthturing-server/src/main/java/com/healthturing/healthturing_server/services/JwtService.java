@@ -18,7 +18,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
-
 /**
  * Servicio de JWT
  */
@@ -27,18 +26,19 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secretkey;
 
-
     /**
      * Genera un jwt con datos necesarios del usuario(id, rol, nombre)
+     * 
      * @param user
      * @return
      */
-    public String generateToken (User user){
+    public String generateToken(User user) {
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claim("id", user.getId())
                 .claim("role", user.getRole())
                 .claim("name", user.getName())
+                .issuer("healthturing-server")
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 3600))
                 .signWith(getSigningKey())
@@ -47,10 +47,11 @@ public class JwtService {
 
     /**
      * Genera un jwt con datos necesarios del usuario(id)
+     * 
      * @param user
      * @return
      */
-    public String generateTokenPassword(User user){
+    public String generateTokenPassword(User user) {
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claim("id", user.getId())
@@ -62,11 +63,12 @@ public class JwtService {
 
     /**
      * Genera un jwt
+     * 
      * @param user
      * @param expiration
      * @return
      */
-    public String UserAppToken(User user, Long expiration){
+    public String UserAppToken(User user, Long expiration) {
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claim("key", "ApplicationToken")
@@ -76,16 +78,16 @@ public class JwtService {
                 .compact();
     }
 
-
     /**
      * Extrae los parámetros especificados en el token y comprueba que es válido
+     * 
      * @param <T>
      * @param token
      * @param claimsResolver
      * @return
      */
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
-        try{
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        try {
             final Claims claims = Jwts.parser()
                     .verifyWith(getSigningKey())
                     .build().parseSignedClaims(token)
@@ -96,12 +98,9 @@ public class JwtService {
         }
     }
 
-
-
-
-
     /**
      * Extrae Username del token mediante Claim
+     * 
      * @param token String
      * @return String
      */
@@ -109,59 +108,61 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-
     /**
      * Extrae Role del token mediante Claim
+     * 
      * @param token String
      * @return String
      */
-    public String extractRole(String token){
+    public String extractRole(String token) {
         return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
-
-    
-
     /**
      * Extrae Id del token mediante Claim
+     * 
      * @param token String
      * @return int
      */
-    public int extractUserId(String token) throws RuntimeException{
+    public int extractUserId(String token) throws RuntimeException {
         return extractClaim(token, claims -> claims.get("id", Integer.class));
     }
 
     /**
      * Coge la clave de firmado para los tokens de las variables de entorno
+     * 
      * @return
      */
-    private SecretKey getSigningKey(){
+    private SecretKey getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretkey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-
     /**
      * Valida el token
+     * 
      * @param token
      * @param userDetails
      * @return
      */
     public boolean validateToken(String token, UserDetails userDetails) {
-    final String username = extractUsername(token);
-    return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-  }
+        final String username = extractUsername(token);
+        final String issuer = extractClaim(token, Claims::getIssuer);
 
+        return (username.equals(userDetails.getUsername()) &&
+                !isTokenExpired(token) &&
+                "healthturing-server".equals(issuer));
+    }
 
-  /**
-   * Comprueba que el token esté expirado o no
-   * @param token
-   * @return
-   */
-  public boolean isTokenExpired(String token) {
-    Date expirationDate = extractClaim(token, Claims::getExpiration);
-    return expirationDate.before(new Date());
-  }
-
+    /**
+     * Comprueba que el token esté expirado o no
+     * 
+     * @param token
+     * @return
+     */
+    public boolean isTokenExpired(String token) {
+        Date expirationDate = extractClaim(token, Claims::getExpiration);
+        return expirationDate.before(new Date());
+    }
 
 }

@@ -5,3 +5,7 @@
 .text-light-blue {
   color: var(--light-blue);
 }
+
+.bg-lightness-blue:hover {
+  background-color: var(--lightness-blue);
+}

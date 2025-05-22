@@ -1,32 +1,20 @@
 <!-- tratamientos.component.html -->
-<h2>Tratamientos de </h2>
+<h1 class="text-2xl text-gray-800 font-semibold mb-4"> Tratamientos</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Medicamento</th>
-      <th>Dosis</th>
-      <th>Frecuencia</th>
-      <th>Duración</th>
-      <th>Inicio</th>
-      <th>Fin</th>
-      <th>Indicaciones</th>
-      <th>Incompatibilidades</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (t of tratamientos; track t.id_tratamientos) {
-      <tr>
-        <td>{{ t.medicamento }}</td>
-        <td>{{ t.dosis }}</td>
-        <td>{{ t.frecuencia }}</td>
-        <td>{{ t.duracion }}</td>
-        <td>{{ t.inicio }}</td>
-        <td>{{ t.fin || 'Indefinido' }}</td>
-        <td>{{ t.indicaciones }}</td>
-        <td>{{ t.incompatibilidades.join(', ') }}</td>
-      </tr>
-    }
-  </tbody>
-</table>
-
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  @for (t of tratamientos; track t.id_tratamientos) {
+    <div class="bg-white shadow-md rounded p-4 border border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ t.medicamento }}</h3>
+      
+      <div class="text-sm text-gray-700 space-y-1">
+        <p><span class="font-medium">Dosis:</span> {{ t.dosis }}</p>
+        <p><span class="font-medium">Frecuencia:</span> {{ t.frecuencia }}</p>
+        <p><span class="font-medium">Duración:</span> {{ t.duracion }}</p>
+        <p><span class="font-medium">Inicio:</span> {{ t.inicio }}</p>
+        <p><span class="font-medium">Fin:</span> {{ t.fin || 'Indefinido' }}</p>
+        <p><span class="font-medium">Indicaciones:</span> {{ t.indicaciones }}</p>
+        <p><span class="font-medium">Incompatibilidades:</span> {{ t.incompatibilidades.join(', ') }}</p>
+      </div>
+    </div>
+  }
+</div>

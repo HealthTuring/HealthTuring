@@ -10,26 +10,26 @@
       </h1>
     </div>
 
-    <div class="flex items-center justify-center space-x-3 text-sm cursor-pointer" (click)="toggleSidebar()">
+    <div class="flex items-center justify-center space-x-3 text-sm cursor-pointer rounded py-2 bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md" (click)="toggleSidebar()">
       <span class="material-icons-outlined" [ngClass]="{'rotate-180': isCollapsed}">start</span>
       <span *ngIf="!isCollapsed">Colapsar</span>
     </div>
 
     <!-- Navigation items -->
     <ul class="flex flex-col mt-5 space-y-2 font-medium" [ngClass]="{'items-center': isCollapsed}">
-      <li class="flex items-center space-x-3 p-2 rounded cursor-pointer hover:bg-gray-100">
+      <li class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md">
         <span class="material-icons-outlined">medical_information</span>
         <span *ngIf="!isCollapsed">Historial Clínico</span>
       </li>
-      <li class="flex items-center space-x-3 p-2 rounded cursor-pointer hover:bg-gray-100">
+      <li class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md">
         <span class="material-icons-outlined">event</span>
         <span *ngIf="!isCollapsed">Calendario</span>
       </li>
-      <li class="flex items-center space-x-3 p-2 rounded cursor-pointer hover:bg-gray-100">
+      <li class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md">
         <span class="material-icons-outlined">support_agent</span>
         <span *ngIf="!isCollapsed">Cita Online</span>
       </li>
-      <li class="flex items-center space-x-3 p-2 rounded cursor-pointer hover:bg-gray-100">
+      <li class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md" routerLink="/home/treatments">
         <span class="material-icons-outlined">vaccines</span>
         <span *ngIf="!isCollapsed">Tratamientos</span>
       </li>
