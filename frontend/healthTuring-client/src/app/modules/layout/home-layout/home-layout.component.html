@@ -1,7 +1,9 @@
-<shared-header></shared-header>
-<div class="flex h-[calc(100vh-64px)]">
-  <shared-sidebar></shared-sidebar>
-  <div class="flex-1 overflow-y-auto mt-6 mb-3 px-10">
-    <router-outlet></router-outlet>
+<div class="bg-gray-100">
+  <shared-header></shared-header>
+  <div class="flex h-[calc(100vh-64px)]">
+    <shared-sidebar class="bg-white"></shared-sidebar>
+    <div class="flex-1 overflow-y-auto mt-6 mb-3 px-3 md:px-6">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

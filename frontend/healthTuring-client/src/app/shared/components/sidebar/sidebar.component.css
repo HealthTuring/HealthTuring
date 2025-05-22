@@ -9,3 +9,8 @@
 .bg-lightness-blue:hover {
   background-color: var(--lightness-blue);
 }
+
+
+.bg-off-white {
+  background-color: var(--off-white);
+}
