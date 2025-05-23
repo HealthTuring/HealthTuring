@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../../utils/form-utils';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { JwtService } from '../../../core/services/jwt.service';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -14,6 +15,7 @@ export class LoginPageComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private jwtService = inject(JwtService);
   formUtils = FormUtils;
 
   showPassword: boolean = false;
@@ -35,8 +37,12 @@ export class LoginPageComponent {
 
       this.authService.login(email!, password!).subscribe((isAuthenticated) => {
         if (isAuthenticated) {
-          this.router.navigateByUrl('/home');
-          return;
+          const role = this.jwtService.getRole();
+          if (role === 'ROLE_ADMIN') {
+            window.location.href = 'http://localhost:8080/vista';
+          } else {
+            this.router.navigateByUrl('/home');
+          }
         }
       });
     }

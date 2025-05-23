@@ -34,7 +34,7 @@ public class UserSeeder implements CommandLineRunner{
     @Override
     public void run(String... args){
         if(userRepository.count() == 0){
-            User admin = new User("admin@mail.com" , "adminName", passwordEncoder.encode("adminpass"));
+            User admin = new User("admin@mail.com" , "adminName", passwordEncoder.encode("$Adminpass1"));
             admin.setRole(Role.ROLE_ADMIN);
             admin.setEnabled(true);
 

@@ -2,6 +2,7 @@ package com.healthturing.healthturing_server.configs.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,7 +47,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     try {
 
       // Verifica que el token es válido y empieza con Bearer
-      final String authHeader = request.getHeader("Authorization");
+      String authHeader = request.getHeader("Authorization");
+      // Si no hay Authorization en cabecera, busca en cookies
+      if ((authHeader == null || !authHeader.startsWith("Bearer ")) && request.getCookies() != null) {
+        for (Cookie cookie : request.getCookies()) {
+          if ("Authorization".equals(cookie.getName())) {
+            authHeader = "Bearer " + cookie.getValue();
+            break;
+          }
+        }
+      }
+
       if (authHeader == null || !authHeader.startsWith("Bearer ")) {
         filterChain.doFilter(request, response);
         return;
