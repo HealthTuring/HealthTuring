@@ -12,7 +12,7 @@ import com.healthturing.healthturing_server.models.User;
 import com.healthturing.healthturing_server.repositories.PatientRepository;
 import com.healthturing.healthturing_server.repositories.UserRepository;
 
-@Order(2)
+@Order(5)
 @Component
 public class PatientSeeder implements CommandLineRunner {
 
@@ -25,11 +25,9 @@ public class PatientSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (patientRepository.count() == 0) {
-            // Buscar el usuario con ID 2
             User user = userRepository.findById(2L).orElse(null);
 
             if (user != null) {
-                // Crear pacientes
                 Patient patient1 = new Patient("David Larrubia", user);
                 Patient patient2 = new Patient("Cristiano Ronaldo", user);
 

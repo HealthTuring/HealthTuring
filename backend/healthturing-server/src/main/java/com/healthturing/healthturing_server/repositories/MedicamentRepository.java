@@ -8,9 +8,9 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-
-
 @Repository
-public interface MedicamentRepository extends JpaRepository<Medicament, Long>{
+public interface MedicamentRepository extends JpaRepository<Medicament, Long> {
     Optional<Medicament> findByCommonName(String commonName);
+
+    Optional<Medicament> findByScientificName(String scientificName);
 }

@@ -5,3 +5,12 @@
 .text-light-blue {
   color: var(--light-blue);
 }
+
+.bg-lightness-blue:hover {
+  background-color: var(--lightness-blue);
+}
+
+
+.bg-off-white {
+  background-color: var(--off-white);
+}

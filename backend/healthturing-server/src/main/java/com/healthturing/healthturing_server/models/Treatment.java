@@ -1,7 +1,6 @@
 package com.healthturing.healthturing_server.models;
 
 import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,27 +25,33 @@ public class Treatment {
 
     private LocalDate endDate;
 
+    private String duration;
+
+    private String dosesPerPeriod;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "medicament_id")
+    private Medicament medicament;
+
     public Treatment() {}
 
-    public Treatment(String name, String description, LocalDate startDate, LocalDate endDate, Patient patient) {
+    public Treatment(String name, String description, LocalDate startDate, LocalDate endDate, String duration, String dosesPerPeriod, Patient patient, Medicament medicament) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.duration = duration;
+        this.dosesPerPeriod = dosesPerPeriod;
         this.patient = patient;
+        this.medicament = medicament;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -81,11 +86,35 @@ public class Treatment {
         this.endDate = endDate;
     }
 
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getDosesPerPeriod() {
+        return dosesPerPeriod;
+    }
+
+    public void setDosesPerPeriod(String dosesPerPeriod) {
+        this.dosesPerPeriod = dosesPerPeriod;
+    }
+
     public Patient getPatient() {
         return patient;
     }
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public Medicament getMedicament() {
+        return medicament;
+    }
+
+    public void setMedicament(Medicament medicament) {
+        this.medicament = medicament;
     }
 }

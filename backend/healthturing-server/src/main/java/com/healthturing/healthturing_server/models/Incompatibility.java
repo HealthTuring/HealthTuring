@@ -1,6 +1,5 @@
 package com.healthturing.healthturing_server.models;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,24 +17,56 @@ public class Incompatibility {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "medicament_id")
+    @ManyToOne
+    @JoinColumn(name = "medicament_id", nullable = false)
     private Medicament medicament;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "incompatible_medicament_id")
-    private Medicament incompatibleWith;
+    private Medicament incompatibleMedicament;
 
-    @Column(nullable = false)
-    private int level;
+    @ManyToOne
+    @JoinColumn(name = "incompatible_substance_id")
+    private Substance incompatibleSubstance;
 
     public Incompatibility() {}
 
-    public Incompatibility(Medicament medicament, Medicament incompatibleWith, int level) {
+    public Incompatibility(Medicament medicament, Medicament incompatibleMedicament, Substance incompatibleSubstance) {
         this.medicament = medicament;
-        this.incompatibleWith = incompatibleWith;
-        this.level = level;
+        this.incompatibleMedicament = incompatibleMedicament;
+        this.incompatibleSubstance = incompatibleSubstance;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Medicament getMedicament() {
+        return medicament;
+    }
+
+    public void setMedicament(Medicament medicament) {
+        this.medicament = medicament;
+    }
+
+    public Medicament getIncompatibleMedicament() {
+        return incompatibleMedicament;
+    }
+
+    public void setIncompatibleMedicament(Medicament incompatibleMedicament) {
+        this.incompatibleMedicament = incompatibleMedicament;
+    }
+
+    public Substance getIncompatibleSubstance() {
+        return incompatibleSubstance;
+    }
+
+    public void setIncompatibleSubstance(Substance incompatibleSubstance) {
+        this.incompatibleSubstance = incompatibleSubstance;
+    }
 
 }

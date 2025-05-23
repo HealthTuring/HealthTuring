@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { catchError, map, Observable, of } from 'rxjs';
-import { CONFIRM_EMAIL_ENDPOINT, LOGIN_ENDPOINT, REGISTER_ENDPOINT } from '../../config';
+import { CONFIRM_EMAIL_ENDPOINT, LOGIN_ENDPOINT, LOGOUT_ENDPOINT, REGISTER_ENDPOINT } from '../../config';
 import { NotificationService } from '../../shared/services/notification-toast.service';
 import { JwtService } from '../../core/services/jwt.service';
 
@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<boolean> {
-    return this.http.post(LOGIN_ENDPOINT, { email, password }, { responseType: 'text' }).pipe(
+    return this.http.post(LOGIN_ENDPOINT, { email, password }, { responseType: 'text', withCredentials: true }).pipe(
       map((token: string) => {
         this.jwt.setToken(token);
         this._authStatus.set('authenticated');
@@ -70,6 +70,14 @@ export class AuthService {
   logout() {
     this.jwt.clear();
     this._authStatus.set('not-authenticated');
+    this.http.post(LOGOUT_ENDPOINT, {}, { withCredentials: true }).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/auth/login', { replaceUrl: true });
+      },
+      error: () => {
+        this.router.navigateByUrl('/auth/login', { replaceUrl: true });
+      }
+    });
     this.router.navigateByUrl('/auth/login', { replaceUrl: true });
   }
 
