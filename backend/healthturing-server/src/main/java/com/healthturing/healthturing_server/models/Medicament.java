@@ -1,8 +1,8 @@
 package com.healthturing.healthturing_server.models;
 
-
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,9 +10,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -30,26 +27,37 @@ public class Medicament {
     @Column(unique = true, nullable = false)
     private String scientificName;
 
+    private String dosageForm;
+
+    private String drugRoute;
+
+    private String strength;
+
+    private String prospectUrl;
+
     @OneToMany(mappedBy = "medicament", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Incompatibility> incompatibilities = new ArrayList<>();
+    private Set<Incompatibility> incompatibilities = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "medicament_ingredients",
-        joinColumns = @JoinColumn(name = "medicament_id"),
-        inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    private List<Ingredient> ingredients = new ArrayList<>();
+    @OneToMany(mappedBy = "medicament")
+    private List<Treatment> treatments;
 
-
-
-    public Medicament(){
+    public Medicament() {
 
     }
 
-    public Medicament(String commonName, String scientificName){
-        this.commonName=commonName;
-        this.scientificName=scientificName;
+    public Medicament(String commonName, String scientificName) {
+        this.commonName = commonName;
+        this.scientificName = scientificName;
+    }
+
+    public Medicament(String commonName, String scientificName, String dosageForm, String drugRoute,
+            String strength, String prospectUrl) {
+        this.commonName = commonName;
+        this.scientificName = scientificName;
+        this.dosageForm = dosageForm;
+        this.drugRoute = drugRoute;
+        this.strength = strength;
+        this.prospectUrl = prospectUrl;
     }
 
     public String getCommonName() {
@@ -68,45 +76,56 @@ public class Medicament {
         this.scientificName = scientificName;
     }
 
-    public List<Incompatibility> getIncompatibilities() {
+    public String getDosageForm() {
+        return dosageForm;
+    }
+
+    public void setDosageForm(String dosageForm) {
+        this.dosageForm = dosageForm;
+    }
+
+    public String getDrugRoute() {
+        return drugRoute;
+    }
+
+    public void setDrugRoute(String drugRoute) {
+        this.drugRoute = drugRoute;
+    }
+
+    public String getStrength() {
+        return strength;
+    }
+
+    public void setStrength(String strength) {
+        this.strength = strength;
+    }
+
+    public String getProspectUrl() {
+        return prospectUrl;
+    }
+
+    public void setProspectUrl(String prospectUrl) {
+        this.prospectUrl = prospectUrl;
+    }
+
+    public Set<Incompatibility> getIncompatibilities() {
         return incompatibilities;
     }
 
-    public void setIncompatibilities(List<Incompatibility> incompatibilities) {
+    public void setIncompatibilities(Set<Incompatibility> incompatibilities) {
         this.incompatibilities = incompatibilities;
     }
 
-    public void addIncompatibility(Incompatibility inc){
+    public void addIncompatibility(Incompatibility inc) {
         this.incompatibilities.add(inc);
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+    public List<Treatment> getTreatments() {
+        return treatments;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-
-        ingredients.forEach(ingredient -> {
-            ingredient.addMedicament(this);
-        });
-
+    public void setTreatments(List<Treatment> treatments) {
+        this.treatments = treatments;
     }
 
-    public void addIngredient(Ingredient ingredient){
-        this.ingredients.add(ingredient);
-        ingredient.addMedicament(this);
-    }
-
-
-    
-
-
-    
-    
-
-  
-
-    
-    
 }

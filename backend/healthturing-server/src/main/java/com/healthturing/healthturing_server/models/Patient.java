@@ -44,7 +44,7 @@ public class Patient {
         joinColumns = @JoinColumn(name = "patient_id"),
         inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
-    private List<Ingredient> allergicIngredients = new ArrayList<>();
+    private List<Medicament> allergicIngredients = new ArrayList<>();
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Treatment> treatments = new ArrayList<>();
@@ -99,11 +99,11 @@ public class Patient {
         this.user = user;
     }
 
-    public List<Ingredient> getAllergicIngredients() {
+    public List<Medicament> getAllergicIngredients() {
         return allergicIngredients;
     }
 
-    public void setAllergicIngredients(List<Ingredient> allergicIngredients) {
+    public void setAllergicIngredients(List<Medicament> allergicIngredients) {
         this.allergicIngredients = allergicIngredients;
     }
 
