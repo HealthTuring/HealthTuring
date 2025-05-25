@@ -1,22 +1,57 @@
 package com.healthturing.healthturing_server.controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.healthturing.healthturing_server.models.DoctorRegistrationRequest;
+import com.healthturing.healthturing_server.models.User;
+import com.healthturing.healthturing_server.models.enums.Role;
+import com.healthturing.healthturing_server.repositories.DoctorRegistrationRequestRepository;
+import com.healthturing.healthturing_server.repositories.UserRepository;
 
-/**
- * RestController con endpoints accesibles solo por el administrador
- * Protege las rutas definidas dentro de /admin, siendo necesario el rol Admin de la cuenta logeada
- */
-@PreAuthorize("hasAnyRole('ADMIN')")
-@RestController
-@RequestMapping("/admin")
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
 public class AdminController {
 
-    @GetMapping("/pruebaAd")
-    public String pruebaAd() {
-        return "Funciona Controller Admin";
+    @Autowired
+    private DoctorRegistrationRequestRepository doctorRequestRepo;
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/doctor-requests")
+    public String showDoctorRequests(Model model) {
+        List<DoctorRegistrationRequest> requests = doctorRequestRepo.findByApprovedFalse();
+        model.addAttribute("requests", requests);
+        return "doctor-requests";
     }
-    
+
+    @PostMapping("/doctor-requests/approve/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String approveDoctorRequest(@PathVariable Long id) {
+        DoctorRegistrationRequest request = doctorRequestRepo.findById(id).orElse(null);
+        if (request != null) {
+
+            User user = new User(request.getEmail(), request.getName(), request.getEncodedPassword());
+            user.setRole(Role.ROLE_DOC);
+            user.setEnabled(true);
+            userRepository.save(user);
+
+            request.setApproved(true);
+            doctorRequestRepo.save(request);
+        }
+        return "redirect:/doctor-requests";
+    }
+
+    @PostMapping("/doctor-requests/reject/{id}")
+    public String rejectDoctorRequest(@PathVariable Long id) {
+        doctorRequestRepo.deleteById(id);
+        return "redirect:/doctor-requests";
+    }
+
 }
