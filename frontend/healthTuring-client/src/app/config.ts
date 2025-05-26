@@ -18,3 +18,6 @@ export const PATIENTS_NAMES_BYUSER_ENDPOINT = (userId: number) => `${API_URL}/pa
 
 /* TREATMENT ENDPOINTS */
 export const TREATMENTS_BY_PATIENT_ENDPOINT = (patientId: number) => `${API_URL}/treatments/${patientId}`;
+
+/* APPOINTMENT ENDPOINTS */
+export const APPOINTMENTS_BY_PATIENT_ENDPOINT = (patientId: number) => `${API_URL}/appointments/${patientId}`;

@@ -1,11 +1,14 @@
 package com.healthturing.healthturing_server.dto;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class AppointmentDTO {
 
     private Long id;
-    private String date;
-    private String startTime;
-    private String endTime;
+    private LocalDate date;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private String reason;
     private Long patientId;
     private String patientName;
@@ -13,7 +16,7 @@ public class AppointmentDTO {
 
     public AppointmentDTO() {}
 
-    public AppointmentDTO(Long id, String date, String startTime, String endTime, String reason, Long patientId, String patientName) {
+    public AppointmentDTO(Long id, LocalDate date, LocalTime startTime, LocalTime endTime, String reason, Long patientId, String patientName) {
         this.id = id;
         this.date = date;
         this.startTime = startTime;
@@ -31,27 +34,27 @@ public class AppointmentDTO {
         this.id = id;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 
