@@ -1,0 +1,31 @@
+:root {
+  /* Colors */
+  --primary-blue: #2DABB9;
+  --light-blue: #81CDD5;
+  --lightness-blue: #C0E6EA;
+  --dark-blue: #299AA7;
+  --off-white: #FAF9F6;
+  --platinium: #E2F3F4;
+
+  /* Font */
+  --font-primary: "Roboto", sans-serif;
+  --font-title: "Merriweather", serif;
+}
+
+.text-primary {
+    color: var(--primary-blue);
+}
+
+.text-light-blue {
+    color: var(--light-blue);
+}
+
+.bg-primary {
+    background-color: var(--primary-blue);
+}
+
+.mytitle-font {
+    font-family: var(--font-title);
+}
+
+  

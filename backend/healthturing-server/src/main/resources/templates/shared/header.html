@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="header">
+        <meta charset="UTF-8">
+        <title>Vista Administrador</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+    </head>
+    <!-- <body>
+    <nav class="bg-black text-white p-2 flex space-x-4" th:fragment="navbar">
+        <a href="#" class="hover:underline">HealthTuring Administrador</a>
+        <a th:href="@{/vista}" class="hover:underline">Vista</a>
+        <a th:href="@{/landing}" class="hover:underline">Landing</a>
+    </nav>
+    </body> -->
+
+    <header class="bg-primary flex justify-between items-center px-6 py-3" th:fragment="navbar">
+
+        <div class="flex items-center gap-2">
+            <a th:href="@{/landing}" class="flex items-center gap-2">
+                <img th:src="@{/images/LogoWhite.png}" alt="HealthTuring Logo" class="h-10 cursor-pointer" />
+                <h2 class="sm:text-xl font-semibold mytitle-font text-white cursor-pointer">
+                    HealthTuring
+                </h2>
+            </a>
+            
+
+            <a th:href="@{/vista}" class="sm:text-xl font-semibold mytitle-font text-white cursor-pointer">Vista</a>
+            <a th:href="@{/landing}" class="sm:text-xl font-semibold mytitle-font text-white cursor-pointer">Landing</a>
+
+            
+        </div>
+
+        <li class="flex items-center  gap-2 m-2 p-2 bg-red-700 hover:bg-red-600 text-white rounded cursor-pointer">
+            <span class="font-medium">Cerrar sesión</span>
+        </li>
+    
+    
+    </header>
+</html>

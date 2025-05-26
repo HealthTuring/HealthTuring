@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Landing</title>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Cambiamos a la ruta correcta de shared -->
+    <div th:replace="shared/header :: header"></div>
+
+
+    <div class="container mx-auto px-4 flex-grow" >
+
+        <div class="text-center text-xl font-semibold mb-4">Esto es landing</div>
+
+
+        <div th:replace="home :: home"></div>
+
+
+    </div>
+
+    <div th:replace="shared/footer :: footer"></div>
+
+</body>
+</html>
