@@ -6,23 +6,23 @@ import com.healthturing.healthturing_server.models.enums.Role;
 import com.healthturing.healthturing_server.repositories.DoctorRegistrationRequestRepository;
 import com.healthturing.healthturing_server.repositories.UserRepository;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
-@RequestMapping("/api/admin")
+@RequestMapping("/admin")
+@PreAuthorize("hasRole('ROLE_ADMIN')") // Aplica seguridad a toda la clase
 public class AdminController {
 
     @Autowired
     private DoctorRegistrationRequestRepository doctorRequestRepo;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -30,30 +30,36 @@ public class AdminController {
     public String showDoctorRequests(Model model) {
         List<DoctorRegistrationRequest> requests = doctorRequestRepo.findByApprovedFalse();
         model.addAttribute("requests", requests);
-        return "doctor-requests";
+        return "doctor-requests"; // Asegúrate que esta vista exista
     }
 
     @PostMapping("/doctor-requests/approve/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String approveDoctorRequest(@PathVariable Long id) {
-        DoctorRegistrationRequest request = doctorRequestRepo.findById(id).orElse(null);
-        if (request != null) {
+        Optional<DoctorRegistrationRequest> optionalRequest = doctorRequestRepo.findById(id);
+        if (optionalRequest.isPresent()) {
+            DoctorRegistrationRequest request = optionalRequest.get();
 
-            User user = new User(request.getEmail(), request.getName(), request.getEncodedPassword());
-            user.setRole(Role.ROLE_DOC);
-            user.setEnabled(true);
-            userRepository.save(user);
+            // Verifica si ya fue aprobado
+            if (!request.isApproved()) {
+                // Evita crear usuarios duplicados
+                if (!userRepository.existsByEmail(request.getEmail())) {
+                    User user = new User(request.getEmail(), request.getName(), request.getEncodedPassword());
+                    user.setRole(Role.ROLE_DOC);
+                    user.setEnabled(true);
+                    userRepository.save(user);
+                }
 
-            request.setApproved(true);
-            doctorRequestRepo.save(request);
+                request.setApproved(true);
+                doctorRequestRepo.save(request);
+            }
         }
-        return "redirect:/doctor-requests";
+
+        return "redirect:/admin/doctor-requests";
     }
 
     @PostMapping("/doctor-requests/reject/{id}")
     public String rejectDoctorRequest(@PathVariable Long id) {
         doctorRequestRepo.deleteById(id);
-        return "redirect:/doctor-requests";
+        return "redirect:/admin/doctor-requests";
     }
-
 }

@@ -18,10 +18,10 @@
                 <td th:text="${req.email}"></td>
                 <td th:text="${req.name}"></td>
                 <td>
-                    <form th:action="@{'/doctor-requests/approve/' + ${req.id}}" method="post" style="display:inline">
+                    <form th:action="@{/admin/doctor-requests/approve/{id}(id=${req.id})}" method="post" style="display:inline">
                         <button type="submit">Aprobar</button>
                     </form>
-                    <form th:action="@{'/doctor-requests/reject/' + ${req.id}}" method="post" style="display:inline">
+                    <form th:action="@{/admin/doctor-requests/reject/{id}(id=${req.id})}" method="post" style="display:inline">
                         <button type="submit">Rechazar</button>
                     </form>
                 </td>
