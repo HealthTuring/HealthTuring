@@ -55,7 +55,7 @@ public class MedicamentSeeder implements CommandLineRunner {
                         "Cápsulas",
                         "Oral",
                         "500 mg",
-                        "https://cima.aemps.es/cima/dochtml/p/56060/Prospecto_56060.html"),
+                        "https://cima.aemps.es/cima/dochtml/p/62586/P_62586.html"),
                 new Medicament(
                         "Loratadina",
                         "Loratadinum",

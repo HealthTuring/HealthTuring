@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { JwtService } from '../../../core/services/jwt.service';
 import { PatientDto } from '../../interfaces/patient-dto.interface';
@@ -18,26 +18,33 @@ export class SelectPatientsComponent {
   patientsByUser: PatientDto[] = [];
   firstPatient: string | null = null;
   showPatients = false;
+
   @Input() isCollapsed: boolean = false;
 
-    ngOnInit(): void {
-    const userId = this.jwtService.getId() ?? 0; // Cambia por el ID real del usuario
+  ngOnInit(): void {
+    const userId = this.jwtService.getId() ?? 0;
     this.patientService.getPatientsByUser(userId).subscribe(patients => {
-      console.log('Pacientes:', patients);
       this.patientsByUser = patients;
       if (patients.length > 0) {
-        this.firstPatient = patients[0].name;
+        this.selectPatient(patients[0]);
       }
     });
   }
 
   togglePacientes() {
-  this.showPatients = !this.showPatients;
-}
+    this.showPatients = !this.showPatients;
+  }
 
-seleccionarPaciente(paciente: string) {
-  this.firstPatient = paciente;
-  this.showPatients = false; // cerrar después de seleccionar
-}
+  seleccionarPaciente(nombre: string) {
+    const selected = this.patientsByUser.find(p => p.name === nombre);
+    if (selected) {
+      this.selectPatient(selected);
+    }
+    this.showPatients = false;
+  }
 
+  private selectPatient(patient: PatientDto) {
+    this.firstPatient = patient.name;
+    this.patientService.setPatientId(patient.id);
+  }
 }

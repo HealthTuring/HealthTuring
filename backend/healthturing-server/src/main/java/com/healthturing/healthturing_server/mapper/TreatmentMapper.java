@@ -19,6 +19,7 @@ public class TreatmentMapper {
             treatment.getDuration(),
             treatment.getStartDate(),
             treatment.getEndDate(),
+            treatment.getMedicament().getProspectUrl(),
             treatment.getMedicament().getIncompatibilities().stream()
                 .map(IncompabilityMapper::toDto)
                 .toList()

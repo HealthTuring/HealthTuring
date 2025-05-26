@@ -15,11 +15,12 @@ public class TreatmentDTO {
     private String duration;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String prospectUrl;
     private List<IncompabilityDTO> incompatibilities;
 
     public TreatmentDTO() {}
 
-    public TreatmentDTO(Long id, String nameMedication, String description, String strength, String dosageForm, String frequency, String drugRoute, String duration, LocalDate startDate, LocalDate endDate, List<IncompabilityDTO> incompatibilities) {
+    public TreatmentDTO(Long id, String nameMedication, String description, String strength, String dosageForm, String frequency, String drugRoute, String duration, LocalDate startDate, LocalDate endDate, String prospectUrl, List<IncompabilityDTO> incompatibilities) {
         this.id = id;
         this.nameMedication = nameMedication;
         this.description = description;
@@ -30,6 +31,7 @@ public class TreatmentDTO {
         this.duration = duration;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.prospectUrl = prospectUrl;
         this.incompatibilities = incompatibilities;
     }
 
@@ -113,6 +115,14 @@ public class TreatmentDTO {
         this.description = description;
     }
 
+    public String getProspectUrl() {
+        return prospectUrl;
+    }
+
+    public void setProspectUrl(String prospectUrl) {
+        this.prospectUrl = prospectUrl;
+    }
+    
     public List<IncompabilityDTO> getIncompatibilities() {
         return incompatibilities;
     }

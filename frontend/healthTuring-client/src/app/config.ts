@@ -13,4 +13,8 @@ export const RESET_PASSWORD_ENDPOINT = (token: string) => `${API_URL}/auth/reset
 export const CONFIRM_EMAIL_ENDPOINT = `${API_URL}/auth/email-confirmation`;
 export const LOGOUT_ENDPOINT = `${API_URL}/auth/logout`;
 
+/* PATIENT ENDPOINTS */
 export const PATIENTS_NAMES_BYUSER_ENDPOINT = (userId: number) => `${API_URL}/patient/user-patients/${userId}`;
+
+/* TREATMENT ENDPOINTS */
+export const TREATMENTS_BY_PATIENT_ENDPOINT = (patientId: number) => `${API_URL}/treatments/${patientId}`;
