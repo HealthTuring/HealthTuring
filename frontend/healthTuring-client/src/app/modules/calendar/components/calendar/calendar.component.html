@@ -1,0 +1,27 @@
+<div class="flex items-center justify-between mb-2 rounded p-2">
+    <div class="text-xl font-semibold text-center">
+        {{ formattedViewDate | titlecase }}
+    </div>
+    <div class="flex justify-center">
+        <button (click)="previousPeriod()"
+            class="flex items-center pe-3 py-1 bg-primary text-white font-medium rounded-l transition duration-150">
+            <span class="material-icons-outlined">chevron_left</span>
+            <span>Anterior</span>
+        </button>
+
+        <button (click)="today()"
+            class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium transition duration-150">
+            Hoy
+        </button>
+
+        <button (click)="nextPeriod()"
+            class="flex items-center ps-3 py-1 bg-primary text-white font-medium rounded-r transition duration-150">
+            <span>Siguiente</span>
+            <span class="material-icons-outlined">chevron_right</span>
+        </button>
+    </div>
+
+</div>
+
+<mwl-calendar-month-view *ngIf="view === CalendarView.Month" [viewDate]="viewDate" [events]="events" [locale]="locale">
+</mwl-calendar-month-view>
