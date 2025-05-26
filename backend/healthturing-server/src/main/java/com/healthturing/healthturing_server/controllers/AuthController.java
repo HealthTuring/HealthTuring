@@ -62,8 +62,12 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequestDTO request) {
         try {
-            authService.register(request.getEmail(), request.getName(), request.getPassword());
-            return ResponseEntity.ok("Usuario registrado correctamente");
+            String message = authService.register(
+                    request.getEmail(),
+                    request.getName(),
+                    request.getPassword(),
+                    request.isDoctor());
+            return ResponseEntity.ok(message);
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (EmailSendingException e) {

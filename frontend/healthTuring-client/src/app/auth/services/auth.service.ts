@@ -41,10 +41,10 @@ export class AuthService {
     );
   }
 
-  register(email: string, name: string, password: string): Observable<boolean> {
-    return this.http.post(REGISTER_ENDPOINT, { email, name, password }, { responseType: 'text' }).pipe(
-      map(() => {
-        this.toast.showSuccess('Revisa tu correo para confirmar tu cuenta antes de iniciar sesión.', 'Registro exitoso');
+  register(email: string, name: string, password: string, isDoctor: boolean): Observable<boolean> {
+    return this.http.post(REGISTER_ENDPOINT, { email, name, password, isDoctor }, { responseType: 'text' }).pipe(
+      map((resp) => {
+        this.toast.showSuccess(resp, 'Registro exitoso');
         return true;
       }),
       catchError((error) => {
