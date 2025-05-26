@@ -1,5 +1,5 @@
 import { Component, effect, inject } from '@angular/core';
-import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { CalendarDateFormatter, CalendarEvent, CalendarView } from 'angular-calendar';
 import { addMonths, format, startOfDay, subMonths } from 'date-fns';
 import { TreatmentService } from '../../../treatment/services/treatment.service';
 import { PatientService } from '../../../../shared/services/patient.service';
@@ -7,12 +7,19 @@ import { TreatmentDto } from '../../../treatment/interfaces/treatment-dto.interf
 import { es } from 'date-fns/locale';
 import { AppointmentService } from '../../../appointments/services/appointment.service';
 import { AppointmentDto } from '../../../appointments/interfaces/appointment-dto.interface';
+import { CustomDateFormatter } from '../../custom-date-formatter.provider';
 
 @Component({
   selector: 'calendar-component',
   standalone: false,
   templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.css'
+  styleUrl: './calendar.component.css',
+  providers: [
+    {
+      provide: CalendarDateFormatter,
+      useClass: CustomDateFormatter,
+    },
+  ]
 })
 export class CalendarComponent {
 
@@ -72,7 +79,6 @@ export class CalendarComponent {
         this.appointments = appointments;
         const appointmentEvents = this.mapAppointmentsToEvents(appointments);
 
-        // 🧠 Combine both event types
         this.events = [...treatmentEvents, ...appointmentEvents];
       });
     });
@@ -84,7 +90,7 @@ export class CalendarComponent {
       start: new Date(treatment.startDate),
       end: treatment.endDate ? new Date(treatment.endDate) : undefined,
       allDay: true,
-      color: { primary: '#1e90ff', secondary: '#D1E8FF' },
+      color: { primary: '#2DABB9', secondary: '#C0E6EA' },
       meta: {
         type: 'treatment',
         description: treatment.description,
@@ -109,7 +115,7 @@ export class CalendarComponent {
         start,
         end,
         allDay: false,
-        color: { primary: '#ad2121', secondary: '#FAE3E3' },
+        color: { primary: '#ff5f0a', secondary: '#ffa779' },
         meta: {
           type: 'appointment',
           patientName: appointment.patientName,

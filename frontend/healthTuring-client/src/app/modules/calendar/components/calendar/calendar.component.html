@@ -1,12 +1,12 @@
 <div class="flex items-center justify-between mb-2 rounded p-2">
-    <div class="text-xl font-semibold text-center">
+    <div class="md:text-xl font-semibold text-center">
         {{ formattedViewDate | titlecase }}
     </div>
     <div class="flex justify-center">
         <button (click)="previousPeriod()"
-            class="flex items-center pe-3 py-1 bg-primary text-white font-medium rounded-l transition duration-150">
+            class="flex items-center pe-1 md:pe-3 py-1 bg-primary text-white font-medium rounded-l transition duration-150">
             <span class="material-icons-outlined">chevron_left</span>
-            <span>Anterior</span>
+            <span class="hidden md:block">Anterior</span>
         </button>
 
         <button (click)="today()"
@@ -15,8 +15,8 @@
         </button>
 
         <button (click)="nextPeriod()"
-            class="flex items-center ps-3 py-1 bg-primary text-white font-medium rounded-r transition duration-150">
-            <span>Siguiente</span>
+            class="flex items-center ps-1 md:ps-3 py-1 bg-primary text-white font-medium rounded-r transition duration-150">
+            <span class="hidden md:block">Siguiente</span>
             <span class="material-icons-outlined">chevron_right</span>
         </button>
     </div>
