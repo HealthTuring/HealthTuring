@@ -14,26 +14,25 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.healthturing.healthturing_server.configs.entrypoint.JwtAuthenticationEntryPoint;
 import com.healthturing.healthturing_server.configs.filters.JwtAuthenticationFilter;
 
-
 /**
  * Clase de configuración de Springboot Security
  * Define los filtros, el AuthenticationManager y el passwordEncoder.
  * Usa JWT para la autenticación con tokens.
  */
 @Configuration
-@EnableMethodSecurity 
+@EnableMethodSecurity
 public class SecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
   /**
    * Constructor de JwtAuthenticationFilter
+   * 
    * @param jwtAuthenticationFilter
    */
   public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
   }
-
 
   /**
    * @param http
@@ -56,6 +55,9 @@ public class SecurityConfig {
                 "/swagger-ui.html",
                 "/swagger-ui/**")
             .permitAll()
+            .requestMatchers("/admin/**").hasRole("ADMIN")
+            .requestMatchers("/api/doctor/**").hasRole("DOC")
+
             .anyRequest().authenticated())
         .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -73,4 +75,3 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder();
   }
 }
-

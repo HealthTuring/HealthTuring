@@ -21,5 +21,7 @@ public interface UserRepository extends CrudRepository<User, Long>{
 
     Optional<User> findById(long id);
     Optional<User> findByVerificationToken(VerificationToken verificationToken);
+
+    boolean existsByEmail(String email);
     
 }
