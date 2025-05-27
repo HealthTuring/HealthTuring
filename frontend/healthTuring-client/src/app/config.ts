@@ -21,3 +21,6 @@ export const TREATMENTS_BY_PATIENT_ENDPOINT = (patientId: number) => `${API_URL}
 
 /* APPOINTMENT ENDPOINTS */
 export const APPOINTMENTS_BY_PATIENT_ENDPOINT = (patientId: number) => `${API_URL}/appointments/${patientId}`;
+
+/* CHAT ENDPOINTS */
+export const CHAT_SOCKET_ENDPOINT = (roomId: string) => `${API_URL}/chat/${roomId}`;
