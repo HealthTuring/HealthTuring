@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.healthturing.healthturing_server.dto.DoctorDTO;
 import com.healthturing.healthturing_server.dto.PatientDTO;
 import com.healthturing.healthturing_server.services.PatientService;
 
@@ -32,5 +33,12 @@ public class PatientController {
     public ResponseEntity<List<PatientDTO>> getPatientsByDoctorId(@PathVariable Long doctorId) {
         List<PatientDTO> patientDtos = patientService.getPatientsByDoctorId(doctorId);
         return ResponseEntity.ok(patientDtos);
+    }
+
+    @GetMapping("/api/patient/doctor/{patientId}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<DoctorDTO> getDoctorByPatientId(@PathVariable Long patientId) {
+        DoctorDTO doctor = patientService.getDoctorByPatientId(patientId);
+        return ResponseEntity.ok(doctor);
     }
 }

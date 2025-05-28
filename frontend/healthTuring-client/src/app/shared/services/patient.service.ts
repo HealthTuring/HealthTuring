@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { PATIENTS_NAMES_BYDOCTOR_ENDPOINT, PATIENTS_NAMES_BYUSER_ENDPOINT } from '../../config';
+import { DOCTOR_BY_PATIENT, PATIENTS_NAMES_BYDOCTOR_ENDPOINT, PATIENTS_NAMES_BYUSER_ENDPOINT } from '../../config';
 import { Observable } from 'rxjs';
 import { PatientDto } from '../interfaces/patient-dto.interface';
+import { DoctorDto } from '../interfaces/doctor-dto.interface';
 
 @Injectable({ providedIn: 'root' })
 export class PatientService {
@@ -24,6 +25,10 @@ export class PatientService {
 
     getPatientId() {
         return this.selectedPatientId.asReadonly();
+    }
+
+    getDoctorByPatientId(patientId: number): Observable<DoctorDto> {
+      return this.http.get<DoctorDto>(DOCTOR_BY_PATIENT(patientId));
     }
 
 }
