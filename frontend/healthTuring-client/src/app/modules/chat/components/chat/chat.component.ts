@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Signal, effect } from '@angular/core';
+import { Component, inject, OnInit, Signal, effect, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { ChatMessage } from '../../models/chat-message';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,9 @@ import { SelectPatientComponent } from '../select-patient/select-patient.compone
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
+
+  @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
 
   private chatService = inject(ChatService);
   private jwtService = inject(JwtService);
@@ -29,11 +31,17 @@ export class ChatComponent implements OnInit {
   patientIdSignal: Signal<number | null> = this.patientService.getPatientId();
 
   constructor() {
-    // Esto se ejecuta automáticamente cuando cambia el patientId
+
     effect(() => {
       const patientId = this.patientIdSignal();
       if (patientId != null) {
-        const newRoomId = `room${patientId}3`;
+        let newRoomId: string;
+
+        if (this.jwtService.getRole() === 'ROLE_DOC') {
+          newRoomId = `room${patientId}${this.jwtService.getId()}`
+        } else {
+          newRoomId = `room${patientId}3`;
+        }
 
         if (this.currentRoom && this.currentRoom !== newRoomId) {
           this.chatService.leaveRoom();
@@ -55,6 +63,10 @@ export class ChatComponent implements OnInit {
     this.lisenerMessage();
   }
 
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
   sendMessage() {
     const chatMessage: ChatMessage = {
       message: this.messageInput,
@@ -73,4 +85,11 @@ export class ChatComponent implements OnInit {
       }));
     });
   }
+
+  private scrollToBottom(): void {
+    try {
+      this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+    } catch (err) { }
+  }
+
 }
