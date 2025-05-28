@@ -10,7 +10,7 @@
   background-color: var(--lightness-blue);
 }
 
-
-.bg-off-white {
-  background-color: var(--off-white);
+.active {
+  background-color: var(--lightness-blue);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }

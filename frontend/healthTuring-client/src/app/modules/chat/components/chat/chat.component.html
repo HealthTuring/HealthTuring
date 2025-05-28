@@ -1,15 +1,19 @@
-<div class="flex flex-col h-full max-h-screen bg-gray-50 rounded-lg shadow-lg border border-gray-200">
+<div class="flex items-center mb-6 ps-2 py-2 gap-1 text-2xl rounded border-primary  text-gray-800">
+  <span class="text-gray-800 font-semibold ">Cita Online</span>
+  <span class="material-icons-outlined">support_agent</span>
+</div>
+
+<div class="flex flex-col h-[70vh] max-h-screen bg-gray-50 rounded shadow-lg border border-gray-200">
   <!-- Header -->
   <div class="flex items-center px-4 py-3 bg-white border-b border-gray-200 rounded-t-lg">
-    <div class="h-9 w-9 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold">
-      <span>CT</span>
-    </div>
+    <span class="material-icons-outlined">person</span>
     <div class="ml-3 flex flex-col">
-      <span class="font-semibold text-base text-gray-800">Chat Room</span>
+      @if (isDoctor) {
+        <doctor-select-patient/>
+      }
       <span class="text-xs text-gray-500">Conectado</span>
     </div>
   </div>
-
   <!-- Messages -->
   <div class="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-gray-50">
 
@@ -31,11 +35,11 @@
     <input
       type="text"
       placeholder="Escribe un mensaje..."
-      class="flex-1 px-3 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700"
+      class="flex-1 px-3 py-2 rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700"
       [(ngModel)]="messageInput"
     />
     <button
-      class="ml-3 px-4 py-2 bg-blue-500 text-white rounded-full font-semibold shadow transition hover:bg-blue-600 focus:outline-none"
+      class="ml-3 px-4 py-2 bg-primary text-white rounded font-semibold shadow transition focus:outline-none"
       (click)="sendMessage()"
     >
       Enviar

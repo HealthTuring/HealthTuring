@@ -1,4 +1,3 @@
-// src/app/calendar-wrapper.module.ts
 import { NgModule } from '@angular/core';
 import localeEs from '@angular/common/locales/es';
 import { CommonModule, registerLocaleData } from '@angular/common';

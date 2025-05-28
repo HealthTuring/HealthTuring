@@ -4,7 +4,6 @@ export const BASE_URL = environments.baseUrl;
 export const API_URL = `${BASE_URL}api`;
 
 /* AUTH ENDPOINTS */
-
 export const LOGIN_ENDPOINT = `${API_URL}/auth/login`;
 export const REGISTER_ENDPOINT = `${API_URL}/auth/register`;
 export const CHECK_STATUS_ENDPOINT = `${API_URL}/auth/check-status`;
@@ -15,6 +14,7 @@ export const LOGOUT_ENDPOINT = `${API_URL}/auth/logout`;
 
 /* PATIENT ENDPOINTS */
 export const PATIENTS_NAMES_BYUSER_ENDPOINT = (userId: number) => `${API_URL}/patient/user-patients/${userId}`;
+export const PATIENTS_NAMES_BYDOCTOR_ENDPOINT = (doctorId: number) => `${API_URL}/doctor/user-patients-doctor/${doctorId}`;
 
 /* TREATMENT ENDPOINTS */
 export const TREATMENTS_BY_PATIENT_ENDPOINT = (patientId: number) => `${API_URL}/treatments/${patientId}`;

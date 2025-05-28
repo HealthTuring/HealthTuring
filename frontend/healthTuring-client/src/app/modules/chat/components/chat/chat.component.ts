@@ -1,41 +1,68 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Signal, effect } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { ChatMessage } from '../../models/chat-message';
-import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { JwtService } from '../../../../core/services/jwt.service';
+import { PatientService } from '../../../../shared/services/patient.service';
+import { SelectPatientComponent } from '../select-patient/select-patient.component';
 
 @Component({
   selector: 'app-chat',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, SelectPatientComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
 export class ChatComponent implements OnInit {
 
   private chatService = inject(ChatService);
-  private route = inject(ActivatedRoute);
+  private jwtService = inject(JwtService);
+  private patientService = inject(PatientService);
 
   messageInput: string = '';
   userId: string = '';
   messageList: any[] = [];
+  roomId: string = '';
+  currentRoom: string | null = null;
+  isDoctor = false;
+
+  patientIdSignal: Signal<number | null> = this.patientService.getPatientId();
+
+  constructor() {
+    // Esto se ejecuta automáticamente cuando cambia el patientId
+    effect(() => {
+      const patientId = this.patientIdSignal();
+      if (patientId != null) {
+        const newRoomId = `room${patientId}3`;
+
+        if (this.currentRoom && this.currentRoom !== newRoomId) {
+          this.chatService.leaveRoom();
+        }
+
+        this.roomId = newRoomId;
+        this.currentRoom = newRoomId;
+        this.chatService.joinRoom(this.roomId);
+      }
+    });
+
+  }
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.params['userId'];
-    this.chatService.joinRoom('ABC');
+    if (this.jwtService.getRole() === 'ROLE_DOC') {
+      this.isDoctor = true;
+    }
+    this.userId = this.jwtService.getId()?.toString() ?? '';
     this.lisenerMessage();
   }
 
   sendMessage() {
-
-    const chatMessage = {
+    const chatMessage: ChatMessage = {
       message: this.messageInput,
       user: this.userId,
-    } as ChatMessage
+    };
 
-    this.chatService.sendMessage('ABC', chatMessage);
+    this.chatService.sendMessage(this.roomId, chatMessage);
     this.messageInput = '';
-
   }
 
   lisenerMessage() {
@@ -44,7 +71,6 @@ export class ChatComponent implements OnInit {
         ...item,
         message_side: item.user === this.userId ? 'sender' : 'receiver',
       }));
-    })
+    });
   }
-
 }

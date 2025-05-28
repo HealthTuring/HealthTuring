@@ -22,5 +22,10 @@ public class PatientService {
         List<Patient> patients = patientRepository.findByUserId(userId);
         return PatientMapper.toDtoList(patients);
     }
+
+    public List<PatientDTO> getPatientsByDoctorId(Long userId) {
+        List<Patient> patients = patientRepository.findByDoctorId(userId);
+        return PatientMapper.toDtoList(patients);
+    }
     
 }

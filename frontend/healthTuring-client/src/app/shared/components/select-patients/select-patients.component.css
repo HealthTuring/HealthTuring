@@ -1,3 +1,7 @@
 .bg-lightness-blue:hover {
   background-color: var(--lightness-blue);
 }
+
+.border-primary {
+  border-color: var(--primary-blue);
+}

@@ -18,7 +18,7 @@ export const modulesRoutes: Routes = [
         component: CalendarPageComponent
       },
       {
-        path: 'chat/:userId',
+        path: 'chat',
         component: ChatComponent
       }
     ]

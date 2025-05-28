@@ -14,5 +14,6 @@ public interface PatientRepository extends CrudRepository<Patient, Long> {
     List<Patient> findAll();
 
     List<Patient> findByUserId(Long userId);
+    List<Patient> findByDoctorId(Long doctorId);
     
 }
