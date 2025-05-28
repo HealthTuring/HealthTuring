@@ -38,6 +38,10 @@ public class Patient {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "doctor_id")
+    private User doctor;
+
     @ManyToMany
     @JoinTable(
         name = "patient_allergies",
@@ -54,9 +58,10 @@ public class Patient {
 
     public Patient() {}
 
-    public Patient(String name, User user) {
+    public Patient(String name, User user, User doctor) {
         this.name = name;
         this.user = user;
+        this.doctor = doctor;
     }
 
     public Long getId() {
@@ -97,6 +102,14 @@ public class Patient {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public User getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
     }
 
     public List<Medicament> getAllergicIngredients() {

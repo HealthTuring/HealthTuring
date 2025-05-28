@@ -26,10 +26,11 @@ public class PatientSeeder implements CommandLineRunner {
     public void run(String... args) {
         if (patientRepository.count() == 0) {
             User user = userRepository.findById(2L).orElse(null);
+            User doctor = userRepository.findById(3L).orElse(null);
 
             if (user != null) {
-                Patient patient1 = new Patient("David Larrubia", user);
-                Patient patient2 = new Patient("Cristiano Ronaldo", user);
+                Patient patient1 = new Patient("David Larrubia", user, doctor);
+                Patient patient2 = new Patient("Cristiano Ronaldo", user, doctor);
 
                 patientRepository.saveAll(List.of(patient1, patient2));
 
