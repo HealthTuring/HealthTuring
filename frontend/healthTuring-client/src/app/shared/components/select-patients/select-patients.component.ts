@@ -42,6 +42,7 @@ export class SelectPatientsComponent {
 
   private selectPatient(patient: PatientDto) {
     this.selectedPatient = patient;
+    this.patientService.setPatient(patient);
     this.patientService.setPatientId(patient.id);
   }
 

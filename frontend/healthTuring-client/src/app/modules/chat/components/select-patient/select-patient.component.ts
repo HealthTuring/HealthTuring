@@ -36,7 +36,7 @@ export class SelectPatientComponent {
 
   private selectPatient(patient: PatientDto) {
     this.selectedPatient = patient;
-    this.patientService.setPatientId(patient.id);
+    this.patientService.setPatient(patient);
     this.dropdownOpen = false;
   }
 

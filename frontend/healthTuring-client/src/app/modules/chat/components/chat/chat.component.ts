@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { JwtService } from '../../../../core/services/jwt.service';
 import { PatientService } from '../../../../shared/services/patient.service';
 import { SelectPatientComponent } from '../select-patient/select-patient.component';
+import { PatientDto } from '../../../../shared/interfaces/patient-dto.interface';
 
 @Component({
   selector: 'app-chat',
@@ -28,19 +29,26 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   currentRoom: string | null = null;
   isDoctor = false;
 
-  patientIdSignal: Signal<number | null> = this.patientService.getPatientId();
+  patientSignal: Signal<PatientDto | null> = this.patientService.getPatient();
+  doctorName: string = 'Doctor';
 
   constructor() {
 
     effect(() => {
-      const patientId = this.patientIdSignal();
-      if (patientId != null) {
+      const patient = this.patientSignal();
+
+      console.log(patient)
+
+      if (patient != null) {
+        this.doctorName = patient.doctorName;
+        const patientId = patient.id;
+        const doctorId = patient.doctorId;
         let newRoomId: string;
 
         if (this.jwtService.getRole() === 'ROLE_DOC') {
-          newRoomId = `room${patientId}${this.jwtService.getId()}`
+          newRoomId = `room${patientId}${doctorId}`;
         } else {
-          newRoomId = `room${patientId}3`;
+          newRoomId = `room${patientId}${doctorId}`;
         }
 
         if (this.currentRoom && this.currentRoom !== newRoomId) {

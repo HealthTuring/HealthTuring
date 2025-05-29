@@ -9,7 +9,11 @@
     <span class="material-icons-outlined">person</span>
     <div class="ml-3 flex flex-col">
       @if (isDoctor) {
-        <doctor-select-patient/>
+      <doctor-select-patient />
+      } @else {
+      <span class="font-semibold text-base text-gray-800 flex items-center gap-2 focus:outline-none">
+        {{ doctorName }}
+      </span>
       }
       <span class="text-xs text-gray-500">Conectado</span>
     </div>
@@ -17,25 +21,19 @@
   <!-- Messages -->
   <div #messagesContainer class="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-gray-50">
 
-    <div *ngFor="let item of messageList"
-      [ngClass]="{
+    <div *ngFor="let item of messageList" [ngClass]="{
       'justify-start': item.message_side === 'receiver',
       'justify-end': item.message_side === 'sender'
-      }"
-      class="flex"
-    >
+      }" class="flex">
       <div class="flex max-w-xs">
         <div>
-          <div
-            [ngClass]="{
+          <div [ngClass]="{
             'bg-gray-200 text-gray-800 rounded-bl-none': item.message_side === 'receiver',
             'bg-primary text-white rounded-br-none': item.message_side === 'sender',
-            }"
-            class="rounded-2xl px-3 py-2 shadow-sm mb-1"
-          >
+            }" class="rounded-2xl px-3 py-2 shadow-sm mb-1">
             {{ item.message }}
           </div>
-          <div class="text-xs text-right text-gray-400 px-2">Tú · 09:16</div>
+          <div class="text-xs text-right text-gray-400 px-2">Tú · </div>
         </div>
       </div>
     </div>
@@ -43,17 +41,11 @@
 
   <!-- Input -->
   <div class="flex items-center px-4 py-3 bg-white border-t border-gray-200 rounded-b-lg">
-    <input
-      type="text"
-      placeholder="Escribe un mensaje..."
+    <input type="text" placeholder="Escribe un mensaje..."
       class="flex-1 px-3 py-2 rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800"
-      [(ngModel)]="messageInput"
-      (keydown.enter)="sendMessage()"
-    />
-    <button
-      class="ml-3 px-4 py-2 bg-primary text-white rounded font-semibold shadow transition focus:outline-none"
-      (click)="sendMessage()"
-    >
+      [(ngModel)]="messageInput" (keydown.enter)="sendMessage()" />
+    <button class="ml-3 px-4 py-2 bg-primary text-white rounded font-semibold shadow transition focus:outline-none"
+      (click)="sendMessage()">
       Enviar
     </button>
   </div>

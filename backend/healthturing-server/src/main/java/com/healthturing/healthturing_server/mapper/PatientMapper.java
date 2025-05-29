@@ -8,7 +8,7 @@ import com.healthturing.healthturing_server.models.Patient;
 public class PatientMapper {
     
     public static PatientDTO toDto(Patient patient) {
-        return new PatientDTO(patient.getId(), patient.getName());
+        return new PatientDTO(patient.getId(), patient.getName(), patient.getDoctor().getId(), patient.getDoctor().getName());
     }
 
     public static List<PatientDTO> toDtoList(List<Patient> patients) {

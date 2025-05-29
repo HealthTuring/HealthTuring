@@ -5,6 +5,7 @@ import { ChatMessage } from '../models/chat-message';
 import { BehaviorSubject, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CHAT_SOCKET_ENDPOINT } from '../../../config';
+import { environments } from '../../../../environments/environments';
 
 @Injectable({ providedIn: 'root' })
 export class ChatService {
@@ -23,7 +24,7 @@ export class ChatService {
   }
 
   initConnenctionSocket() {
-    const url = '//localhost:8080/chat-socket';
+    const url = `${environments.baseUrl}chat-socket`;
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket);
   }
