@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { SelectPatientsComponent } from '../select-patients/select-patients.component';
+import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { JwtService } from '../../../core/services/jwt.service';
+import { SelectPatientsComponent } from '../select-patients/select-patients.component';
 
 @Component({
   selector: 'shared-sidebar',
@@ -10,23 +9,12 @@ import { JwtService } from '../../../core/services/jwt.service';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
-export class SidebarComponent implements OnInit {
-
-  private jwtService = inject(JwtService);
+export class SidebarComponent {
 
   isCollapsed = true;
-  isDoctor = false;
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
   }
-
-  ngOnInit(): void {
-      if (this.jwtService.getRole() === 'ROLE_DOC') {
-        this.isDoctor = true;
-      }
-  }
-
-
 
 }

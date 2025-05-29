@@ -1,0 +1,16 @@
+.text-primary {
+  color: var(--primary-blue);
+}
+
+.text-light-blue {
+  color: var(--light-blue);
+}
+
+.bg-lightness-blue:hover {
+  background-color: var(--lightness-blue);
+}
+
+.active {
+  background-color: var(--lightness-blue);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
