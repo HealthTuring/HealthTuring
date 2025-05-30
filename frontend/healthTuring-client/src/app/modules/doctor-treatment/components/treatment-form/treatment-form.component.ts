@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-treatment-form',
+  selector: 'doctor-treatment-form',
   imports: [],
   templateUrl: './treatment-form.component.html',
   styleUrl: './treatment-form.component.css'

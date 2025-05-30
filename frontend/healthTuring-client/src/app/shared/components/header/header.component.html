@@ -1,9 +1,12 @@
-<header class="bg-primary flex justify-between items-center px-6 py-3">
+<header class="bg-primary flex justify-between items-center px-5 py-3">
 
-    <div class="flex items-center gap-2">
-        <img src="assets/img/LogoWhite.png" alt="HealthTuring Logo" class="h-10 cursor-pointer" />
-        <h2 class="sm:text-xl font-semibold mytitle-font text-white">
-             HealthTuring
+    <div class="flex items-center gap-2 text-white">
+        <div class="md:hidden" (click)="toggleSidebar.emit()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 0 24 24" width="40px" fill="#e3e3e3"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </div>
+        <img src="assets/img/LogoWhite.png" alt="HealthTuring Logo" class="hidden md:block h-10 cursor-pointer" />
+        <h2 class="sm:text-xl font-semibold mytitle-font">
+            HealthTuring
         </h2>
     </div>
 
