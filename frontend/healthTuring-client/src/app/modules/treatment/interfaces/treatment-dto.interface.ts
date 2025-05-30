@@ -1,6 +1,7 @@
 export interface TreatmentDto {
     id:                number;
     nameMedication:    string;
+    reason:            string;
     description:       string;
     strength:          string;
     dosageForm:        string;
@@ -8,7 +9,7 @@ export interface TreatmentDto {
     drugRoute:         string;
     duration:          string;
     startDate:         Date;
-    endDate?:          Date;
+    endDate:           Date;
     prospectUrl:       string;
     incompatibilities: Incompatibility[];
 }

@@ -46,7 +46,7 @@ public class TreatmentService {
 
         String duration;
         if (dto.getEndDate() == null) {
-            duration = "Indefinido"; // O el texto que prefieras
+            duration = "Indefinido";
         } else {
             duration = getDuration(dto.getStartDate(), dto.getEndDate());
         }

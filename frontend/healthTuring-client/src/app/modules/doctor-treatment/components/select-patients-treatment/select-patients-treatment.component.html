@@ -1,0 +1,31 @@
+<div class="w-full max-w-xs mx-auto">
+  <label class="block mb-1 text-sm text-gray-700">Paciente</label>
+  <div class="relative">
+    <button
+      (click)="toggleDropdown()"
+      type="button"
+      class="w-full px-3 py-2 border rounded bg-white text-left flex justify-between items-center"
+    >
+      <span>{{ selectedPatient?.name || 'Selecciona un paciente' }}</span>
+      <svg [ngClass]="{'rotate-180': dropdownOpen}" class="w-4 h-4 ml-2 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+    <ul
+      *ngIf="dropdownOpen"
+      class="absolute left-0 right-0 bg-white border rounded mt-1 shadow text-sm z-10 animate-fade-in"
+    >
+      <li
+        *ngFor="let patient of patientsByUser"
+        (click)="seleccionarPaciente(patient)"
+        class="px-3 py-2 cursor-pointer hover:bg-gray-100"
+        [class.bg-gray-200]="selectedPatient?.id === patient.id"
+      >
+        {{ patient.name }}
+      </li>
+      <li *ngIf="patientsByUser.length === 0" class="px-3 py-2 text-gray-400">
+        No hay pacientes
+      </li>
+    </ul>
+  </div>
+</div>

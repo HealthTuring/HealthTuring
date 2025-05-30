@@ -11,7 +11,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 })
 export class TreatmentCardComponent {
 
-    private datePipe = inject(DatePipe);
+  private datePipe = inject(DatePipe);
 
   @Input() treatment!: TreatmentDto;
   moreDetails: boolean = false;
@@ -19,7 +19,6 @@ export class TreatmentCardComponent {
   toggleDetails(id: number) {
     this.moreDetails = !this.moreDetails;
   }
-
 
   formatDate(dateStr: Date | null): string {
     if (!dateStr) return 'Indefinido';

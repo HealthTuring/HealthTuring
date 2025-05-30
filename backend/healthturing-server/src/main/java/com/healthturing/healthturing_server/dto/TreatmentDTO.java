@@ -7,6 +7,7 @@ public class TreatmentDTO {
 
     private Long id;
     private String nameMedication;
+    private String reason;
     private String description;
     private String strength;
     private String dosageForm;
@@ -20,9 +21,10 @@ public class TreatmentDTO {
 
     public TreatmentDTO() {}
 
-    public TreatmentDTO(Long id, String nameMedication, String description, String strength, String dosageForm, String frequency, String drugRoute, String duration, LocalDate startDate, LocalDate endDate, String prospectUrl, List<IncompabilityDTO> incompatibilities) {
+    public TreatmentDTO(Long id, String nameMedication, String reason, String description, String strength, String dosageForm, String frequency, String drugRoute, String duration, LocalDate startDate, LocalDate endDate, String prospectUrl, List<IncompabilityDTO> incompatibilities) {
         this.id = id;
         this.nameMedication = nameMedication;
+        this.reason = reason;
         this.description = description;
         this.strength = strength;
         this.dosageForm = dosageForm;
@@ -49,6 +51,14 @@ public class TreatmentDTO {
 
     public void setNameMedication(String nameMedication) {
         this.nameMedication = nameMedication;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public String getStrength() {

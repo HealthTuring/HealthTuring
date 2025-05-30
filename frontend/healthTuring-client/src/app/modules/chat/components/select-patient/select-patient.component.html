@@ -1,18 +1,16 @@
-<!-- Dropdown Selector -->
 <div class="relative">
     <button type="button" class="font-semibold text-base text-gray-800 flex items-center gap-2 focus:outline-none"
         (click)="toggleDropdown()">
         {{ selectedPatient?.name || 'Selecciona un paciente' }}
         <span class="material-icons-outlined text-sm">expand_more</span>
     </button>
-    <!-- Dropdown Menu -->
-    @if (dropdownOpen) {
 
+    @if (dropdownOpen) {
     <div class="absolute z-10 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
         <ul>
             <li *ngFor="let patient of patientsByDoctor" (click)="seleccionarPaciente(patient)"
                 class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                [ngClass]="{'font-bold text-blue-600': patient.id === selectedPatient?.id}">
+                [ngClass]="{'font-bold text-primary': patient.id === selectedPatient?.id}">
                 {{ patient.name }}
             </li>
         </ul>
