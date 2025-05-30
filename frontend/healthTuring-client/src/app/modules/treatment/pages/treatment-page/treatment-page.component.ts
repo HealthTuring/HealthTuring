@@ -3,9 +3,10 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { TreatmentService } from '../../services/treatment.service';
 import { TreatmentDto } from '../../interfaces/treatment-dto.interface';
 import { PatientService } from '../../../../shared/services/patient.service';
+import { TreatmentCardComponent } from '../../component/treatment-card/treatment-card.component';
 
 @Component({
-  imports: [CommonModule],
+  imports: [CommonModule, TreatmentCardComponent],
   templateUrl: './treatment-page.component.html',
   styleUrl: './treatment-page.component.css',
   providers: [DatePipe]

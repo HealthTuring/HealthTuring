@@ -1,1 +1,35 @@
-<p>treatment-card works!</p>
+<div class="flex flex-col shadow bg-white text-gray-800 rounded border border-gray-200
+                transition-transform duration-300 hover:scale-102 w-full h-full
+                max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xs min-w-2xs min-h-50 p-6">
+    <h3 class="text-lg font-bold mb-3">{{ treatment.nameMedication }}</h3>
+    <div class="font-medium mb-2">
+        <p>{{ treatment.nameMedication }} {{ treatment.strength }} {{ treatment.dosageForm }}. {{ treatment.frequency
+            }}. <span class="font-medium">{{
+                treatment.drugRoute }}</span></p>
+    </div>
+    <div class="flex items-center justify-between mb-4 mt-auto text-sm">
+        <a *ngIf="treatment.prospectUrl; else noProspect" [href]="treatment.prospectUrl" target="_blank"
+            rel="noopener noreferrer" class="text-primary underline font-medium cursor-pointer">
+            Ver Prospecto
+        </a>
+        <ng-template #noProspect>
+            <span class="text-gray-400 italic">Sin prospecto</span>
+        </ng-template>
+
+        <button class="flex items-center gap-1 text-gray-600 font-medium select-none focus:outline-none cursor-pointer"
+            (click)="toggleDetails(treatment.id)">
+            <span>VER DETALLES</span>
+            <span class="material-icons-outlined text-primary rounded-full border-2 transition-transform duration-300"
+                [ngClass]="{ 'rotate-180': moreDetails }">
+                expand_more
+            </span>
+        </button>
+    </div>
+    <div *ngIf="moreDetails" class="bg-lightness-blue rounded p-3 mt-2 text-sm space-y-1">
+        <p><span class="font-semibold">Duración:</span> {{ treatment.duration }}</p>
+        <p><span class="font-semibold">Inicio:</span> {{ formatDate(treatment.startDate) }}</p>
+        <p><span class="font-semibold">Fin:</span> {{ formatDate(treatment.endDate!) || 'Indefinido' }}</p>
+        <p><span class="font-semibold">Incompatibilidades:</span> {{
+            formatIncompatibilities(treatment.incompatibilities) }}</p>
+    </div>
+</div>
