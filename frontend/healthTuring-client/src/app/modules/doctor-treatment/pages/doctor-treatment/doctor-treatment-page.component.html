@@ -2,8 +2,13 @@
   <span class="text-gray-800 font-semibold ">Gestión Tratamientos</span>
   <span class="material-icons-outlined">medication_liquid</span>
 </div>
-<select-patients-treatment></select-patients-treatment>
-<div class="flex flex-wrap justify-center gap-6 items-start">
-<treatment-table/>
+<div class="flex justify-between items-end mb-3">
+  <select-patients-treatment></select-patients-treatment>
+  <button class="px-3 py-1 rounded border border-green-600 text-green-600 bg-white hover:bg-green-600 hover:text-white transition-colors duration-200 shadow">Añadir</button>
 </div>
-<doctor-treatment-form/>
+<div class="">
+  <treatment-table/>
+</div>
+<div class="hidden">
+  <doctor-treatment-form/>
+</div>
