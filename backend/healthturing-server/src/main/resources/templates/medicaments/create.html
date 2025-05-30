@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Create Medicament</title></head>
+<body>
+<h1>Create Medicament</h1>
+<form th:action="@{/medicaments}" th:object="${medicament}" method="post">
+    <label>Common Name: <input type="text" th:field="*{commonName}" /></label><br/>
+    <label>Scientific Name: <input type="text" th:field="*{scientificName}" /></label><br/>
+    <label>Dosage Form: <input type="text" th:field="*{dosageForm}" /></label><br/>
+    <label>Drug Route: <input type="text" th:field="*{drugRoute}" /></label><br/>
+    <label>Strength: <input type="text" th:field="*{strength}" /></label><br/>
+    <label>Prospect URL: <input type="text" th:field="*{prospectUrl}" /></label><br/>
+    <button type="submit">Save</button>
+</form>
+<a href="/medicaments">Back</a>
+</body>
+</html>

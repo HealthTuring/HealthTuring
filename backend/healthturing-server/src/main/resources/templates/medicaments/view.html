@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>View Medicament</title></head>
+<body>
+<h1>Medicament Details</h1>
+<p>ID: <span th:text="${medicament.id}"></span></p>
+<p>Common Name: <span th:text="${medicament.commonName}"></span></p>
+<p>Scientific Name: <span th:text="${medicament.scientificName}"></span></p>
+<p>Dosage Form: <span th:text="${medicament.dosageForm}"></span></p>
+<p>Drug Route: <span th:text="${medicament.drugRoute}"></span></p>
+<p>Strength: <span th:text="${medicament.strength}"></span></p>
+<p>Prospect URL: <span th:text="${medicament.prospectUrl}"></span></p>
+<a href="/medicaments">Back</a>
+</body>
+</html>
