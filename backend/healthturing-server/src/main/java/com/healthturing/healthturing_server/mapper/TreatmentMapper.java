@@ -11,8 +11,7 @@ public class TreatmentMapper {
         return new TreatmentDTO(
             treatment.getId(), 
             treatment.getMedicament().getCommonName(), 
-            treatment.getName(),
-            treatment.getDescription(),
+            treatment.getReason(),
             treatment.getMedicament().getStrength(),
             treatment.getMedicament().getDosageForm(),
             treatment.getDosesPerPeriod(),

@@ -8,7 +8,6 @@ public class TreatmentDTO {
     private Long id;
     private String nameMedication;
     private String reason;
-    private String description;
     private String strength;
     private String dosageForm;
     private String frequency;
@@ -21,11 +20,10 @@ public class TreatmentDTO {
 
     public TreatmentDTO() {}
 
-    public TreatmentDTO(Long id, String nameMedication, String reason, String description, String strength, String dosageForm, String frequency, String drugRoute, String duration, LocalDate startDate, LocalDate endDate, String prospectUrl, List<IncompabilityDTO> incompatibilities) {
+    public TreatmentDTO(Long id, String nameMedication, String reason, String strength, String dosageForm, String frequency, String drugRoute, String duration, LocalDate startDate, LocalDate endDate, String prospectUrl, List<IncompabilityDTO> incompatibilities) {
         this.id = id;
         this.nameMedication = nameMedication;
         this.reason = reason;
-        this.description = description;
         this.strength = strength;
         this.dosageForm = dosageForm;
         this.frequency = frequency;
@@ -115,14 +113,6 @@ public class TreatmentDTO {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getProspectUrl() {

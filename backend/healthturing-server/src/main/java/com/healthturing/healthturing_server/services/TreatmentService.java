@@ -52,8 +52,7 @@ public class TreatmentService {
         }
 
         Treatment treatment = new Treatment(
-                dto.getName(),
-                dto.getDescription(),
+                dto.getReason(),
                 dto.getStartDate(),
                 dto.getEndDate(),
                 duration,
@@ -78,9 +77,6 @@ public Treatment updateTreatment(Long treatmentId, TreatmentUpdateDTO dto) {
     if (dto.getName() != null && dto.getName().trim().isEmpty()) {
         throw new IllegalArgumentException("El nombre no puede estar vacío");
     }
-    if (dto.getDescription() != null && dto.getDescription().trim().isEmpty()) {
-        throw new IllegalArgumentException("La descripción no puede estar vacía");
-    }
     if (dto.getStartDate() != null && dto.getStartDate().toString().trim().isEmpty()) {
         throw new IllegalArgumentException("La fecha de inicio no puede estar vacía");
     }
@@ -88,8 +84,7 @@ public Treatment updateTreatment(Long treatmentId, TreatmentUpdateDTO dto) {
         throw new IllegalArgumentException("Las dosis por periodo no pueden estar vacías");
     }
 
-    treatment.setName(dto.getName());
-    treatment.setDescription(dto.getDescription());
+    treatment.setReason(dto.getName());
     treatment.setStartDate(dto.getStartDate());
     treatment.setEndDate(dto.getEndDate());
     treatment.setDosesPerPeriod(dto.getDosesPerPeriod());
