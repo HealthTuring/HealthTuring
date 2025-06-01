@@ -10,6 +10,13 @@ import { TreatmentTableComponent } from '../../components/treatment-table/treatm
 })
 export class DoctorTreatmentPageComponent {
 
+  showTreatmentModal = false;
 
+  openTreatmentModal() {
+    this.showTreatmentModal = true;
+  }
+  closeTreatmentModal() {
+    this.showTreatmentModal = false;
+  }
 
 }

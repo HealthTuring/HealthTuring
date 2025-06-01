@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'doctor-treatment-form',
@@ -7,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrl: './treatment-form.component.css'
 })
 export class TreatmentFormComponent {
+
+    @Output() close = new EventEmitter<void>();
+
+  closeModal() {
+    this.close.emit();
+  }
+
+  onSubmit(event: Event) {
+    event.preventDefault();
+    // Lógica de guardado
+    this.close.emit();
+  }
 
 }

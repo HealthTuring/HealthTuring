@@ -2,8 +2,7 @@
     <label class="block mb-1 text-sm font-medium text-gray-800">Seleccionar Paciente</label>
     <div class="relative">
         <button (click)="toggleDropdown()" type="button"
-            class="min-w-50 w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 text-left flex justify-between items-center shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            [ngClass]="{'ring-2 ring-blue-400': dropdownOpen}">
+            class="min-w-50 w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 text-left flex justify-between items-center shadow">
             <span class="truncate ">
                 {{ selectedPatient?.name || 'Selecciona un paciente' }}
             </span>
@@ -15,7 +14,7 @@
         <ul *ngIf="dropdownOpen"
             class="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded shadow-lg z-20 animate-fade-in max-h-60 overflow-auto transition-opacity">
             <li *ngFor="let patient of patientsByUser" (click)="seleccionarPaciente(patient)"
-                class="px-4 py-2 cursor-pointer transition-colors duration-150 hover:bg-gray-100" 
+                class="px-4 py-2 cursor-pointer transition-colors duration-150 hover:bg-gray-100"
                 [ngClass]="{'text-primary font-semibold': selectedPatient?.id === patient.id}">
                 {{ patient.name }}
             </li>

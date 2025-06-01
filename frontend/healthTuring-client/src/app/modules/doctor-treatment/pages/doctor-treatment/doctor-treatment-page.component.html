@@ -1,14 +1,24 @@
-<div class="flex items-center mb-6 ps-2 py-2 gap-1 text-2xl rounded border-primary  text-gray-800">
-  <span class="text-gray-800 font-semibold ">Gestión Tratamientos</span>
+<div
+  class="flex items-center mb-6 ps-2 py-2 gap-1 text-2xl rounded border-primary text-gray-800"
+>
+  <span class="text-gray-800 font-semibold">Gestión Tratamientos</span>
   <span class="material-icons-outlined">medication_liquid</span>
 </div>
 <div class="flex justify-between items-end mb-3">
   <select-patients-treatment></select-patients-treatment>
-  <button class="px-3 py-1 rounded border border-green-600 text-green-600 bg-white hover:bg-green-600 hover:text-white transition-colors duration-200 shadow">Añadir</button>
+  <button
+    (click)="openTreatmentModal()"
+    class="flex items-center gap-1 p-2 rounded text-white bg-primary transition-colors duration-200 shadow"
+  >
+    <span>Añadir</span>
+    <span class="material-icons-outlined">add</span>
+  </button>
 </div>
-<div class="">
-  <treatment-table/>
+<div>
+  <treatment-table />
 </div>
-<div class="hidden">
-  <doctor-treatment-form/>
-</div>
+<!-- Modal de formulario -->
+@if (showTreatmentModal) {
+
+<doctor-treatment-form (close)="closeTreatmentModal()"></doctor-treatment-form>
+}
