@@ -19,7 +19,7 @@ public class Medicament {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String commonName;
@@ -58,6 +58,10 @@ public class Medicament {
         this.drugRoute = drugRoute;
         this.strength = strength;
         this.prospectUrl = prospectUrl;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getCommonName() {

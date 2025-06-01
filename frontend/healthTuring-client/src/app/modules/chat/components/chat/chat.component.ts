@@ -37,8 +37,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     effect(() => {
       const patient = this.patientSignal();
 
-      console.log(patient)
-
       if (patient != null) {
         this.doctorName = patient.doctorName;
         const patientId = patient.id;

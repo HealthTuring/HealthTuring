@@ -25,7 +25,6 @@ export class TreatmentTableComponent {
     const patientId = this.patientService.getPatientId()();
     if (patientId != null) {
       this.getTreatmentByPatient(patientId);
-      console.log('hola')
     }
   });
 
@@ -33,7 +32,6 @@ export class TreatmentTableComponent {
     this.treatmentService.getTreatmentsByPatient(patientId).subscribe(
       (treatments: TreatmentDto[]) => {
         this.treatments = treatments;
-        console.log(treatments)
       },
     );
   }

@@ -1,10 +1,12 @@
-<!-- Modal Overlay -->
-<div class="fixed inset-0 z-50 flex items-center justify-center">
+<!-- Modal Overlay con fondo blur -->
+<div class="fixed inset-0 z-50 flex items-center justify-center
+            bg-black/20 backdrop-blur-sm backdrop-brightness-75 transition-all">
   <!-- Modal Dialog -->
   <div class="relative w-full max-w-xl mx-2 sm:mx-auto">
     <form
+      [formGroup]="treatmentForm"
       class="bg-white rounded-lg shadow-lg p-4 sm:p-6 space-y-6 max-h-[95vh] overflow-y-auto"
-      (submit)="onSubmit($event)"
+      (ngSubmit)="onSubmit($event)"
     >
       <!-- Botón cerrar arriba a la derecha -->
       <button
@@ -17,125 +19,75 @@
       </button>
       <h2 class="text-2xl font-bold mb-4 text-center">Crear Tratamiento</h2>
 
-      <!-- ... (aquí va el resto del formulario, igual que antes) ... -->
-
       <!-- Ejemplo del campo Nombre -->
       <div>
-        <label for="name" class="block text-sm font-medium text-gray-700 mb-1"
-          >Nombre del tratamiento</label
-        >
+        <label for="reason" class="block text-sm font-medium text-gray-700 mb-1">Motivo del tratamiento</label>
         <input
-          id="name"
-          name="name"
+          formControlName="reason"
           type="text"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Introduce el nombre"
+          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Introduce el motivo"
         />
       </div>
-      <!-- Descripción -->
-      <div>
-        <label
-          for="description"
-          class="block text-sm font-medium text-gray-700 mb-1"
-          >Descripción</label
-        >
-        <textarea
-          id="description"
-          name="description"
-          rows="3"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Describe el tratamiento"
-        ></textarea>
-      </div>
-
       <!-- Fechas -->
-      <div
-        class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0"
-      >
+      <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
         <div class="flex-1">
-          <label
-            for="startDate"
-            class="block text-sm font-medium text-gray-700 mb-1"
-            >Fecha de inicio</label
-          >
+          <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha de inicio</label>
           <input
-            id="startDate"
-            name="startDate"
+            formControlName="startDate"
             type="date"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div class="flex-1">
-          <label
-            for="endDate"
-            class="block text-sm font-medium text-gray-700 mb-1"
-            >Fecha de fin</label
-          >
+          <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha de fin</label>
           <input
-            id="endDate"
-            name="endDate"
+            formControlName="endDate"
             type="date"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
       </div>
-
       <!-- Dosis por periodo -->
       <div>
-        <label
-          for="dosesPerPeriod"
-          class="block text-sm font-medium text-gray-700 mb-1"
-          >Dosis por periodo</label
-        >
+        <label for="dosesPerPeriod" class="block text-sm font-medium text-gray-700 mb-1">Dosis por periodo</label>
         <input
-          id="dosesPerPeriod"
-          name="dosesPerPeriod"
+          formControlName="dosesPerPeriod"
           type="text"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Ej: 2 por día"
         />
       </div>
-
       <!-- Paciente -->
       <div>
-        <label
-          for="patientId"
-          class="block text-sm font-medium text-gray-700 mb-1"
-          >Paciente</label
-        >
+        <label for="patientId" class="block text-sm font-medium text-gray-700 mb-1">Paciente</label>
         <select
-          id="patientId"
-          name="patientId"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          formControlName="patientId"
+          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Selecciona un paciente</option>
-          <!-- Opciones dinámicas aquí -->
-          <option value="2">Paciente 2</option>
+          <option *ngFor="let patient of patients" [value]="patient.id">
+            {{ patient.name }}
+          </option>
         </select>
       </div>
-
       <!-- Medicamento -->
       <div>
-        <label
-          for="medicamentId"
-          class="block text-sm font-medium text-gray-700 mb-1"
-          >Medicamento</label
-        >
+        <label for="medicamentId" class="block text-sm font-medium text-gray-700 mb-1">Medicamento</label>
         <select
-          id="medicamentId"
-          name="medicamentId"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          formControlName="medicamentId"
+          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Selecciona un medicamento</option>
-          <!-- Opciones dinámicas aquí -->
-          <option value="5">Medicamento 5</option>
+          <option *ngFor="let medicament of medicaments" [value]="medicament.id">
+            {{ medicament.commonName }} ({{ medicament.strength }} {{ medicament.dosageForm }})
+          </option>
         </select>
       </div>
-
       <div class="pt-4">
         <button
           type="submit"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow transition-colors duration-200"
+          class="w-full bg-primary text-white font-semibold py-2 px-4 rounded shadow"
         >
           Guardar tratamiento
         </button>

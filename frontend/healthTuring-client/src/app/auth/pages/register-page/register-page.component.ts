@@ -35,8 +35,6 @@ export class RegisterPageComponent {
     if (this.registerForm.valid) {
       const { name, email, password, isDoctor } = this.registerForm.value ?? {};
 
-      console.log(isDoctor)
-
       this.authService.register(email!, name!, password!, isDoctor!).subscribe((isAuthenticated) => {
         if (isAuthenticated) {
           this.router.navigateByUrl('/auth/login');

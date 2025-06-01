@@ -25,3 +25,11 @@ export const APPOINTMENTS_BY_PATIENT_ENDPOINT = (patientId: number) => `${API_UR
 
 /* CHAT ENDPOINTS */
 export const CHAT_SOCKET_ENDPOINT = (roomId: string) => `${API_URL}/chat/${roomId}`;
+
+/* MEDICAMENTS ENDPOINTS */
+export const ALL_MEDICAMENTS_ENDPOINT = `${API_URL}/medicaments`;
+
+/* DOCTOR ENDPOINTS */
+export const EDIT_TREATMENTS_ENDPOINT = (doctorId: number) => `${API_URL}/doctor/edit-treatment/${doctorId}`;
+export const CREATE_TREATMENTS_ENDPOINT = `${API_URL}/doctor/create-treatment`;
+export const DELETE_TREATMENTS_ENDPOINT = (doctorId: number) => `${API_URL}/doctor/delete-treatment/${doctorId}`;

@@ -23,7 +23,6 @@ export class SelectPatientsTreatmentComponent {
 
   ngOnInit(): void {
     const doctorId = this.jwtService.getId() ?? 0;
-    console.log(doctorId)
     this.patientService.getPatientsByDoctor(doctorId).subscribe(patients => {
       this.patientsByUser = patients;
       if (patients.length > 0) {

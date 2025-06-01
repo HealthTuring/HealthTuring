@@ -29,6 +29,11 @@ export const modulesRoutes: Routes = [
         path: 'doctor-treatment',
         component: DoctorTreatmentPageComponent,
         canActivate: [DoctorRoleGuard]
+      },
+      {
+        path: '**',
+        redirectTo: 'calendar',
+        pathMatch: 'full'
       }
     ]
   },
