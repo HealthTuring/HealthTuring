@@ -30,6 +30,6 @@ export const CHAT_SOCKET_ENDPOINT = (roomId: string) => `${API_URL}/chat/${roomI
 export const ALL_MEDICAMENTS_ENDPOINT = `${API_URL}/medicaments`;
 
 /* DOCTOR ENDPOINTS */
-export const EDIT_TREATMENTS_ENDPOINT = (doctorId: number) => `${API_URL}/doctor/edit-treatment/${doctorId}`;
+export const EDIT_TREATMENTS_ENDPOINT = (id: number) => `${API_URL}/doctor/edit-treatment/${id}`;
 export const CREATE_TREATMENTS_ENDPOINT = `${API_URL}/doctor/create-treatment`;
-export const DELETE_TREATMENTS_ENDPOINT = (doctorId: number) => `${API_URL}/doctor/delete-treatment/${doctorId}`;
+export const DELETE_TREATMENTS_ENDPOINT = (id: number) => `${API_URL}/doctor/delete-treatment/${id}`;

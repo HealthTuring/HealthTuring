@@ -42,9 +42,8 @@ export class ChatService {
     }
   }
 
-
   private subscribeToRoom(roomId: string) {
-    this.leaveRoom(); // limpia anterior
+    this.leaveRoom();
     this.currentSubscription = this.stompClient.subscribe(`/topic/${roomId}`, (messages: any) => {
       const messageContent = JSON.parse(messages.body);
       const currentMessage = this.messageSubject.getValue();

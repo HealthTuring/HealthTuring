@@ -22,6 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideToastr({
       preventDuplicates: true,
+      maxOpened: 1,
     }),
     provideCalendar(),
   ],

@@ -8,17 +8,21 @@
   <select-patients-treatment></select-patients-treatment>
   <button
     (click)="openTreatmentModal()"
-    class="flex items-center gap-1 p-2 rounded text-white bg-primary transition-colors duration-200 shadow"
+    class="flex items-center gap-1 p-2 rounded text-white bg-primary transition-colors duration-200 shadow cursor-pointer"
   >
     <span>Añadir</span>
     <span class="material-icons-outlined">add</span>
   </button>
 </div>
 <div>
-  <treatment-table />
+<treatment-table (editTreatment)="onEditTreatment($event)" />
 </div>
-<!-- Modal de formulario -->
-@if (showTreatmentModal) {
 
-<doctor-treatment-form (close)="closeTreatmentModal()"></doctor-treatment-form>
+@if (showTreatmentModal) {
+  <doctor-treatment-form
+    [treatmentToEdit]="selectedTreatment"
+    (close)="closeTreatmentModal()"
+    (treatmentCreated)="onTreatmentCreated()"
+    (treatmentUpdated)="onTreatmentUpdated()">
+  </doctor-treatment-form>
 }

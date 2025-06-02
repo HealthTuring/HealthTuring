@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.healthturing.healthturing_server.dto.ApiResponseDTO;
 import com.healthturing.healthturing_server.dto.TreatmentCreateDTO;
 import com.healthturing.healthturing_server.dto.TreatmentUpdateDTO;
+import com.healthturing.healthturing_server.exceptions.InvalidDateRangeException;
 import com.healthturing.healthturing_server.models.Treatment;
 import com.healthturing.healthturing_server.services.TreatmentService;
 
@@ -47,6 +48,9 @@ public class DocController {
             ApiResponseDTO response = new ApiResponseDTO("No se encontró el paciente o medicamento: " + ex.getMessage(),
                     null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } catch (InvalidDateRangeException ex) {
+            ApiResponseDTO response = new ApiResponseDTO(ex.getMessage(), null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } catch (Exception ex) {
             ApiResponseDTO response = new ApiResponseDTO("Error al crear el tratamiento: " + ex.getMessage(), null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
@@ -80,7 +84,8 @@ public class DocController {
         } catch (EntityNotFoundException ex) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponseDTO("No se encontró el tratamiento/paciente/medicamento: " + ex.getMessage(),null));
+                    .body(new ApiResponseDTO("No se encontró el tratamiento/paciente/medicamento: " + ex.getMessage(),
+                            null));
         } catch (IllegalArgumentException ex) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)

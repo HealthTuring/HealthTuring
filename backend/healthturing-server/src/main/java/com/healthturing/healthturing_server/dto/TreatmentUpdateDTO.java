@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class TreatmentUpdateDTO {
-    private String name;
+    private String reason;
     private LocalDate startDate;
     private LocalDate endDate;
     private String dosesPerPeriod;

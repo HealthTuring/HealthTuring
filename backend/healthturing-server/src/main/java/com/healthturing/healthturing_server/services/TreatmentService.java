@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.healthturing.healthturing_server.dto.TreatmentCreateDTO;
 import com.healthturing.healthturing_server.dto.TreatmentDTO;
 import com.healthturing.healthturing_server.dto.TreatmentUpdateDTO;
+import com.healthturing.healthturing_server.exceptions.InvalidDateRangeException;
 import com.healthturing.healthturing_server.mapper.TreatmentMapper;
 import com.healthturing.healthturing_server.models.Medicament;
 import com.healthturing.healthturing_server.models.Patient;
@@ -44,6 +45,10 @@ public class TreatmentService {
         Medicament medicament = medicamentRepository.findById(dto.getMedicamentId())
                 .orElseThrow(() -> new EntityNotFoundException("Medicamento no encontrado"));
 
+        if (dto.getEndDate() != null && dto.getEndDate().isBefore(dto.getStartDate())) {
+            throw new InvalidDateRangeException("La fecha de fin debe ser posterior a la fecha de inicio.");
+        }
+
         String duration;
         if (dto.getEndDate() == null) {
             duration = "Indefinido";
@@ -70,37 +75,37 @@ public class TreatmentService {
         return true;
     }
 
-public Treatment updateTreatment(Long treatmentId, TreatmentUpdateDTO dto) {
-    Treatment treatment = treatmentRepository.findById(treatmentId)
-            .orElseThrow(() -> new EntityNotFoundException("Tratamiento no encontrado"));
+    public Treatment updateTreatment(Long treatmentId, TreatmentUpdateDTO dto) {
+        Treatment treatment = treatmentRepository.findById(treatmentId)
+                .orElseThrow(() -> new EntityNotFoundException("Tratamiento no encontrado"));
 
-    if (dto.getName() != null && dto.getName().trim().isEmpty()) {
-        throw new IllegalArgumentException("El nombre no puede estar vacío");
+        if (dto.getReason() != null && dto.getReason().trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        }
+        if (dto.getStartDate() != null && dto.getStartDate().toString().trim().isEmpty()) {
+            throw new IllegalArgumentException("La fecha de inicio no puede estar vacía");
+        }
+        if (dto.getDosesPerPeriod() != null && dto.getDosesPerPeriod().trim().isEmpty()) {
+            throw new IllegalArgumentException("Las dosis por periodo no pueden estar vacías");
+        }
+
+        treatment.setReason(dto.getReason());
+        treatment.setStartDate(dto.getStartDate());
+        treatment.setEndDate(dto.getEndDate());
+        treatment.setDosesPerPeriod(dto.getDosesPerPeriod());
+
+        if (treatment.getEndDate() != null && treatment.getStartDate() != null
+                && treatment.getEndDate().isBefore(treatment.getStartDate())) {
+            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
+        }
+
+        String duration = (treatment.getEndDate() == null)
+                ? "Indefinida"
+                : getDuration(treatment.getStartDate(), treatment.getEndDate());
+        treatment.setDuration(duration);
+
+        return treatmentRepository.save(treatment);
     }
-    if (dto.getStartDate() != null && dto.getStartDate().toString().trim().isEmpty()) {
-        throw new IllegalArgumentException("La fecha de inicio no puede estar vacía");
-    }
-    if (dto.getDosesPerPeriod() != null && dto.getDosesPerPeriod().trim().isEmpty()) {
-        throw new IllegalArgumentException("Las dosis por periodo no pueden estar vacías");
-    }
-
-    treatment.setReason(dto.getName());
-    treatment.setStartDate(dto.getStartDate());
-    treatment.setEndDate(dto.getEndDate());
-    treatment.setDosesPerPeriod(dto.getDosesPerPeriod());
-
-    if (treatment.getEndDate() != null && treatment.getStartDate() != null
-        && treatment.getEndDate().isBefore(treatment.getStartDate())) {
-        throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
-    }
-
-    String duration = (treatment.getEndDate() == null)
-            ? "Indefinida"
-            : getDuration(treatment.getStartDate(), treatment.getEndDate());
-    treatment.setDuration(duration);
-
-    return treatmentRepository.save(treatment);
-}
 
     public String getDuration(LocalDate startDate, LocalDate endDate) {
         if (endDate.isBefore(startDate)) {

@@ -12,7 +12,6 @@ export class UserRoleGuard implements CanActivate {
         if (this.jwtService.isAuthenticated() && this.jwtService.hasRole('ROLE_USER')) {
             return true;
         }
-        // Opcional: redirigir al login o a alguna página de error
         this.router.navigate(['/home']);
         return false;
     }

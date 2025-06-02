@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MedicamentDto } from '../../interfaces/medicament-dto.interface';
 import { MedicamentService } from '../../services/medicaments.service';
@@ -8,6 +8,8 @@ import { PatientService } from '../../../../shared/services/patient.service';
 import { JwtService } from '../../../../core/services/jwt.service';
 import { DoctorService } from '../../services/doctor.service';
 import { TreatmentCreateDto } from '../../interfaces/treatment-create-dto.interface';
+import { TreatmentDto } from '../../../treatment/interfaces/treatment-dto.interface';
+import { TreatmentUpdateDto } from '../../interfaces/treatment-update-dto.interface';
 
 @Component({
   selector: 'doctor-treatment-form',
@@ -24,6 +26,10 @@ export class TreatmentFormComponent implements OnInit {
   private doctorService = inject(DoctorService);
 
   @Output() close = new EventEmitter<void>();
+  @Output() treatmentCreated = new EventEmitter<void>();
+  @Input() treatmentToEdit: TreatmentDto | null = null;
+  @Output() treatmentUpdated = new EventEmitter<void>();
+
 
   medicaments: MedicamentDto[] = [];
   patients: PatientDto[] = [];
@@ -31,9 +37,9 @@ export class TreatmentFormComponent implements OnInit {
   treatmentForm = this.fb.group({
     reason: ['', [Validators.required]],
     startDate: ['', [Validators.required]],
-    endDate: ['', [Validators.required]],
+    endDate: [''],
     dosesPerPeriod: ['', [Validators.required]],
-    patientId:  [0, [Validators.required]],
+    patientId: [0, [Validators.required]],
     medicamentId: [0, [Validators.required]],
   })
 
@@ -50,6 +56,15 @@ export class TreatmentFormComponent implements OnInit {
         error: (err) => console.error('Error al cargar pacientes', err),
       });
     }
+
+    if (this.treatmentToEdit) {
+      this.treatmentForm.patchValue({
+        reason: this.treatmentToEdit.reason,
+        startDate: this.dateToInputString(this.treatmentToEdit.startDate),
+        endDate: this.dateToInputString(this.treatmentToEdit.endDate),
+        dosesPerPeriod: this.treatmentToEdit.frequency,
+      });
+    }
   }
 
   closeModal() {
@@ -64,12 +79,30 @@ export class TreatmentFormComponent implements OnInit {
       return;
     }
 
-    const dto: TreatmentCreateDto = this.treatmentForm.value as TreatmentCreateDto;
+    if (this.treatmentToEdit) {
+      // Modo edición
+      const dto: TreatmentUpdateDto = this.treatmentForm.value as TreatmentUpdateDto;
+      this.doctorService.editTreatment(this.treatmentToEdit.id, dto).subscribe(success => {
+        if (success) {
+          this.treatmentUpdated.emit();
+          this.close.emit();
+        }
+      });
+    } else {
+      // Modo creación
+      const dto: TreatmentCreateDto = this.treatmentForm.value as TreatmentCreateDto;
+      this.doctorService.createTreatment(dto).subscribe(success => {
+        if (success) {
+          this.treatmentCreated.emit();
+          this.close.emit();
+        }
+      });
+    }
+  }
 
-    this.doctorService.createTreatment(dto).subscribe(success => {
-      if (success) {
-        this.close.emit();
-      }
-    });
+  dateToInputString(date?: Date | null): string | null {
+    if (!date) return null;
+    if (typeof date === 'string') return date;
+    return date.toISOString().split('T')[0];
   }
 }

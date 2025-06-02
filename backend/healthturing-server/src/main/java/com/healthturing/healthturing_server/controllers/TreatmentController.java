@@ -1,6 +1,8 @@
 package com.healthturing.healthturing_server.controllers;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,19 +24,16 @@ public class TreatmentController {
     public TreatmentController(TreatmentService treatmentService) {
         this.treatmentService = treatmentService;
     }
+
     @GetMapping("/{patientId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getTreatmentsByPatientId(@PathVariable Long patientId) {
         try {
             List<TreatmentDTO> treatments = treatmentService.getTreatmentsByPatientId(patientId);
-            if (treatments == null || treatments.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("No se encontraron tratamientos para el paciente con ID: " + patientId);
-            }
-            return ResponseEntity.ok(treatments);
+            return ResponseEntity.ok(treatments == null ? Collections.emptyList() : treatments);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al obtener los tratamientos: " + e.getMessage());
+                    .body(Map.of("message", "Error al obtener los tratamientos: " + e.getMessage()));
         }
     }
 }
