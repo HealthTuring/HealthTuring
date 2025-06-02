@@ -1,23 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>Medicaments List</title></head>
-<body>
-<h1>Medicaments</h1>
-<a href="/medicaments/create">Add New Medicament</a>
-<table>
-    <tr>
-        <th>ID</th><th>Common Name</th><th>Scientific Name</th><th>Actions</th>
-    </tr>
-    <tr th:each="med : ${medicaments}">
-        <td th:text="${med.id}"></td>
-        <td th:text="${med.commonName}"></td>
-        <td th:text="${med.scientificName}"></td>
-        <td>
-            <a th:href="@{/medicaments/view/{id}(id=${med.id})}">View</a>
-            <a th:href="@{/medicaments/edit/{id}(id=${med.id})}">Edit</a>
-            <a th:href="@{/medicaments/delete/{id}(id=${med.id})}">Delete</a>
-        </td>
-    </tr>
-</table>
+<body class="flex flex-col min-h-screen">
+        <div th:replace="shared/header :: header"></div>
+
+    <div class="container mx-auto px-4 flex-grow" >
+
+        <div class="flex items-center mb-4 mt-2 space-x-4">
+            <h1 class="text-2xl font-bold">Medicaments</h1>
+            <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded text-xl" href="/medicaments/create">
+                +
+            </a>
+        </div>
+        <table class="min-w-full border-separate border-spacing-y-2 border-spacing-x-2">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">ID</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Common Name</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Scientific Name</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="med : ${medicaments}" class="">
+                    <td th:text="${med.id}"></td>
+                    <td th:text="${med.commonName}"></td>
+                    <td th:text="${med.scientificName}"></td>
+                    <td>
+                        <div class="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0">
+                            <a th:href="@{/medicaments/view/{id}(id=${med.id})}"  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded mr-2">View</a>
+                            <a th:href="@{/medicaments/edit/{id}(id=${med.id})}" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-1 px-3 rounded mr-2">Edit</a>
+                            <a th:href="@{/medicaments/delete/{id}(id=${med.id})}"  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Delete</a>
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+            
+            
+        </table>
+
+    </div>
+
+
+
+<div th:replace="shared/footer :: footer"></div>
 </body>
 </html>

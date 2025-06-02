@@ -1,6 +1,5 @@
 package com.healthturing.healthturing_server.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +34,7 @@ public class MedAdRestController {
 
     @PostMapping
     public String createMedicament(@ModelAttribute Medicament medicament) {
-        medicamentService.saveMedicament(medicament);
+        medicamentService.createMedicament(medicament);
         return "redirect:/medicaments";
     }
 
@@ -48,6 +47,7 @@ public class MedAdRestController {
 
     @PostMapping("/{id}")
     public String updateMedicament(@PathVariable Long id, @ModelAttribute Medicament medicament) {
+        medicament.setId(id);
         medicamentService.updateMedicament(medicament);
         return "redirect:/medicaments";
     }

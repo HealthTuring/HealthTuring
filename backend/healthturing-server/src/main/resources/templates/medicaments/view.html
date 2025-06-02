@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>View Medicament</title></head>
-<body>
-<h1>Medicament Details</h1>
-<p>ID: <span th:text="${medicament.id}"></span></p>
-<p>Common Name: <span th:text="${medicament.commonName}"></span></p>
-<p>Scientific Name: <span th:text="${medicament.scientificName}"></span></p>
-<p>Dosage Form: <span th:text="${medicament.dosageForm}"></span></p>
-<p>Drug Route: <span th:text="${medicament.drugRoute}"></span></p>
-<p>Strength: <span th:text="${medicament.strength}"></span></p>
-<p>Prospect URL: <span th:text="${medicament.prospectUrl}"></span></p>
-<a href="/medicaments">Back</a>
+<body class="flex flex-col min-h-screen">
+    <div th:replace="shared/header :: header"></div>
+
+    <div class="container mx-auto px-4 flex-grow">
+        <div class="flex flex-col shadow bg-white text-gray-800 rounded border border-gray-200
+                transition-transform duration-300 hover:scale-102 w-full
+                max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xs h-full min-w-2xs min-h-50 p-6 m-2">
+            <h3 class="text-lg font-bold mb-3" th:text="${medicament.commonName}"></h3>
+            <div class="rounded p-3 mt-2 text-sm space-y-1">
+                <p><span class="font-semibold">Common Name:</span> <span th:text="${medicament.commonName}"></span></p>
+                <p><span class="font-semibold">Scientific Name:</span> <span th:text="${medicament.scientificName}"></span></p>
+                <p><span class="font-semibold">Dosage Form:</span> <span th:text="${medicament.dosageForm}"></span></p>
+                <p><span class="font-semibold">Drug Route</span> <span th:text="${medicament.drugRoute}"></span></p>
+                <p><span class="font-semibold">Strength:</span> <span th:text="${medicament.strength}"></span></p>
+                <p class=" break-words"><span class="font-semibold">Prospect URL:</span> <span th:text="${medicament.prospectUrl}"></span></p>
+            </div>
+            <a class="bg-gray-300 text-center hover:bg-gray-400 text-black font-bold py-2 px-4 mt-4 rounded inline-block w-20" href="/medicaments">Back</a>
+        </div>
+
+
+    </div>
+
+<div th:replace="shared/footer :: footer"></div>
 </body>
 </html>

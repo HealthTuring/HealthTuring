@@ -1,17 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>Create Medicament</title></head>
-<body>
-<h1>Create Medicament</h1>
-<form th:action="@{/medicaments}" th:object="${medicament}" method="post">
-    <label>Common Name: <input type="text" th:field="*{commonName}" /></label><br/>
-    <label>Scientific Name: <input type="text" th:field="*{scientificName}" /></label><br/>
-    <label>Dosage Form: <input type="text" th:field="*{dosageForm}" /></label><br/>
-    <label>Drug Route: <input type="text" th:field="*{drugRoute}" /></label><br/>
-    <label>Strength: <input type="text" th:field="*{strength}" /></label><br/>
-    <label>Prospect URL: <input type="text" th:field="*{prospectUrl}" /></label><br/>
-    <button type="submit">Save</button>
-</form>
-<a href="/medicaments">Back</a>
+<body class="flex flex-col min-h-screen">
+    <div th:replace="shared/header :: header"></div>
+
+        <div class="container mx-auto px-4 flex-grow" >
+            <h1 class="text-2xl font-bold">Create Medicaments</h1>
+
+            <div class="flex flex-col shadow bg-white text-gray-800 rounded border border-gray-200
+                transition-transform duration-300 hover:scale-102 w-full
+                max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xs h-full min-w-2xs min-h-50 p-6 m-2 ">
+                <div class="rounded p-3 mt-2 text-sm">
+                    <form th:action="@{/medicaments}" th:object="${medicament}" method="post">
+                        
+                        <label class="block mt-2">
+                        Common Name: <input class="border border-black pl-1" type="text" th:field="*{commonName}" />
+                        </label>
+                        
+                        <label class="block mt-2">
+                        Scientific Name: <input class="border border-black pl-1" type="text" th:field="*{scientificName}" />
+                        </label>
+                        
+                        <label class="block mt-2">
+                        Dosage Form: <input class="border border-black pl-1" type="text" th:field="*{dosageForm}" />
+                        </label>
+                        
+                        <label class="block mt-2">
+                        Drug Route: <input class="border border-black pl-1" type="text" th:field="*{drugRoute}" />
+                        </label>
+                        
+                        <label class="block mt-2">
+                        Strength: <input class="border border-black pl-1" type="text" th:field="*{strength}" />
+                        </label>
+                        
+                        <label class="block mt-2">
+                        Prospect URL: <input class="border border-black pl-1" type="text" th:field="*{prospectUrl}" />
+                        </label>
+
+                        <div class="mt-4">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded">Save</button>
+                            <a class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded" href="/medicaments">Back</a>
+                        </div>
+                    </form>
+
+                </div>
+            
+            </div>
+
+
+        </div>
+
+
+<div th:replace="shared/footer :: footer"></div>
 </body>
 </html>

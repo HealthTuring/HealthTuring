@@ -24,8 +24,10 @@
     background-color: var(--primary-blue);
 }
 
+.bg-lightness-blue{
+    background-color: var(--lightness-blue);
+}
+
 .mytitle-font {
     font-family: var(--font-title);
 }
-
-  
