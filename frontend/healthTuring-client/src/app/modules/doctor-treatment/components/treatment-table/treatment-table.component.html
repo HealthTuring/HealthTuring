@@ -88,9 +88,29 @@
     </div>
   </div>
 </div>
-<confirm-modal 
-  [show]="showConfirm" 
-  title="Eliminar tratamiento"
+
+<div class="mt-4 flex justify-center" *ngIf="totalPages > 1">
+  <button class="px-2 py-1 mx-1 cursor-pointer" [disabled]="currentPage === 0" (click)="goToPage(currentPage - 1)">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#1e2939">
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path d="M15.61 7.41L14.2 6l-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59z" />
+    </svg>
+  </button>
+  <span class="px-1 py-1" *ngFor="let p of [].constructor(totalPages); let i = index">
+    <button class="px-2 py-1 rounded" [class.bg-primary]="i === currentPage" [class.text-white]="i === currentPage"
+      [class.cursor-pointer]="i !== currentPage" (click)="goToPage(i)">
+      {{ i + 1 }}
+    </button>
+  </span>
+  <button class="material-icons-outlined px-2 py-1 mx-1 cursor-pointer" [disabled]="currentPage === totalPages - 1"
+    (click)="goToPage(currentPage + 1)">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#1e2939">
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path d="M10.02 6L8.61 7.41 13.19 12l-4.58 4.59L10.02 18l6-6-6-6z" />
+    </svg>
+  </button>
+</div>
+<confirm-modal [show]="showConfirm" title="Eliminar tratamiento"
   message="¿Seguro que deseas eliminar este tratamiento? Esta acción no se puede deshacer."
   (onConfirm)="confirmDelete()" (onCancel)="closeDeleteModal()">
 </confirm-modal>

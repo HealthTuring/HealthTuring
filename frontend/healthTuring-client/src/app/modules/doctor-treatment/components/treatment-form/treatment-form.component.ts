@@ -10,6 +10,7 @@ import { DoctorService } from '../../services/doctor.service';
 import { TreatmentCreateDto } from '../../interfaces/treatment-create-dto.interface';
 import { TreatmentDto } from '../../../treatment/interfaces/treatment-dto.interface';
 import { TreatmentUpdateDto } from '../../interfaces/treatment-update-dto.interface';
+import { FormUtils } from '../../../../../utils/form-utils';
 
 @Component({
   selector: 'doctor-treatment-form',
@@ -24,6 +25,7 @@ export class TreatmentFormComponent implements OnInit {
   private patientService = inject(PatientService);
   private jwtService = inject(JwtService);
   private doctorService = inject(DoctorService);
+  formUtils = FormUtils;
 
   @Output() close = new EventEmitter<void>();
   @Output() treatmentCreated = new EventEmitter<void>();
@@ -39,8 +41,8 @@ export class TreatmentFormComponent implements OnInit {
     startDate: ['', [Validators.required]],
     endDate: [''],
     dosesPerPeriod: ['', [Validators.required]],
-    patientId: [0, [Validators.required]],
-    medicamentId: [0, [Validators.required]],
+    patientId: ['', [Validators.required]],
+    medicamentId: ['', [Validators.required]],
   })
 
   ngOnInit(): void {
@@ -89,8 +91,15 @@ export class TreatmentFormComponent implements OnInit {
         }
       });
     } else {
-      // Modo creación
-      const dto: TreatmentCreateDto = this.treatmentForm.value as TreatmentCreateDto;
+      const formValue = this.treatmentForm.value;
+      const dto: TreatmentCreateDto = {
+        reason: formValue.reason ?? '',
+        startDate: formValue.startDate ?? '',
+        endDate: formValue.endDate ?? '',
+        dosesPerPeriod: formValue.dosesPerPeriod ?? '',
+        patientId: Number(formValue.patientId),
+        medicamentId: Number(formValue.medicamentId),
+      };
       this.doctorService.createTreatment(dto).subscribe(success => {
         if (success) {
           this.treatmentCreated.emit();

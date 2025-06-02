@@ -28,20 +28,35 @@ export class TreatmentTableComponent {
   showConfirm = false;
   treatmentToDelete: number | null = null;
 
+  currentPage: number = 0;
+  pageSize: number = 5;
+  totalPages: number = 0;
+  totalElements: number = 0;
+
   patientEffect = effect(() => {
     const patientId = this.patientService.getPatientId()();
     if (patientId != null) {
-      this.getTreatmentByPatient(patientId);
+      this.getTreatmentsByPatientPaged(patientId);
     }
   });
 
-  getTreatmentByPatient(patientId: number) {
-    this.treatmentService.getTreatmentsByPatient(patientId).subscribe(
-      (treatments: TreatmentDto[]) => {
-        this.treatments = treatments;
-      },
-    );
+getTreatmentsByPatientPaged(patientId: number) {
+  this.treatmentService.getTreatmentsByPatientPaged(patientId, this.currentPage, this.pageSize).subscribe(
+    (page) => {
+      this.treatments = page.content;
+      this.totalPages = page.totalPages;
+      this.totalElements = page.totalElements;
+    }
+  );
+}
+
+goToPage(page: number) {
+  this.currentPage = page;
+  const patientId = this.patientService.getPatientId()();
+  if (patientId != null) {
+    this.getTreatmentsByPatientPaged(patientId);
   }
+}
 
   toggleDetails() {
     this.moreDetails = !this.moreDetails;
@@ -62,7 +77,7 @@ export class TreatmentTableComponent {
   refreshTreatments() {
     const patientId = this.patientService.getPatientId()();
     if (patientId != null) {
-      this.getTreatmentByPatient(patientId);
+      this.getTreatmentsByPatientPaged(patientId);
     }
   }
 

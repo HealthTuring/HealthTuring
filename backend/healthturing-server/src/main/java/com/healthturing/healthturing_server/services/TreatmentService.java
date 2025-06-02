@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.healthturing.healthturing_server.dto.TreatmentCreateDTO;
@@ -37,6 +41,13 @@ public class TreatmentService {
     public List<TreatmentDTO> getTreatmentsByPatientId(Long patientId) {
         List<Treatment> treatments = treatmentRepository.findByPatientId(patientId);
         return TreatmentMapper.toDtoList(treatments);
+    }
+
+    // CON paginación
+    public Page<TreatmentDTO> getTreatmentsByPatientIdPaged(Long patientId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("startDate").descending());
+        Page<Treatment> treatmentsPage = treatmentRepository.findByPatientId(patientId, pageable);
+        return treatmentsPage.map(TreatmentMapper::toDto);
     }
 
     public Treatment createTreatment(TreatmentCreateDTO dto) {
