@@ -19,6 +19,12 @@
     <ul class="flex flex-col mt-5 space-y-2 font-medium select-none" [ngClass]="{'items-center': isCollapsed}">
       <li
         class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
+        routerLink="/home/patient-profile" routerLinkActive="active">
+        <span class="material-icons-outlined">medical_information</span>
+        <span *ngIf="!isCollapsed">Datos del Paciente</span>
+      </li>
+      <li
+        class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
         routerLink="/home/calendar" routerLinkActive="active">
         <span class="material-icons-outlined">event</span>
         <span *ngIf="!isCollapsed">Calendario</span>

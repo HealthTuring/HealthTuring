@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.healthturing.healthturing_server.dto.DoctorDTO;
 import com.healthturing.healthturing_server.dto.PatientDTO;
+import com.healthturing.healthturing_server.dto.PatientDataDTO;
 import com.healthturing.healthturing_server.services.PatientService;
 
 @RestController
@@ -40,5 +41,12 @@ public class PatientController {
     public ResponseEntity<DoctorDTO> getDoctorByPatientId(@PathVariable Long patientId) {
         DoctorDTO doctor = patientService.getDoctorByPatientId(patientId);
         return ResponseEntity.ok(doctor);
+    }
+
+    @GetMapping("/api/patient/data/{patientId}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<PatientDataDTO> getAllDataPatientId(@PathVariable Long patientId) {
+        PatientDataDTO patientDataDTO = patientService.getAllPatientData(patientId);
+        return ResponseEntity.ok(patientDataDTO);
     }
 }

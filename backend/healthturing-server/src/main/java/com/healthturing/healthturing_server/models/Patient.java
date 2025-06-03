@@ -16,14 +16,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.persistence.JoinColumn;
 
 @Entity
 @Getter
@@ -62,10 +60,6 @@ public class Patient {
     @ManyToOne(optional = false)
     @JoinColumn(name = "doctor_id")
     private User doctor;
-
-    @ManyToMany
-    @JoinTable(name = "patient_allergies", joinColumns = @JoinColumn(name = "patient_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
-    private List<Medicament> allergicIngredients = new ArrayList<>();
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Treatment> treatments = new ArrayList<>();

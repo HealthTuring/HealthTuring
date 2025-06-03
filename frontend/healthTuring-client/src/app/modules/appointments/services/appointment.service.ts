@@ -15,12 +15,7 @@ export class AppointmentService {
   private toast = inject(NotificationService);
 
   getAppointmentsByPatient(patientId: number): Observable<AppointmentDto[]> {
-    return this.http.get<AppointmentDto[]>(APPOINTMENTS_BY_PATIENT_ENDPOINT(patientId)).pipe(
-      catchError((error) => {
-        this.toast.showError(error.error, 'Error');
-        return of([]);
-      })
-    );
+    return this.http.get<AppointmentDto[]>(APPOINTMENTS_BY_PATIENT_ENDPOINT(patientId));
   }
 
   getAvailableSlots(doctorId: number, date: string): Observable<string[]> {

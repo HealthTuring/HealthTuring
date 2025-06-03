@@ -7,6 +7,7 @@ import { DoctorTreatmentPageComponent } from "./doctor-treatment/pages/doctor-tr
 import { UserRoleGuard } from "../core/guards/user-role.guard";
 import { DoctorRoleGuard } from "../core/guards/doctor-role.guard";
 import { AppointmentPageComponent } from "./appointments/pages/appointment-page/appointment-page.component";
+import { ProfilePatientPageComponent } from "./patient-profile/pages/profile-patient-page/profile-patient-page.component";
 
 export const modulesRoutes: Routes = [
   {
@@ -29,6 +30,10 @@ export const modulesRoutes: Routes = [
       {
         path: 'appointment',
         component: AppointmentPageComponent
+      },
+      {
+        path: 'patient-profile',
+        component: ProfilePatientPageComponent
       },
       {
         path: 'doctor-treatment',

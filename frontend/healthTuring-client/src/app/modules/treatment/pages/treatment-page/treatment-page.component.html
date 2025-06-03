@@ -3,8 +3,14 @@
   <span class="material-icons-outlined">vaccines</span>
 </div>
 
-<div class="flex flex-wrap justify-center gap-6 items-start">
-  @for (t of treatments; track $index) {
-    <treatment-card [treatment]="t"></treatment-card>
-  }
-</div>
+@if (treatments.length === 0) {
+  <div class="text-center text-gray-500 italic py-8">
+      Este paciente no tiene ningún tratamiento asignado de momento
+  </div>
+} @else {
+  <div class="flex flex-wrap justify-center gap-6 items-start">
+    @for (t of treatments; track $index) {
+      <treatment-card [treatment]="t"></treatment-card>
+    }
+  </div>
+}

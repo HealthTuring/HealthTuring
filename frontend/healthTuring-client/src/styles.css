@@ -21,3 +21,7 @@ h1 {
 .text-primary {
   color: var(--primary-blue);
 }
+
+.bg-platinium {
+  background-color: var(--platinium);
+}

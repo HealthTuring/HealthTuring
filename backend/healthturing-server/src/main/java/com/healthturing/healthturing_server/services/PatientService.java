@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.healthturing.healthturing_server.dto.DoctorDTO;
 import com.healthturing.healthturing_server.dto.PatientDTO;
+import com.healthturing.healthturing_server.dto.PatientDataDTO;
 import com.healthturing.healthturing_server.mapper.DoctorMapper;
+import com.healthturing.healthturing_server.mapper.PatientDataMapper;
 import com.healthturing.healthturing_server.mapper.PatientMapper;
 import com.healthturing.healthturing_server.models.Patient;
 import com.healthturing.healthturing_server.repositories.PatientRepository;
@@ -36,6 +38,12 @@ public class PatientService {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new EntityNotFoundException("Paciente no encontrado"));
         return DoctorMapper.toDto(patient.getDoctor());
+    }
+
+    public PatientDataDTO getAllPatientData(Long patientId) {
+        Patient patient = patientRepository.findById(patientId)
+            .orElseThrow(() -> new EntityNotFoundException("Paciente no encontrado"));
+        return PatientDataMapper.toDto(patient);
     }
 
 }

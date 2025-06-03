@@ -32,19 +32,21 @@ export class CalendarComponent {
   treatments: TreatmentDto[] = [];
   appointments: AppointmentDto[] = [];
 
-  patientEffect = effect(() => {
-    const patientId = this.patientService.getPatientId()();
-    if (patientId != null) {
-      this.loadData(patientId);
-    }
-  });
+patientEffect = effect(() => {
+  const patientId = this.patientService.getPatientId()();
+  if (patientId != null) {
+    this.clearData();
+    this.loadData(patientId);
+  } else {
+    this.clearData();
+  }
+});
 
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
 
   events: CalendarEvent[] = [];
-
 
   setView(view: CalendarView) {
     this.view = view;
@@ -123,4 +125,10 @@ export class CalendarComponent {
       };
     });
   }
+
+  private clearData() {
+  this.treatments = [];
+  this.appointments = [];
+  this.events = [];
+}
 }
