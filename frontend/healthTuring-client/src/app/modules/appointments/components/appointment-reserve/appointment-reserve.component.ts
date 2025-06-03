@@ -41,6 +41,7 @@ export class AppointmentReserveComponent {
     if (patient != null) {
       this.patientId = patient.id;
       this.doctorId = patient.doctorId;
+      this.onDateChange();
     }
   });
 

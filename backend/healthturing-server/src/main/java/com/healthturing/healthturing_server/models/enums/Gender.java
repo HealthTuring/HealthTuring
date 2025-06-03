@@ -1,6 +1,3 @@
 package com.healthturing.healthturing_server.models.enums;
 
-public enum RhFactor {
-    POSITIVE,
-    NEGATIVE
-}
+public enum Gender { M, F, O }

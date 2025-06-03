@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.healthturing.healthturing_server.dto.AppointmentDTO;
 import com.healthturing.healthturing_server.dto.AppointmentRequestDTO;
+import com.healthturing.healthturing_server.exceptions.AppointmentLimitException;
 import com.healthturing.healthturing_server.services.AppointmentService;
 
 @RestController
@@ -73,6 +74,8 @@ public class AppointmentController {
                     request.startTime,
                     request.reason);
             return ResponseEntity.status(HttpStatus.CREATED).body("La cita se creo con éxito");
+        } catch (AppointmentLimitException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
@@ -80,5 +83,4 @@ public class AppointmentController {
                     .body("Error reservando cita: " + e.getMessage());
         }
     }
-
 }

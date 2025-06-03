@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.healthturing.healthturing_server.dto.AppointmentDTO;
+import com.healthturing.healthturing_server.exceptions.AppointmentLimitException;
 import com.healthturing.healthturing_server.mapper.AppointmentMapper;
 import com.healthturing.healthturing_server.models.Appointment;
 import com.healthturing.healthturing_server.models.Patient;
@@ -27,10 +28,13 @@ public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final PatientRepository patientRepository;
+    private final EmailTemplateService emailTemplateService;
 
-    public AppointmentService(AppointmentRepository appointmentRepository, PatientRepository patientRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, PatientRepository patientRepository,
+            EmailTemplateService emailTemplateService) {
         this.appointmentRepository = appointmentRepository;
         this.patientRepository = patientRepository;
+        this.emailTemplateService = emailTemplateService;
     }
 
     public List<AppointmentDTO> getAppointmentsByPatientId(Long patientId) {
@@ -67,13 +71,19 @@ public class AppointmentService {
         boolean isToday = date.equals(today);
 
         return allSlots.stream()
-                .filter(time -> !reservedSlots.contains(time)) 
-                .filter(time -> !isToday || time.isAfter(now)) 
+                .filter(time -> !reservedSlots.contains(time))
+                .filter(time -> !isToday || time.isAfter(now))
                 .collect(Collectors.toList());
     }
 
     public Appointment createAppointment(Long patientId, Long doctorId, LocalDate date, LocalTime startTime,
             String reason) {
+
+        int patientAppointments = appointmentRepository.countByPatientId(patientId);
+        if (patientAppointments >= 3) {
+            throw new AppointmentLimitException("No puedes tener más de 3 reservas de citas activas.");
+        }
+
         LocalDate today = LocalDate.now();
         LocalDate maxDate = today.plusDays(7);
         if (date.isBefore(today) || date.isAfter(maxDate)) {
@@ -113,7 +123,20 @@ public class AppointmentService {
         appointment.setStartTime(startTime);
         appointment.setEndTime(startTime.plusHours(1));
         appointment.setReason(reason);
-        return appointmentRepository.save(appointment);
+        Appointment saved = appointmentRepository.save(appointment);
+
+        try {
+            this.emailTemplateService.sendConfirmationAppointmentEmail(
+                    patient.getUser().getEmail(),
+                    patient.getName(),
+                    date,
+                    startTime,
+                    reason);
+        } catch (Exception e) {
+            System.err.println("Error enviando correo de confirmación: " + e.getMessage());
+        }
+
+        return saved;
     }
 
 }

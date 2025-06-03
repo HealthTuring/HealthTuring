@@ -41,11 +41,15 @@ public class UserSeeder implements CommandLineRunner{
             User user = new User("user@mail.com" , "userName", passwordEncoder.encode("$Userpass1"));
             user.setEnabled(true);
 
-            User doctor = new User("doc@mail.com", "doctorName", passwordEncoder.encode("$Docpass1"));
+            User doctor = new User("doc@mail.com", "Paco de los Datos", passwordEncoder.encode("$Docpass1"));
             doctor.setRole(Role.ROLE_DOC);
             doctor.setEnabled(true);
 
-            userRepository.saveAll(List.of(admin, user, doctor));
+            User doctor2 = new User("doc2@mail.com", "Manolo el de los Nodos", passwordEncoder.encode("$Docpass1"));
+            doctor2.setRole(Role.ROLE_DOC);
+            doctor2.setEnabled(true);
+
+            userRepository.saveAll(List.of(admin, user, doctor, doctor2));
 
             System.out.println("Usuarios creados con éxito");
         }else{
