@@ -12,16 +12,11 @@
     <div
       class="hidden md:flex items-center justify-center space-x-3 text-sm cursor-pointer rounded py-2 bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md select-none"
       (click)="toggleSidebar()">
-      <span class="material-icons-outlined" [ngClass]="{'rotate-180': isCollapsed}">start</span>
+      <span class="material-icons-outlined" [ngClass]="{'rotate-180': !isCollapsed}">start</span>
       <span *ngIf="!isCollapsed">Colapsar</span>
     </div>
 
     <ul class="flex flex-col mt-5 space-y-2 font-medium select-none" [ngClass]="{'items-center': isCollapsed}">
-      <li
-        class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md">
-        <span class="material-icons-outlined">medical_information</span>
-        <span *ngIf="!isCollapsed">Historial Clínico</span>
-      </li>
       <li
         class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
         routerLink="/home/calendar" routerLinkActive="active">
@@ -33,6 +28,12 @@
         routerLink="/home/chat" routerLinkActive="active">
         <span class="material-icons-outlined">support_agent</span>
         <span *ngIf="!isCollapsed">Cita Online</span>
+      </li>
+      <li
+        class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
+        routerLink="/home/appointment" routerLinkActive="active">
+        <span class="material-icons-outlined">confirmation_number</span>
+        <span *ngIf="!isCollapsed">Reservar Cita</span>
       </li>
       <li
         class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"

@@ -6,6 +6,7 @@ import { ChatComponent } from "./chat/components/chat/chat.component";
 import { DoctorTreatmentPageComponent } from "./doctor-treatment/pages/doctor-treatment/doctor-treatment-page.component";
 import { UserRoleGuard } from "../core/guards/user-role.guard";
 import { DoctorRoleGuard } from "../core/guards/doctor-role.guard";
+import { AppointmentPageComponent } from "./appointments/pages/appointment-page/appointment-page.component";
 
 export const modulesRoutes: Routes = [
   {
@@ -24,6 +25,10 @@ export const modulesRoutes: Routes = [
       {
         path: 'chat',
         component: ChatComponent
+      },
+      {
+        path: 'appointment',
+        component: AppointmentPageComponent
       },
       {
         path: 'doctor-treatment',

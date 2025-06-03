@@ -1,0 +1,3 @@
+.border-primary {
+  border-left: 4px solid var(--primary-blue);
+}
