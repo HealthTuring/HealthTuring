@@ -7,17 +7,6 @@
 .hero__subtitle {
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.16);
 }
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 
 /* ----------------- */
 /* MOBILE FIRST BASE */
@@ -98,7 +87,7 @@
   border-radius: 0.25rem;
   font-weight: bold;
   margin: 1rem 0 0 1rem;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.5s, color 0.5s;
   font-size: 1rem;
   cursor: pointer;
 }
@@ -202,7 +191,7 @@
   font-weight: bold;
   text-decoration: none;
   margin-bottom: 1.2rem;
-  transition: background 0.2s;
+  transition: background 0.5s, color 0.5s;
   display: inline-block;
 }
 .hero__btn:hover {
