@@ -1,0 +1,47 @@
+<form th:action="@{/incompatibilities}" th:object="${incompatibility}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    
+    <label>Medicament:
+        <select th:field="*{medicament.id}" required>
+            <option th:each="med : ${medicaments}" th:value="${med.id}" th:text="${med.commonName}"></option>
+        </select>
+    </label><br/>
+    
+    <label>Incompatible Medicament:
+        <select th:field="*{incompatibleMedicament.id}" id="medicamentSelect" onchange="toggleSubstanceSelect()">
+            <option value="">--None--</option>
+            <option th:each="med : ${medicaments}" th:value="${med.id}" th:text="${med.commonName}"></option>
+        </select>
+    </label><br/>
+    
+    <label>Incompatible Substance:
+        <select th:field="*{incompatibleSubstance.id}" id="substanceSelect" onchange="toggleMedicamentSelect()">
+            <option value="">--None--</option>
+            <option th:each="sub : ${substances}" th:value="${sub.id}" th:text="${sub.name}"></option>
+        </select>
+    </label><br/>
+
+    <button type="submit">Save</button>
+</form>
+
+<script>
+function toggleSubstanceSelect() {
+    const medSelect = document.getElementById('medicamentSelect');
+    const subSelect = document.getElementById('substanceSelect');
+    if (medSelect.value) {
+        subSelect.disabled = true;
+    } else {
+        subSelect.disabled = false;
+    }
+}
+function toggleMedicamentSelect() {
+    const medSelect = document.getElementById('medicamentSelect');
+    const subSelect = document.getElementById('substanceSelect');
+    if (subSelect.value) {
+        medSelect.disabled = true;
+    } else {
+        medSelect.disabled = false;
+    }
+}
+</script>
+<a href="/incompatibilities">Back</a>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Incompatibilities List</title></head>
+<body>
+<h1>Incompatibilities</h1>
+<a href="/incompatibilities/create">Add New Incompatibility</a>
+<table>
+    <tr><th>ID</th><th>Medicament</th><th>Incompatible Medicament</th><th>Incompatible Substance</th><th>Actions</th></tr>
+    <tr th:each="inc : ${incompatibilities}">
+        <td th:text="${inc.id}"></td>
+        <td th:text="${inc.medicament?.commonName}"></td>
+        <td th:text="${inc.incompatibleMedicament?.commonName}"></td>
+        <td th:text="${inc.incompatibleSubstance?.name}"></td>
+        <td>
+            <a th:href="@{/incompatibilities/view/{id}(id=${inc.id})}">View</a>
+            <a th:href="@{/incompatibilities/edit/{id}(id=${inc.id})}">Edit</a>
+            <a th:href="@{/incompatibilities/delete/{id}(id=${inc.id})}">Delete</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

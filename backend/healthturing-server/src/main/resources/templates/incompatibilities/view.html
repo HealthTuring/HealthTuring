@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>View Incompatibility</title></head>
+<body>
+<h1>Incompatibility Details</h1>
+<p>ID: <span th:text="${incompatibility.id}"></span></p>
+<p>Medicament: <span th:text="${incompatibility.medicament?.commonName}"></span></p>
+<p>Incompatible Medicament: <span th:text="${incompatibility.incompatibleMedicament?.commonName}"></span></p>
+<p>Incompatible Substance: <span th:text="${incompatibility.incompatibleSubstance?.name}"></span></p>
+<a href="/incompatibilities">Back</a>
+</body>
+</html>
