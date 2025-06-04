@@ -62,7 +62,7 @@ public class Patient {
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
-    private User doctor; // Ahora es nullable
+    private User doctor;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Treatment> treatments = new ArrayList<>();

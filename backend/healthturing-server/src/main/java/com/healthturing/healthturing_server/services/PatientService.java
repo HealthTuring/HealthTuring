@@ -14,6 +14,7 @@ import com.healthturing.healthturing_server.mapper.PatientMapper;
 import com.healthturing.healthturing_server.models.Patient;
 import com.healthturing.healthturing_server.models.PatientAssignationRequest;
 import com.healthturing.healthturing_server.models.User;
+import com.healthturing.healthturing_server.models.enums.Role;
 import com.healthturing.healthturing_server.repositories.PatientAssignationRequestRepository;
 import com.healthturing.healthturing_server.repositories.PatientRepository;
 import com.healthturing.healthturing_server.repositories.UserRepository;
@@ -57,43 +58,38 @@ public class PatientService {
         return PatientDataMapper.toDto(patient);
     }
 
-    @Transactional
-    public Patient createPatientForUser(PatientCreateDTO dto, Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+@Transactional
+public Patient createPatientForUser(PatientCreateDTO dto, Long userId) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
 
-        int count = patientRepository.countByUserId(userId);
-        if (count >= 3) {
-            throw new IllegalStateException("Máximo de 3 pacientes por usuario.");
-        }
+    if (!user.getRole().equals(Role.ROLE_USER))
+        throw new IllegalArgumentException("El propietario debe ser un usuario");
 
-        if (patientRepository.existsByDni(dto.getDni())) {
-            throw new IllegalStateException("El DNI ya está registrado en otro paciente.");
-        }
+    int count = patientRepository.countByUserId(userId);
+    if (count >= 3) throw new IllegalStateException("Máximo de 3 pacientes por usuario.");
 
-        Patient patient = new Patient();
-        patient.setName(dto.getName());
-        patient.setDni(dto.getDni());
-        patient.setDateOfBirth(dto.getDateOfBirth());
-        patient.setGender(dto.getGender());
-        patient.setBloodGroup(dto.getBloodGroup());
-        patient.setRhFactor(dto.getRhFactor());
-        patient.setEmergencyContact(dto.getEmergencyContact());
-        patient.setUser(user);
-        patient.setDoctorAssigned(false);
-        patient.setDoctor(null);
+    if (patientRepository.existsByDni(dto.getDni()))
+        throw new IllegalStateException("El DNI ya está registrado en otro paciente.");
 
-        PatientAssignationRequest request = new PatientAssignationRequest(
-            patient.getName(),
-            patient.getDni(),
-            patient.getUser().getName(),
-            patient.getUser().getEmail(),
-            patient.isDoctorAssigned()
-        );
+    Patient patient = new Patient();
+    patient.setName(dto.getName());
+    patient.setDni(dto.getDni());
+    patient.setDateOfBirth(dto.getDateOfBirth());
+    patient.setGender(dto.getGender());           
+    patient.setBloodGroup(dto.getBloodGroup());
+    patient.setRhFactor(dto.getRhFactor());
+    patient.setEmergencyContact(dto.getEmergencyContact());
+    patient.setUser(user);
+    patient.setDoctorAssigned(false);
+    patient.setDoctor(null);
 
-        assignationRepository.save(request);
-        
-        return patientRepository.save(patient);
-    }
+    Patient savedPatient = patientRepository.save(patient);
+
+    PatientAssignationRequest request = new PatientAssignationRequest(savedPatient);
+    assignationRepository.save(request);
+
+    return savedPatient;
+}
 
 }
