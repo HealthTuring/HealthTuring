@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
-@PreAuthorize("hasRole('ROLE_ADMIN')") // Aplica seguridad a toda la clase
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class AdminController {
     public String showDoctorRequests(Model model) {
         List<DoctorRegistrationRequest> requests = doctorRequestRepo.findByApprovedFalse();
         model.addAttribute("requests", requests);
-        return "doctor-requests"; // Asegúrate que esta vista exista
+        return "doctor-requests";
     }
 
     @PostMapping("/doctor-requests/approve/{id}")

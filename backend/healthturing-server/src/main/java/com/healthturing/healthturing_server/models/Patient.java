@@ -57,9 +57,12 @@ public class Patient {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(optional = false)
+    @Column(nullable = false)
+    private boolean doctorAssigned = false;
+
+    @ManyToOne
     @JoinColumn(name = "doctor_id")
-    private User doctor;
+    private User doctor; // Ahora es nullable
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Treatment> treatments = new ArrayList<>();
@@ -68,12 +71,6 @@ public class Patient {
     private List<Appointment> appointments = new ArrayList<>();
 
     public Patient() {
-    }
-
-    public Patient(String name, User user, User doctor) {
-        this.name = name;
-        this.user = user;
-        this.doctor = doctor;
     }
 
     public Patient(String name, String dni, LocalDate dateOfBirth, Gender gender, BloodGroup bloodGroup,
@@ -87,6 +84,7 @@ public class Patient {
         this.emergencyContact = emergencyContact;
         this.user = user;
         this.doctor = doctor;
+        this.doctorAssigned = true;
     }
 
 }

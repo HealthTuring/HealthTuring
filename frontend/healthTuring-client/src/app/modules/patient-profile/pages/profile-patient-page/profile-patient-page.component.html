@@ -23,7 +23,7 @@
         </div>
         <div>
           <div class="text-gray-500 font-semibold">Fecha de nacimiento</div>
-          <div class="text-gray-900">{{ patient.dateOfBirth }}</div>
+          <div class="text-gray-900">{{ patient.dateOfBirth| date:'longDate':'':'es' }}</div>
         </div>
         <div>
           <div class="text-gray-500 font-semibold">Género</div>

@@ -30,10 +30,11 @@ public class PatientSeeder implements CommandLineRunner {
     public void run(String... args) {
         if (patientRepository.count() == 0) {
             User user = userRepository.findById(2L).orElse(null);
-            User doctor = userRepository.findById(3L).orElse(null);
-            User doctor2 = userRepository.findById(4L).orElse(null);
+            User user2 = userRepository.findById(3L).orElse(null);
+            User doctor = userRepository.findById(4L).orElse(null);
+            User doctor2 = userRepository.findById(5L).orElse(null);
 
-            if (user != null && doctor != null && doctor2 != null) {
+            if (user != null && doctor != null && doctor2 != null && user2 != null) {
                 Patient patient1 = new Patient(
                     "David Larrubia",
                     "12345678A",
@@ -54,7 +55,7 @@ public class PatientSeeder implements CommandLineRunner {
                     BloodGroup.A,
                     RhFactor.POSITIVE,
                     "Dolores Aveiro - 600654321",
-                    user,
+                    user2,
                     doctor
                 );
 
