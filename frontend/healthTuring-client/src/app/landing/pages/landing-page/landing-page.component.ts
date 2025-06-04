@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import Chart, { registerables } from 'chart.js/auto';
+Chart.register(...registerables);
 
 @Component({
   imports: [RouterLink],
@@ -8,11 +10,14 @@ import { RouterLink } from '@angular/router';
 })
 export class LandingPageComponent implements AfterViewInit {
 
+  @ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
+
   constructor(private el: ElementRef) {}
 
   ngAfterViewInit() {
     this.checkPanels();
     this.checkOpinions();
+    this.buildChart();
   }
 
   @HostListener('window:scroll', [])
@@ -45,6 +50,33 @@ export class LandingPageComponent implements AfterViewInit {
       } else {
         opinion.classList.remove('reviews__item--visible');
         opinion.style.transitionDelay = '0s';
+      }
+    });
+  }
+
+  buildChart() {
+  new Chart(this.chartCanvas.nativeElement, {
+      type: 'doughnut',
+      data: {
+        labels: ['Citas concertadas', 'Tratamientos activos'],
+        datasets: [{
+          label: 'Totales',
+          data: [27, 72],
+          backgroundColor: ['#2DABB9', '#1e2939']
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          title: {
+            display: true,
+            text: 'Resumen general'
+          }
+        }
       }
     });
   }

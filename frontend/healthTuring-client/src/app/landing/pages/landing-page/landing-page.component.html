@@ -8,14 +8,11 @@
       <a class="navbar__link" href="#services">Servicios</a>
       <a class="navbar__link" href="#about">Sobre Nosotros</a>
       <a class="navbar__link" href="#reviews">Opiniones</a>
-      <a class="navbar__link" href="#contact">Contacto</a>
+      <a class="navbar__link" href="#stats">Estadísticas</a>
       <span class="navbar__span" routerLink="/auth/login">Iniciar sesión</span>
     </nav>
-    <button
-      class="navbar__toggle"
-      aria-label="Abrir menú"
-      onclick="document.getElementById('navbar-menu').classList.toggle('navbar__menu--active')"
-    >
+    <button class="navbar__toggle" aria-label="Abrir menú"
+      onclick="document.getElementById('navbar-menu').classList.toggle('navbar__menu--active')">
       <span class="navbar__toggle-bar"></span>
       <span class="navbar__toggle-bar"></span>
       <span class="navbar__toggle-bar"></span>
@@ -117,10 +114,7 @@
     <div class="reviews__list">
       <div class="reviews__item reviews__item--left">
         <div class="reviews__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/women/44.jpg"
-            alt="Avatar de María López"
-          />
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Avatar de María López" />
         </div>
         <div class="reviews__content">
           <p class="reviews__text">
@@ -133,10 +127,7 @@
       </div>
       <div class="reviews__item reviews__item--right">
         <div class="reviews__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/men/35.jpg"
-            alt="Avatar de Carlos Ramírez"
-          />
+          <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="Avatar de Carlos Ramírez" />
         </div>
         <div class="reviews__content">
           <p class="reviews__text">
@@ -149,10 +140,7 @@
       </div>
       <div class="reviews__item reviews__item--left">
         <div class="reviews__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/women/65.jpg"
-            alt="Avatar de Elena Sánchez"
-          />
+          <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Avatar de Elena Sánchez" />
         </div>
         <div class="reviews__content">
           <p class="reviews__text">
@@ -166,6 +154,31 @@
     </div>
   </div>
 </section>
+
+<section class="stats" id="stats">
+  <div class="stats__container">
+    <h2 class="stats__title">Estadísticas</h2>
+    <div class="stats__layout">
+      <div class="stats__info">
+        <div class="stats__info-item">
+          <span class="stats__info-label">Tratamientos activos</span>
+          <span class="stats__info-value stats__info-value--treatments">72</span>
+        </div>
+      </div>
+      <div class="stats__canva">
+        <canvas #chartCanvas></canvas>
+      </div>
+      <div class="stats__info">
+        <div class="stats__info-item">
+          <span class="stats__info-label">Citas concertadas</span>
+          <span class="stats__info-value stats__info-value--appointments">27</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
 <script>
   // Cerrar menú al hacer click fuera (opcional)

@@ -1,16 +1,4 @@
-/* Animaciones y sombras */
-.hero__content,
-.hero__main {
-  animation: fadeInUp 2.25s cubic-bezier(0.19, 1, 0.22, 1);
-}
-.hero__title,
-.hero__subtitle {
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.16);
-}
-
-/* ----------------- */
-/* MOBILE FIRST BASE */
-/* ----------------- */
+/* NAVBAR SECTION */
 
 .navbar {
   background-color: var(--my-white);
@@ -58,8 +46,8 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: var(--neutral);
-  padding: 1rem 0;
+  background-color: var(--neutral);
+  padding-bottom: 1rem;
   z-index: 20;
 }
 .navbar__menu--active {
@@ -113,7 +101,7 @@
   display: block;
 }
 
-/* Hero Section */
+/* HERO SECTION */
 .hero {
   min-height: 90vh;
   position: relative;
@@ -162,6 +150,11 @@
   gap: 1.1rem;
 }
 
+.hero__content,
+.hero__main {
+  animation: fadeInUp 2.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
 .hero__title {
   font-family: var(--font-title);
   font-size: 1.7rem;
@@ -170,6 +163,7 @@
   line-height: 1.2;
   color: var(--my-white);
 }
+
 .hero__highlight {
   color: var(--primary-blue);
 }
@@ -179,6 +173,12 @@
   margin-bottom: 1.4rem;
   color: var(--my-white);
 }
+
+.hero__title,
+.hero__subtitle {
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.16);
+}
+
 .hero__btn {
   text-align: center;
   width: 100%;
@@ -193,6 +193,7 @@
   transition: background 0.5s, color 0.5s;
   display: inline-block;
 }
+
 .hero__btn:hover {
   background: var(--my-white);
   color: var(--primary-blue);
@@ -218,11 +219,13 @@
   font-size: 1rem;
   color: var(--my-white);
 }
+
 .hero__tags {
   display: flex;
   gap: 0.35rem;
   flex-wrap: wrap;
 }
+
 .hero__tag {
   background: rgba(255, 255, 255, 0.14);
   color: var(--my-white);
@@ -234,7 +237,7 @@
   margin-bottom: 0.2rem;
 }
 
-/* ======= SERVICIOS ======= */
+/* SERVICES SECTION */
 .services {
   padding: 1rem 2rem;
   font-family: var(--font-primary);
@@ -301,7 +304,7 @@
   line-height: 1.5;
 }
 
-/* ======= SOBRE NOSOTROS ======= */
+/* ABOUT SECTION */
 .about {
   padding: 1rem 2rem;
   font-family: var(--font-primary);
@@ -385,6 +388,8 @@
   border-radius: 0.25rem;
   background: #000;
 }
+
+/* OPINIONS SECTION */
 
 .reviews {
   background: var(--my-white);
@@ -482,6 +487,97 @@
 .reviews__detail {
   color: #8ea5be;
   font-size: 0.95rem;
+}
+
+/* STATS SECTION */
+
+.stats {
+  padding: 1rem 2rem;
+  font-family: var(--font-primary);
+}
+
+.stats__title {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  color: var(--neutral);
+  margin: 1rem 0rem;
+}
+
+.stats__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stats__layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.stats__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stats__info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.2rem;
+  gap: 0.5rem;
+}
+
+.stats__info-label {
+  font-weight: 600;
+}
+
+.stats__info-value {
+  font-weight: bold;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.stats__info-value--treatments {
+  background-color: var(--neutral);
+  color: var(--my-white);
+}
+
+.stats__info-value--appointments {
+  background-color: var(--primary-blue);
+  color: var(--my-white);
+}
+
+.stats__canva {
+  width: 100%;
+  max-width: 400px;
+}
+
+.stats__canva canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* --- Desktop layout (from 768px up) --- */
+@media screen and (min-width: 768px) {
+  .stats__layout {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .stats__info {
+    width: 200px;
+  }
+
+  .stats__canva {
+    flex: 1;
+    max-width: 500px;
+  }
 }
 
 /* Responsive */
@@ -594,7 +690,8 @@
   }
   .services,
   .about,
-  .reviews {
+  .reviews,
+  .stats {
     padding: 3rem 2rem;
   }
 }
@@ -622,7 +719,8 @@
   }
   .services__title,
   .about__title,
-  .reviews__title {
+  .reviews__title,
+  .stats__title {
     font-size: 2.3rem;
   }
   .about__container {
