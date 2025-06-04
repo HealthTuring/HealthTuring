@@ -74,7 +74,7 @@ export class LandingPageComponent implements AfterViewInit {
           },
           title: {
             display: true,
-            text: 'Resumen general'
+            text: 'Resumen de datos de la aplicación'
           }
         }
       }

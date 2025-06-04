@@ -562,6 +562,140 @@
   height: auto !important;
 }
 
+.footer {
+  background: #0d233d;
+  color: #fff;
+  padding: 3rem 0 1.5rem 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+.footer__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footer__brand {
+  flex: 1 1 220px;
+  min-width: 220px;
+  max-width: 300px;
+}
+
+.footer__logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  margin-bottom: 0.7rem;
+  filter: drop-shadow(0 2px 8px rgba(40,70,200,0.07));
+}
+
+.footer__brandName {
+  display: block;
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.03em;
+}
+
+.footer__desc {
+  font-size: 1rem;
+  color: #c0cbe1;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+.footer__nav, .footer__contact {
+  flex: 1 1 170px;
+  min-width: 170px;
+}
+
+.footer__nav-title,
+.footer__contact-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #b1d4fa;
+  letter-spacing: 0.02em;
+}
+
+.footer__nav ul,
+.footer__contact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer__link {
+  color: #e1ebf7;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+.footer__link:hover {
+  color: var(--primary-blue);
+  text-decoration: underline;
+}
+
+.footer__contact li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.footer__icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.6rem;
+  opacity: 0.8;
+  filter: drop-shadow(0 2px 8px rgba(40,70,200,0.09));
+}
+
+.footer__bottom {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  border-top: 1px solid #2b486a;
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  font-size: 0.95rem;
+  color: #b0c6d9;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .footer__container {
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .footer__brand, .footer__nav, .footer__contact {
+    min-width: 180px;
+    flex: 1 1 180px;
+  }
+}
+
+@media (max-width: 650px) {
+  .footer__container {
+    align-items: center;
+    gap: 2.2rem;
+    padding: 0 1rem;
+  }
+  .footer__brand, .footer__nav, .footer__contact {
+    max-width: none;
+    min-width: 0;
+  }
+  .footer__brand {
+    align-items: flex-start;
+    margin-bottom: 0.8rem;
+  }
+  .footer__bottom {
+    font-size: 0.93rem;
+  }
+}
+
 /* --- Desktop layout (from 768px up) --- */
 @media screen and (min-width: 768px) {
   .stats__layout {
