@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>View Incompatibility</title></head>
-<body>
-<h1>Incompatibility Details</h1>
-<p>ID: <span th:text="${incompatibility.id}"></span></p>
-<p>Medicament: <span th:text="${incompatibility.medicament?.commonName}"></span></p>
-<p>Incompatible Medicament: <span th:text="${incompatibility.incompatibleMedicament?.commonName}"></span></p>
-<p>Incompatible Substance: <span th:text="${incompatibility.incompatibleSubstance?.name}"></span></p>
-<a href="/incompatibilities">Back</a>
+<body class="flex flex-col min-h-screen">
+    <div th:replace="shared/header :: header"></div>
+
+    <div class="container mx-auto px-4 flex-grow">
+        <div class="flex flex-col shadow bg-white text-gray-800 rounded border border-gray-200
+                transition-transform duration-300 hover:scale-102 w-full
+                max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xs h-full min-w-2xs min-h-50 p-6 m-2">
+            <h3 class="text-lg font-bold mb-3">Incompatibility Details</h3>
+            <div class="rounded p-3 mt-2 text-sm space-y-1">
+                <p><span class="font-semibold">ID:</span> <span th:text="${incompatibility.id}"></span></p>
+                <p><span class="font-semibold">Medicament:</span> <span th:text="${incompatibility.medicament?.commonName}"></span></p>
+                
+                <!-- Mostrar solo si hay medicamento incompatible -->
+                <p th:if="${incompatibility.incompatibleMedicament != null}">
+                    <span class="font-semibold">Incompatible Medicament:</span>
+                    <span th:text="${incompatibility.incompatibleMedicament.commonName}"></span>
+                </p>
+                
+                <!-- Mostrar solo si hay sustancia incompatible -->
+                <p th:if="${incompatibility.incompatibleSubstance != null}">
+                    <span class="font-semibold">Incompatible Substance:</span>
+                    <span th:text="${incompatibility.incompatibleSubstance.name}"></span>
+                </p>
+            </div>
+            <a class="bg-gray-300 text-center hover:bg-gray-400 text-black font-bold py-2 px-4 mt-4 rounded inline-block w-20" href="/admin/incompatibilities">Back</a>
+        </div>
+    </div>
+
+    <div th:replace="shared/footer :: footer"></div>
 </body>
 </html>
+

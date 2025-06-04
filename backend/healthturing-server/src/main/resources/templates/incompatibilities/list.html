@@ -1,22 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>Incompatibilities List</title></head>
-<body>
-<h1>Incompatibilities</h1>
-<a href="/incompatibilities/create">Add New Incompatibility</a>
-<table>
-    <tr><th>ID</th><th>Medicament</th><th>Incompatible Medicament</th><th>Incompatible Substance</th><th>Actions</th></tr>
-    <tr th:each="inc : ${incompatibilities}">
-        <td th:text="${inc.id}"></td>
-        <td th:text="${inc.medicament?.commonName}"></td>
-        <td th:text="${inc.incompatibleMedicament?.commonName}"></td>
-        <td th:text="${inc.incompatibleSubstance?.name}"></td>
-        <td>
-            <a th:href="@{/incompatibilities/view/{id}(id=${inc.id})}">View</a>
-            <a th:href="@{/incompatibilities/edit/{id}(id=${inc.id})}">Edit</a>
-            <a th:href="@{/incompatibilities/delete/{id}(id=${inc.id})}">Delete</a>
-        </td>
-    </tr>
-</table>
+<body class="flex flex-col min-h-screen">
+        <div th:replace="shared/header :: header"></div>
+
+    <div class="container mx-auto px-4 flex-grow" >
+
+        <div class="flex items-center mb-4 mt-2 space-x-4">
+            <h1 class="text-2xl font-bold">Incompatibilities</h1>
+            <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded text-xl" href="/admin/incompatibilities/create">
+                +
+            </a>
+        </div>
+        <table class="min-w-full border-separate border-spacing-y-2 border-spacing-x-2">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">ID</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Medicament</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Incompatible Medicament</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Incompatible Substance</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="inc : ${incompatibilities}" class="">
+                    <td th:text="${inc.id}"></td>
+                    <td th:text="${inc.medicament?.commonName}"></td>
+                    <td th:text="${inc.incompatibleMedicament?.commonName}"></td>
+                    <td th:text="${inc.incompatibleSubstance?.name}"></td>
+                    <td>
+                        <div class="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0">
+                            <a th:href="@{/admin/incompatibilities/view/{id}(id=${inc.id})}"  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded mr-2">View</a>
+                            <a th:href="@{/admin/incompatibilities/edit/{id}(id=${inc.id})}" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-1 px-3 rounded mr-2">Edit</a>
+                            <a th:href="@{/admin/incompatibilities/delete/{id}(id=${inc.id})}"  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Delete</a>
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+            
+            
+        </table>
+
+    </div>
+
+
+
+<div th:replace="shared/footer :: footer"></div>
 </body>
 </html>

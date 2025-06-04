@@ -1,42 +1,60 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:fragment="header">
-        <meta charset="UTF-8">
-        <title>Vista Administrador</title>
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-        <link rel="stylesheet" th:href="@{/css/style.css}">
+<head th:fragment="header">
+    <meta charset="UTF-8">
+    <title>Vista Administrador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 
+<header class="bg-primary flex justify-between items-center px-6 py-3" th:fragment="navbar">
+    <div class="flex items-center gap-6">
+        <!-- Logo + título alineados -->
+        <a th:href="@{/landing}" class="flex items-center gap-2">
+            <img th:src="@{/images/LogoWhite.png}" alt="HealthTuring Logo" class="h-10" />
+            <h2 class="text-xl font-semibold text-white mytitle-font">HealthTuring</h2>
+        </a>
 
-    </head>
-    <!-- <body>
-    <nav class="bg-black text-white p-2 flex space-x-4" th:fragment="navbar">
-        <a href="#" class="hover:underline">HealthTuring Administrador</a>
-        <a th:href="@{/vista}" class="hover:underline">Vista</a>
-        <a th:href="@{/landing}" class="hover:underline">Landing</a>
-    </nav>
-    </body> -->
-
-    <header class="bg-primary flex justify-between items-center px-6 py-3" th:fragment="navbar">
-
-        <div class="flex items-center gap-2">
-            <a th:href="@{/landing}" class="flex items-center gap-2">
-                <img th:src="@{/images/LogoWhite.png}" alt="HealthTuring Logo" class="h-10 cursor-pointer" />
-                <h2 class="sm:text-xl font-semibold mytitle-font text-white cursor-pointer">
-                    HealthTuring
-                </h2>
-            </a>
-            
-
-            <a th:href="@{/vista}" class="sm:text-xl font-semibold mytitle-font text-white cursor-pointer">Vista</a>
-            <a th:href="@{/landing}" class="sm:text-xl font-semibold mytitle-font text-white cursor-pointer">Landing</a>
-
-            
+        <!-- Menú normal (oculto en pantallas pequeñas) -->
+        <div class="hidden md:flex gap-4 items-center">
+            <a th:href="@{/admin/medicaments}" class="text-white font-medium hover:underline">Medicaments</a>
+            <a th:href="@{/admin/substances}" class="text-white font-medium hover:underline">Substances</a>
+            <a th:href="@{/admin/incompatibilities}" class="text-white font-medium hover:underline">Incompatibilities</a>
+            <a th:href="@{/admin/doctor-requests}" class="text-white font-medium hover:underline">Requests</a>
         </div>
+    </div>
 
-        <li class="flex items-center  gap-2 m-2 p-2 bg-red-700 hover:bg-red-600 text-white rounded cursor-pointer">
-            <span class="font-medium">Cerrar sesión</span>
-        </li>
-    
-    
-    </header>
+    <!-- Cerrar sesión -->
+    <a href="/api/auth/logout" class="flex items-center justify-center p-2 bg-red-700 hover:bg-red-600 text-white rounded cursor-pointer w-10 h-10">
+        <span class="material-icons">logout</span>
+    </a>
+
+
+    <!-- Botón hamburguesa -->
+    <button class="md:hidden text-white focus:outline-none" onclick="toggleMenu()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+    </button>
+
+    <!-- Menú hamburguesa desplegable -->
+    <div id="menu" class="md:hidden hidden flex-col absolute top-16 left-0 w-full bg-primary p-4 z-10 space-y-2">
+        <a th:href="@{/admin/medicaments}" class="text-white block">Medicaments</a>
+        <a th:href="@{/admin/substances}" class="text-white block">Substances</a>
+        <a th:href="@{/admin/incompatibilities}" class="text-white block">Incompatibilities</a>
+        <a th:href="@{/admin/doctor-requests}" class="text-white block">Requests</a>
+        
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+</header>
+
+
 </html>

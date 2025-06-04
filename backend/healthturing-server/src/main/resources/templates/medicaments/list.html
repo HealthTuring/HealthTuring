@@ -8,7 +8,7 @@
 
         <div class="flex items-center mb-4 mt-2 space-x-4">
             <h1 class="text-2xl font-bold">Medicaments</h1>
-            <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded text-xl" href="/medicaments/create">
+            <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded text-xl" href="/admin/medicaments/create">
                 +
             </a>
         </div>
@@ -29,9 +29,9 @@
                     <td th:text="${med.scientificName}"></td>
                     <td>
                         <div class="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0">
-                            <a th:href="@{/medicaments/view/{id}(id=${med.id})}"  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded mr-2">View</a>
-                            <a th:href="@{/medicaments/edit/{id}(id=${med.id})}" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-1 px-3 rounded mr-2">Edit</a>
-                            <a th:href="@{/medicaments/delete/{id}(id=${med.id})}"  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Delete</a>
+                            <a th:href="@{/admin/medicaments/view/{id}(id=${med.id})}"  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded mr-2">View</a>
+                            <a th:href="@{/admin/medicaments/edit/{id}(id=${med.id})}" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-1 px-3 rounded mr-2">Edit</a>
+                            <a th:href="@{/admin/medicaments/delete/{id}(id=${med.id})}"  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Delete</a>
                         </div>
 
                     </td>

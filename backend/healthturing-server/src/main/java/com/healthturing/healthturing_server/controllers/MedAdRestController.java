@@ -12,7 +12,7 @@ import com.healthturing.healthturing_server.models.Medicament;
 import com.healthturing.healthturing_server.services.MedicamentService;
 
 @Controller
-@RequestMapping("/medicaments")
+@RequestMapping("/admin/medicaments")
 public class MedAdRestController {
     private final MedicamentService medicamentService;
 
@@ -35,7 +35,7 @@ public class MedAdRestController {
     @PostMapping
     public String createMedicament(@ModelAttribute Medicament medicament) {
         medicamentService.createMedicament(medicament);
-        return "redirect:/medicaments";
+        return "redirect:/admin/medicaments";
     }
 
     @GetMapping("/edit/{id}")
@@ -49,13 +49,13 @@ public class MedAdRestController {
     public String updateMedicament(@PathVariable Long id, @ModelAttribute Medicament medicament) {
         medicament.setId(id);
         medicamentService.updateMedicament(medicament);
-        return "redirect:/medicaments";
+        return "redirect:/admin/medicaments";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteMedicament(@PathVariable Long id) {
         medicamentService.deleteMedicament(id);
-        return "redirect:/medicaments";
+        return "redirect:/admin/medicaments";
     }
 
     @GetMapping("/view/{id}")

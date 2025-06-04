@@ -17,7 +17,7 @@ import com.healthturing.healthturing_server.services.MedicamentService;
 import com.healthturing.healthturing_server.services.SubstanceService;
 
 @Controller
-@RequestMapping("/incompatibilities")
+@RequestMapping("/admin/incompatibilities")
 public class IncompatibilityController {
 
     @Autowired
@@ -37,8 +37,9 @@ public class IncompatibilityController {
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
+        // Inicializar campos necesarios
         Incompatibility incompatibility = new Incompatibility();
-        incompatibility.setMedicament(new Medicament());  // Inicializar campos necesarios
+        incompatibility.setMedicament(new Medicament());  
         incompatibility.setIncompatibleMedicament(new Medicament());
         incompatibility.setIncompatibleSubstance(new Substance());
         model.addAttribute("incompatibility", incompatibility);
@@ -50,7 +51,7 @@ public class IncompatibilityController {
     @PostMapping
     public String createIncompatibility(@ModelAttribute Incompatibility incompatibility) {
         incompatibilityService.saveIncompatibility(incompatibility);
-        return "redirect:/incompatibilities";
+        return "redirect:/admin/incompatibilities";
     }
 
     @GetMapping("/edit/{id}")
@@ -65,13 +66,13 @@ public class IncompatibilityController {
     @PostMapping("/{id}")
     public String updateIncompatibility(@PathVariable Long id, @ModelAttribute Incompatibility incompatibility) {
         incompatibilityService.updateIncompatibility(id, incompatibility);
-        return "redirect:/incompatibilities";
+        return "redirect:/admin/incompatibilities";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteIncompatibility(@PathVariable Long id) {
         incompatibilityService.deleteIncompatibility(id);
-        return "redirect:/incompatibilities";
+        return "redirect:/admin/incompatibilities";
     }
 
     @GetMapping("/view/{id}")

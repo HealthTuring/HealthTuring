@@ -12,7 +12,7 @@ import com.healthturing.healthturing_server.models.Substance;
 import com.healthturing.healthturing_server.services.SubstanceService;
 
 @Controller
-@RequestMapping("/substances")
+@RequestMapping("/admin/substances")
 public class SubstanceController {
 
     private final SubstanceService substanceService;
@@ -36,7 +36,7 @@ public class SubstanceController {
     @PostMapping
     public String createSubstance(@ModelAttribute Substance substance) {
         substanceService.saveSubstance(substance);
-        return "redirect:/substances";
+        return "redirect:/admin/substances";
     }
 
     @GetMapping("/edit/{id}")
@@ -49,13 +49,13 @@ public class SubstanceController {
     @PostMapping("/{id}")
     public String updateSubstance(@PathVariable Long id, @ModelAttribute Substance substance) {
         substanceService.updateSubstance(id, substance);
-        return "redirect:/substances";
+        return "redirect:/admin/substances";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteSubstance(@PathVariable Long id) {
         substanceService.deleteSubstance(id);
-        return "redirect:/substances";
+        return "redirect:/admin/substances";
     }
 
     @GetMapping("/view/{id}")

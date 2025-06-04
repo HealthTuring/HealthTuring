@@ -11,36 +11,36 @@
                 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xs h-full min-w-2xs min-h-50 p-6 m-2 ">
             <h3 class="text-lg font-bold mb-3" th:text="${medicament.commonName}"></h3>
             <div class="rounded p-3 mt-2 text-sm">
-                <form th:action="@{/medicaments/{id}(id=${medicament.id})}" th:object="${medicament}" method="post">
+                <form th:action="@{/admin/medicaments/{id}(id=${medicament.id})}" th:object="${medicament}" method="post">
                     <input type="hidden" th:field="*{id}" />
                     
                     <label class="block mt-2">
-                    Common Name: <input class="border border-black pl-1" type="text" th:field="*{commonName}" />
+                    Common Name: <input class="border rounded p-2 w-full" type="text" th:field="*{commonName}" />
                     </label>
                     
                     <label class="block mt-2">
-                    Scientific Name: <input class="border border-black pl-1" type="text" th:field="*{scientificName}" />
+                    Scientific Name: <input class="border rounded p-2 w-full" type="text" th:field="*{scientificName}" />
                     </label>
                     
                     <label class="block mt-2">
-                    Dosage Form: <input class="border border-black pl-1" type="text" th:field="*{dosageForm}" />
+                    Dosage Form: <input class="border rounded p-2 w-full" type="text" th:field="*{dosageForm}" />
                     </label>
                     
                     <label class="block mt-2">
-                    Drug Route: <input class="border border-black pl-1" type="text" th:field="*{drugRoute}" />
+                    Drug Route: <input class="border rounded p-2 w-full" type="text" th:field="*{drugRoute}" />
                     </label>
                     
                     <label class="block mt-2">
-                    Strength: <input class="border border-black pl-1" type="text" th:field="*{strength}" />
+                    Strength: <input class="border rounded p-2 w-full" type="text" th:field="*{strength}" />
                     </label>
                     
                     <label class="block mt-2">
-                    Prospect URL: <input class="border border-black pl-1" type="text" th:field="*{prospectUrl}" />
+                    Prospect URL: <input class="border rounded p-2 w-full" type="text" th:field="*{prospectUrl}" />
                     </label>
 
                     <div class="mt-4">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded">Save</button>
-                        <a class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded" href="/medicaments">Back</a>
+                        <a class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded" href="/admin/medicaments">Back</a>
                     </div>
                 </form>
 

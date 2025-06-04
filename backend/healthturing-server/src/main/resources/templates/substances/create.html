@@ -11,16 +11,16 @@
                 transition-transform duration-300 hover:scale-102 w-full
                 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xs h-full min-w-2xs min-h-50 p-6 m-2 ">
                 <div class="rounded p-3 mt-2 text-sm">
-                    <form th:action="@{/substances}" th:object="${substance}" method="post">
+                    <form th:action="@{/admin/substances}" th:object="${substance}" method="post">
                         
                         <label class="block mt-2">
-                        Name: <input class="border border-black pl-1" type="text" th:field="*{name}" />
+                        Name: <input class="border rounded p-2 w-full" type="text" th:field="*{name}" />
                         </label>
                         
 
                         <div class="mt-4">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded">Save</button>
-                            <a class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded" href="/substances">Back</a>
+                            <a class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded" href="/admin/substances">Back</a>
                         </div>
                     </form>
 

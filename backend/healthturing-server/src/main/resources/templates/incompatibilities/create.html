@@ -1,47 +1,102 @@
-<form th:action="@{/incompatibilities}" th:object="${incompatibility}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    
-    <label>Medicament:
-        <select th:field="*{medicament.id}" required>
-            <option th:each="med : ${medicaments}" th:value="${med.id}" th:text="${med.commonName}"></option>
-        </select>
-    </label><br/>
-    
-    <label>Incompatible Medicament:
-        <select th:field="*{incompatibleMedicament.id}" id="medicamentSelect" onchange="toggleSubstanceSelect()">
-            <option value="">--None--</option>
-            <option th:each="med : ${medicaments}" th:value="${med.id}" th:text="${med.commonName}"></option>
-        </select>
-    </label><br/>
-    
-    <label>Incompatible Substance:
-        <select th:field="*{incompatibleSubstance.id}" id="substanceSelect" onchange="toggleMedicamentSelect()">
-            <option value="">--None--</option>
-            <option th:each="sub : ${substances}" th:value="${sub.id}" th:text="${sub.name}"></option>
-        </select>
-    </label><br/>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Incompatibility</title>
+</head>
+<body class="flex flex-col min-h-screen">
+    <div th:replace="shared/header :: header"></div>
 
-    <button type="submit">Save</button>
-</form>
+    <div class="container mx-auto px-4 flex-grow">
+        <h1 class="text-2xl font-bold">Create Medicaments</h1>
+
+        <div class="flex flex-col shadow bg-white text-gray-800 rounded border border-gray-200
+            transition-transform duration-300 hover:scale-102 w-full
+            max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xs h-full min-w-2xs min-h-50 p-6 m-2">
+            <div class="rounded p-3 mt-2 text-sm">
+                <form th:action="@{/admin/incompatibilities}" th:object="${incompatibility}" method="post">
+                    
+                    
+                    <label class="block mt-2">
+                        Medicament:
+                        <select th:field="*{medicament.id}" required id="medicamentPrincipal"
+                                class="border rounded p-2 w-full">
+                            <option th:each="med : ${medicaments}" th:value="${med.id}" th:text="${med.commonName}"></option>
+                        </select>
+                    </label>
+
+                    <label class="block mt-2">
+                        Incompatible Medicament:
+                        <select th:field="*{incompatibleMedicament.id}" id="medicamentSelect" onchange="toggleSelect()"
+                                class="border rounded p-2 w-full">
+                            <option value="">--None--</option>
+                            <option th:each="med : ${medicaments}" th:value="${med.id}" th:text="${med.commonName}" data-med-id="${med.id}"></option>
+                        </select>
+                    </label>
+
+                    <label class="block mt-2">
+                        Incompatible Substance:
+                        <select th:field="*{incompatibleSubstance.id}" id="substanceSelect" onchange="toggleSelect()"
+                                class="border rounded p-2 w-full">
+                            <option value="">--None--</option>
+                            <option th:each="sub : ${substances}" th:value="${sub.id}" th:text="${sub.name}"></option>
+                        </select>
+                    </label>
+
+                    <div class="mt-4">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded">Save</button>
+                        <a class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded" href="/admin/incompatibilities">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="shared/footer :: footer"></div>
+</body>
+</html>
 
 <script>
-function toggleSubstanceSelect() {
+function toggleSelect() {
     const medSelect = document.getElementById('medicamentSelect');
     const subSelect = document.getElementById('substanceSelect');
+
     if (medSelect.value) {
         subSelect.disabled = true;
+        subSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
     } else {
         subSelect.disabled = false;
+        subSelect.classList.remove('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
     }
-}
-function toggleMedicamentSelect() {
-    const medSelect = document.getElementById('medicamentSelect');
-    const subSelect = document.getElementById('substanceSelect');
+
     if (subSelect.value) {
         medSelect.disabled = true;
+        medSelect.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
     } else {
         medSelect.disabled = false;
+        medSelect.classList.remove('bg-gray-100', 'text-gray-500', 'cursor-not-allowed');
     }
 }
+
+// Ocultar el medicamento principal en la lista de incompatibles
+document.getElementById("medicamentPrincipal").addEventListener("change", function () {
+    const selectedMedId = this.value;
+    const options = document.querySelectorAll("#medicamentSelect option[data-med-id]");
+    const medSelect = document.getElementById("medicamentSelect");
+
+    options.forEach(function (option) {
+        if (option.getAttribute("data-med-id") === selectedMedId) {
+            option.style.display = "none";
+            if (medSelect.value === selectedMedId) {
+                medSelect.value = "";
+            }
+        } else {
+            option.style.display = "block";
+        }
+    });
+
+    toggleSelect(); // Aplica deshabilitados visualmente tras cambio
+});
+
+// Ejecutar al cargar por si hay valores precargados
+document.addEventListener("DOMContentLoaded", toggleSelect);
 </script>
-<a href="/incompatibilities">Back</a>
