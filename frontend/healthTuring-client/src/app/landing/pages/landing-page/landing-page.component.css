@@ -117,7 +117,7 @@
 .hero {
   min-height: 90vh;
   position: relative;
-  background: url(/assets/img/3.jpg) left center/cover no-repeat;
+  background: url(/assets/img/3.jpg) 82% center/cover no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -129,7 +129,6 @@
 
 .hero__overlay {
   border-radius: 0.25rem;
-  background-color: var(--my-white);
   position: absolute;
   top: 0;
   left: 0;
@@ -317,22 +316,50 @@
   align-items: center;
 }
 
+.about__overlay {
+  border-radius: 0.25rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(30, 41, 57, 0.85) 40%,
+    rgba(45, 171, 185, 0.18) 100%
+    );
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 0.25rem;
+}
+
 .about__content {
-  max-width: 600px;
+  max-width: 700px;
+  position: relative;
+  padding: 1rem 2rem;
+  background: url(/assets/img/2.jpg) left center/cover no-repeat;
 }
 
 .about__title {
+  position: relative;
   font-family: var(--font-title);
   font-size: 2rem;
-  color: var(--neutral);
+  color: var(--my-white);
   margin: 1rem 0rem;
+  z-index: 2;
 }
 
 .about__text {
-  color: var(--neutral);
+  position: relative;
+  color: var(--my-white);
   font-size: 1.08rem;
   margin-bottom: 1rem;
   line-height: 1.6;
+  z-index: 2;
+}
+
+.about__text-bold {
+  color: var(--primary-blue);
 }
 
 .about__media {
@@ -361,12 +388,14 @@
 
 .reviews {
   background: var(--my-white);
-  padding: 1rem 2rem;
+  padding: 1rem 0rem;
+  overflow-x: hidden;
 }
 
 .reviews__container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .reviews__title {
