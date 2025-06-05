@@ -1,0 +1,67 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center
+            bg-black/20 backdrop-blur-sm backdrop-brightness-75 transition-all">
+
+  <div class="bg-white rounded shadow-xl w-full max-w-lg p-6 relative">
+    <button class="absolute top-2 right-2 text-gray-400 hover:text-blue-700" (click)="closeModal()" aria-label="Cerrar">
+      <span class="material-icons-outlined">close</span>
+    </button>
+    <h2 class="text-xl font-bold mb-4 text-gray-800">Añadir paciente</h2>
+    <form [formGroup]="patientForm" (ngSubmit)="submitForm()" class="flex flex-col gap-4">
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+        <input formControlName="name" class="w-full border rounded p-2 focus:outline-none group__input" />
+        <div *ngIf="patientForm.get('name')?.invalid && patientForm.get('name')?.touched" class="text-xs text-red-500">Nombre requerido y máximo 50 caracteres.</div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
+        <input formControlName="dni" class="w-full border rounded p-2 focus:outline-none group__input" />
+        <div *ngIf="patientForm.get('dni')?.invalid && patientForm.get('dni')?.touched" class="text-xs text-red-500">DNI requerido y máximo 20 caracteres.</div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de nacimiento</label>
+        <input type="date" formControlName="dateOfBirth" class="w-full border rounded p-2 focus:outline-none group__input" />
+        <div *ngIf="patientForm.get('dateOfBirth')?.invalid && patientForm.get('dateOfBirth')?.touched" class="text-xs text-red-500">Fecha requerida.</div>
+      </div>
+
+      <div class="flex gap-4">
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Género</label>
+          <select formControlName="gender" class="w-full border rounded p-2 focus:outline-none group__input">
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+        </div>
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Grupo sanguíneo</label>
+          <select formControlName="bloodGroup" class="w-full border rounded p-2 focus:outline-none group__input">
+            <option *ngFor="let bg of bloodGroups" [value]="bg">{{ bg }}</option>
+          </select>
+        </div>
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">RH</label>
+          <select formControlName="rhFactor" class="w-full border rounded p-2 focus:outline-none group__input">
+            <option *ngFor="let rh of rhFactors" [value]="rh">{{ rh === 'POSITIVE' ? 'Positivo' : 'Negativo' }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Contacto de emergencia</label>
+        <input formControlName="emergencyContact" class="w-full border rounded p-2 focus:outline-none group__input" />
+        <div *ngIf="patientForm.get('emergencyContact')?.invalid && patientForm.get('emergencyContact')?.touched" class="text-xs text-red-500">Requerido y máximo 30 caracteres.</div>
+      </div>
+      
+      <div *ngIf="error" class="text-red-600 text-sm mt-2">{{ error }}</div>
+
+      <div class="flex justify-end gap-2 mt-4">
+        <button type="submit" class="w-full bg-primary text-white font-semibold py-2 px-4 rounded shadow cursor-pointer disabled:cursor-not-allowed" [disabled]="patientForm.invalid || loading">
+          <span *ngIf="loading" class="animate-spin material-icons-outlined text-lg">autorenew</span>
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

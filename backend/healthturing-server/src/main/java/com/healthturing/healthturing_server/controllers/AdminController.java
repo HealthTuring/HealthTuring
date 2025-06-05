@@ -97,6 +97,7 @@ public class AdminController {
             Patient patient = request.getPatient();
 
             patient.setDoctor(doctor);
+            patient.setDoctorAssigned(true);
             patientRepository.save(patient);
 
             request.setApproved(true);

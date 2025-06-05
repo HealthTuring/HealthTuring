@@ -82,7 +82,6 @@ export class TreatmentFormComponent implements OnInit {
     }
 
     if (this.treatmentToEdit) {
-      // Modo edición
       const dto: TreatmentUpdateDto = this.treatmentForm.value as TreatmentUpdateDto;
       this.doctorService.editTreatment(this.treatmentToEdit.id, dto).subscribe(success => {
         if (success) {
