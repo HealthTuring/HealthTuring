@@ -18,10 +18,10 @@
 
         <!-- Menú normal (oculto en pantallas pequeñas) -->
         <div class="hidden md:flex gap-4 items-center">
-            <a th:href="@{/admin/medicaments}" class="text-white font-medium hover:underline">Medicaments</a>
-            <a th:href="@{/admin/substances}" class="text-white font-medium hover:underline">Substances</a>
-            <a th:href="@{/admin/incompatibilities}" class="text-white font-medium hover:underline">Incompatibilities</a>
-            <a th:href="@{/admin/doctor-requests}" class="text-white font-medium hover:underline">Requests</a>
+            <a th:href="@{/admin/medicaments}" class="text-white font-medium hover-bg-lightness-blue rounded p-2">Medicaments</a>
+            <a th:href="@{/admin/substances}" class="text-white font-medium hover-bg-lightness-blue rounded p-2">Substances</a>
+            <a th:href="@{/admin/incompatibilities}" class="text-white font-medium hover-bg-lightness-blue rounded p-2">Incompatibilities</a>
+            <a th:href="@{/admin/doctor-requests}" class="text-white font-medium hover-bg-lightness-blue rounded p-2">Requests</a>
         </div>
     </div>
 
@@ -41,10 +41,10 @@
 
     <!-- Menú hamburguesa desplegable -->
     <div id="menu" class="md:hidden hidden flex-col absolute top-16 left-0 w-full bg-primary p-4 z-10 space-y-2">
-        <a th:href="@{/admin/medicaments}" class="text-white block">Medicaments</a>
-        <a th:href="@{/admin/substances}" class="text-white block">Substances</a>
-        <a th:href="@{/admin/incompatibilities}" class="text-white block">Incompatibilities</a>
-        <a th:href="@{/admin/doctor-requests}" class="text-white block">Requests</a>
+        <a th:href="@{/admin/medicaments}" class="text-white block hover-bg-lightness-blue p-2 rounded">Medicaments</a>
+        <a th:href="@{/admin/substances}" class="text-white block hover-bg-lightness-blue p-2 rounded">Substances</a>
+        <a th:href="@{/admin/incompatibilities}" class="text-white block hover-bg-lightness-blue p-2 rounded">Incompatibilities</a>
+        <a th:href="@{/admin/doctor-requests}" class="text-white block hover-bg-lightness-blue p-2 rounded">Requests</a>
         
     </div>
 

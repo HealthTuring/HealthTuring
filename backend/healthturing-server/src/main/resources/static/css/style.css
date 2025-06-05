@@ -28,6 +28,16 @@
     background-color: var(--lightness-blue);
 }
 
+.hover-bg-lightness-blue:hover {
+    background-color: var(--lightness-blue);
+    color: black;
+    font-weight: bold;
+}
+
+.bg-platinium{
+    background-color: var(--platinium);
+}
+
 .mytitle-font {
     font-family: var(--font-title);
 }
