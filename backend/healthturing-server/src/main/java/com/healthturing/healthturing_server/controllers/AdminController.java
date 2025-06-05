@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.healthturing.healthturing_server.models.DoctorRegistrationRequest;
 import com.healthturing.healthturing_server.models.Patient;
@@ -87,7 +86,7 @@ public class AdminController {
     }
 
     @PostMapping("/patient-requests/approve/{id}")
-    public String approvePatientRequest(@PathVariable Long id, @RequestParam("doctorId") Long doctorId) {
+    public String approvePatientRequest(@PathVariable Long id, Long doctorId) {
         PatientAssignationRequest request = patientRequestRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Solicitud no encontrada"));
 
