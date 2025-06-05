@@ -96,7 +96,7 @@ public class User implements UserDetails{
         this.role = role;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

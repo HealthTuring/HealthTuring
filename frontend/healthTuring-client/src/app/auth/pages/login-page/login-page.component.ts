@@ -40,7 +40,7 @@ export class LoginPageComponent {
         if (isAuthenticated) {
           const role = this.jwtService.getRole();
           if (role === 'ROLE_ADMIN') {
-            window.location.href = `${environments.baseUrl}vista`;
+            window.location.href = `${environments.baseUrl}admin`;
           } else {
             this.router.navigateByUrl('/home');
           }

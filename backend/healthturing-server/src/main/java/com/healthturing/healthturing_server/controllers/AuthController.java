@@ -2,6 +2,7 @@ package com.healthturing.healthturing_server.controllers;
 
 import java.time.Duration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,6 +44,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+
 
     private final AuthService authService;
     private final PasswordResetService passwordResetService;
@@ -180,5 +183,18 @@ public class AuthController {
         response.addCookie(cookie);
         return ResponseEntity.noContent().build();
     }
+
+
+    @PostMapping("/adminlogout")
+    public String adminLogout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("Authorization", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false); // Solo si usas HTTPS, poner true
+        cookie.setPath("/");
+        cookie.setMaxAge(0); // Esto elimina la cookie
+        response.addCookie(cookie);
+        return "redirect:http://localhost:4200/auth/login";
+    }
+
 
 }
