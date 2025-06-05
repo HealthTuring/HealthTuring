@@ -132,4 +132,11 @@ public class Medicament {
         this.treatments = treatments;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    
+
+    
 }
