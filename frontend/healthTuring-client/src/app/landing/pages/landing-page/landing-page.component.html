@@ -1,7 +1,227 @@
-<span class="float-end p-5 bg-blue-800 rounded m-10 text-white cursor-pointer" routerLink="auth/login">Ir al Login</span>
-<div class="wrapper">
-    <div class="typing-demo">
-      Futura landingPage siuuuu
+<header class="navbar">
+  <div class="navbar__container">
+    <div class="navbar__brand">
+      <img src="assets/img/image.png" class="navbar__logo" />
+      <span class="navbar__brandName">HealthTuring</span>
     </div>
-    <img src="https://media.tenor.com/NF6ixwAmrTMAAAAM/cristiano-ronaldo-drinking.gif" alt="">
-</div>
+    <nav class="navbar__menu" id="navbar-menu">
+      <a class="navbar__link" href="#services">Servicios</a>
+      <a class="navbar__link" href="#about">Sobre Nosotros</a>
+      <a class="navbar__link" href="#reviews">Opiniones</a>
+      <a class="navbar__link" href="#stats">Estadísticas</a>
+      <span class="navbar__span" routerLink="/auth/login">Iniciar sesión</span>
+    </nav>
+    <button class="navbar__toggle" aria-label="Abrir menú"
+      onclick="document.getElementById('navbar-menu').classList.toggle('navbar__menu--active')">
+      <span class="navbar__toggle-bar"></span>
+      <span class="navbar__toggle-bar"></span>
+      <span class="navbar__toggle-bar"></span>
+    </button>
+  </div>
+</header>
+<section class="hero">
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <h1 class="hero__title">
+      Gestión médica para<br />
+      <span class="hero__highlight">una vida más saludable</span>
+    </h1>
+    <p class="hero__subtitle">Siempre contigo para tu bienestar.</p>
+    <a href="#services" class="hero__btn">Nuestros Servicios</a>
+  </div>
+</section>
+<!-- Sección de Servicios -->
+<section class="services" id="services">
+  <div class="services__container">
+    <h2 class="services__title">Nuestros Servicios</h2>
+    <div class="services__list">
+      <div class="services__item">
+        <span class="services__icon">
+          <img src="assets/svg/record.svg" alt="Agenda médica" />
+        </span>
+        <h3 class="services__item-title">Gestión de Citas</h3>
+        <p class="services__item-desc">
+          Reserva, modifica y visualiza citas médicas en tiempo real.
+          Recordatorios automáticos y notificaciones por correo y SMS.
+        </p>
+      </div>
+      <div class="services__item">
+        <span class="services__icon">
+          <img src="assets/svg/chat.svg" alt="Telemedicina" />
+        </span>
+        <h3 class="services__item-title">Chat Online</h3>
+        <p class="services__item-desc">
+          Videoconsultas seguras e integración con calendarios. Facilita la
+          atención remota y el seguimiento a pacientes.
+        </p>
+      </div>
+      <div class="services__item">
+        <span class="services__icon">
+          <img src="assets/svg/diagnosis.svg" alt="Agenda médica" />
+        </span>
+        <h3 class="services__item-title">Gestión de Tratamientos</h3>
+        <p class="services__item-desc">
+          Reserva, modifica y visualiza citas médicas en tiempo real.
+          Recordatorios automáticos y notificaciones por correo y SMS.
+        </p>
+      </div>
+      <div class="services__item">
+        <span class="services__icon">
+          <img src="assets/svg/calendar.svg" alt="Historial clínico" />
+        </span>
+        <h3 class="services__item-title">Calendario</h3>
+        <p class="services__item-desc">
+          Acceso seguro y centralizado a expedientes médicos, recetas, y
+          resultados de laboratorio para pacientes y profesionales.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sección Sobre Nosotros -->
+<section class="about" id="about">
+  <div class="about__container">
+    <div class="about__content">
+      <div class="about__overlay"></div>
+      <h2 class="about__title">Sobre Nosotros</h2>
+      <p class="about__text">
+        En <strong class="about__text-bold">HealthTuring</strong>, nuestra misión es facilitar la gestión
+        sanitaria a través de soluciones digitales seguras, intuitivas y
+        adaptadas a las necesidades de profesionales y pacientes.
+      </p>
+      <p class="about__text">
+        Apostamos por la transformación digital para mejorar la calidad
+        asistencial, la eficiencia administrativa y la satisfacción de los
+        usuarios.
+      </p>
+    </div>
+    <div class="about__media">
+      <div class="about__video">
+        <!-- Cambia src por la ruta de tu video local o de YouTube -->
+        <video controls poster="assets/img/team.jpg" class="about__video-el">
+          <source src="assets/prueba.mp4" type="video/mp4" />
+          Tu navegador no soporta el elemento video.
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <div class="reviews__container">
+    <h2 class="reviews__title">Opiniones de Usuarios</h2>
+    <div class="reviews__list">
+      <div class="reviews__item reviews__item--left">
+        <div class="reviews__avatar">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Avatar de María López" />
+        </div>
+        <div class="reviews__content">
+          <p class="reviews__text">
+            "La plataforma me permitió agendar mi cita y hablar con mi doctor en
+            minutos. Muy intuitiva."
+          </p>
+          <span class="reviews__name">María López</span>
+          <span class="reviews__detail">Paciente, 32 años</span>
+        </div>
+      </div>
+      <div class="reviews__item reviews__item--right">
+        <div class="reviews__avatar">
+          <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="Avatar de Carlos Ramírez" />
+        </div>
+        <div class="reviews__content">
+          <p class="reviews__text">
+            "El calendario y la gestión de tratamientos me ayudan a organizar mi
+            salud de manera sencilla."
+          </p>
+          <span class="reviews__name">Carlos Ramírez</span>
+          <span class="reviews__detail">Paciente, 45 años</span>
+        </div>
+      </div>
+      <div class="reviews__item reviews__item--left">
+        <div class="reviews__avatar">
+          <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Avatar de Elena Sánchez" />
+        </div>
+        <div class="reviews__content">
+          <p class="reviews__text">
+            "El chat online agiliza la comunicación con mis pacientes y mejora
+            la atención."
+          </p>
+          <span class="reviews__name">Elena Sánchez</span>
+          <span class="reviews__detail">Médica especialista</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats" id="stats">
+  <div class="stats__container">
+    <h2 class="stats__title">Estadísticas</h2>
+    <div class="stats__layout">
+      <div class="stats__info">
+        <div class="stats__info-item">
+          <span class="stats__info-label">Tratamientos activos</span>
+          <span class="stats__info-value stats__info-value--treatments">72</span>
+        </div>
+      </div>
+      <div class="stats__canva">
+        <canvas #chartCanvas></canvas>
+      </div>
+      <div class="stats__info">
+        <div class="stats__info-item">
+          <span class="stats__info-label">Citas concertadas</span>
+          <span class="stats__info-value stats__info-value--appointments">27</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer__container">
+    <div class="footer__brand">
+      <img src="assets/img/image.png" alt="Logo HealthTuring" class="footer__logo" />
+      <span class="footer__brandName">HealthTuring</span>
+      <p class="footer__desc">
+        Plataforma de gestión sanitaria segura, intuitiva y eficiente.<br>
+        Mejorando tu bienestar cada día.
+      </p>
+    </div>
+    <nav class="footer__nav">
+      <h4 class="footer__nav-title">Navegación</h4>
+      <ul>
+        <li><a href="#services" class="footer__link">Servicios</a></li>
+        <li><a href="#about" class="footer__link">Sobre Nosotros</a></li>
+        <li><a href="#reviews" class="footer__link">Opiniones</a></li>
+        <li><a href="#stats" class="footer__link">Estadísticas</a></li>
+        <li><a href="/auth/login" class="footer__link">Iniciar sesión</a></li>
+      </ul>
+    </nav>
+    <div class="footer__contact">
+      <h4 class="footer__contact-title">Contacto</h4>
+      <ul>
+        <li>
+          <img src="assets/svg/email.svg" class="footer__icon" alt="Email" />
+          <a href="mailto:healthturing2@gmail.com" class="footer__link">Contáctanos por email</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>&copy; 2025 HealthTuring. Todos los derechos reservados.</span>
+  </div>
+</footer>
+
+
+
+<script>
+  // Cerrar menú al hacer click fuera (opcional)
+  document.addEventListener("click", function (e) {
+    const toggle = document.querySelector(".navbar__toggle");
+    const menu = document.getElementById("navbar-menu");
+    if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove("navbar__menu--active");
+    }
+  });
+</script>

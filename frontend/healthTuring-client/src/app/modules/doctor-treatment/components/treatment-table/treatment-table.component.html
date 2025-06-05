@@ -1,0 +1,116 @@
+<div class="w-full">
+
+  <!-- MODO ESCRITORIO -->
+  <div class="hidden lg:block">
+    <table class="min-w-full text-gray-800 bg-white shadow rounded overflow-hidden">
+      <thead>
+        <tr class="bg-primary text-white">
+          <th class="px-4 py-2 font-bold">Motivo</th>
+          <th class="px-4 py-2 font-bold">Medicación</th>
+          <th class="px-4 py-2 font-bold">Frecuencia</th>
+          <th class="px-4 py-2 font-bold">Duración</th>
+          <th class="px-4 py-2 font-bold">Inicio</th>
+          <th class="px-4 py-2 font-bold">Fin</th>
+          <th class="px-4 py-2 font-bold text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="treatments.length === 0">
+          <td colspan="7" class="text-center py-6 text-gray-500 italic">
+            No hay tratamientos registrados para este paciente.
+          </td>
+        </tr>
+        <tr *ngFor="let t of treatments"
+          class="border-b border-gray-200 last:border-b-0 transition-transform duration-200 hover:scale-[1.01]">
+          <td class="px-4 py-3">{{ t.reason }}</td>
+          <td class="px-4 py-3">
+            <span class="font-medium">{{ t.nameMedication }} {{ t.strength }} {{ t.dosageForm }}</span>
+          </td>
+          <td class="px-4 py-3">{{ t.frequency }}</td>
+          <td class="px-4 py-3">{{ t.duration }}</td>
+          <td class="px-4 py-3">{{ formatDate(t.startDate) }}</td>
+          <td class="px-4 py-3">{{ formatDate(t.endDate!) || 'Indefinido' }}</td>
+          <td class="px-4 py-3 flex items-center gap-2 justify-center">
+            <button
+              class="px-3 py-1 rounded border border-gray-800 text-gray-800 bg-white hover:bg-gray-800 hover:text-white transition-colors duration-200 shadow cursor-pointer"
+              (click)="editTreatment.emit(t)">
+              Editar
+            </button>
+            <button
+              class="px-3 py-1 rounded border border-red-500 text-red-500 bg-white hover:bg-red-500 hover:text-white transition-colors duration-200 shadow cursor-pointer"
+              (click)="openDeleteModal(t.id)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MODO MÓVIL -->
+  <div class="lg:hidden space-y-6 mx-3 mt-6">
+    <div *ngIf="treatments.length === 0" class="text-center text-gray-500 italic py-8">
+      No hay tratamientos registrados para este paciente.
+    </div>
+    <div *ngFor="let t of treatments"
+      class="flex flex-col shadow bg-white text-gray-800 rounded border border-gray-200 transition-transform duration-300 hover:scale-[1.02] w-full p-4">
+      <h3 class="text-lg font-bold mb-2">{{ t.nameMedication }}</h3>
+      <div class="font-medium mb-1">
+        <p>
+          {{ t.nameMedication }} {{ t.strength }} {{ t.dosageForm }}.
+          {{ t.frequency }}.
+          <span class="font-medium">{{ t.drugRoute }}</span>
+        </p>
+      </div>
+      <div class="text-sm space-y-1 mb-3">
+        <p>
+          <span class="font-semibold">Duración:</span> {{ t.duration }}
+        </p>
+        <p>
+          <span class="font-semibold">Inicio:</span> {{ formatDate(t.startDate) }}
+        </p>
+        <p>
+          <span class="font-semibold">Fin:</span> {{ formatDate(t.endDate!) || 'Indefinido' }}
+        </p>
+      </div>
+      <div class="flex items-center gap-2 mt-auto">
+        <button
+          class="flex-1 px-3 py-1 rounded border border-gray-800 text-gray-800 bg-white hover:bg-gray-800 hover:text-white transition-colors duration-200 shadow cursor-pointer"
+          (click)="editTreatment.emit(t)">
+          Editar
+        </button>
+        <button
+          class="flex-1 px-3 py-1 rounded border border-red-500 text-red-500 bg-white hover:bg-red-500 hover:text-white transition-colors duration-200 shadow cursor-pointer"
+          (click)="openDeleteModal(t.id)">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4 flex justify-center" *ngIf="totalPages > 1">
+  <button class="px-2 py-1 mx-1 rounded cursor-pointer hover:shadow" [disabled]="currentPage === 0" (click)="goToPage(currentPage - 1)">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#1e2939">
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path d="M15.61 7.41L14.2 6l-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59z" />
+    </svg>
+  </button>
+  <span class="px-1 py-1" *ngFor="let p of [].constructor(totalPages); let i = index">
+    <button class="px-2 py-1 rounded hover:shadow" [class.bg-primary]="i === currentPage" [class.text-white]="i === currentPage"
+      [class.cursor-pointer]="i !== currentPage" (click)="goToPage(i)">
+      {{ i + 1 }}
+    </button>
+  </span>
+  <button class="px-2 py-1 mx-1 rounded cursor-pointer hover:shadow" [disabled]="currentPage === totalPages - 1"
+    (click)="goToPage(currentPage + 1)">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#1e2939">
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path d="M10.02 6L8.61 7.41 13.19 12l-4.58 4.59L10.02 18l6-6-6-6z" />
+    </svg>
+  </button>
+</div>
+<confirm-modal [show]="showConfirm" title="Eliminar tratamiento"
+  message="¿Seguro que deseas eliminar este tratamiento? Esta acción no se puede deshacer."
+  (onConfirm)="confirmDelete()" (onCancel)="closeDeleteModal()">
+</confirm-modal>

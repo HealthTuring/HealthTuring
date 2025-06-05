@@ -28,7 +28,7 @@ togglePacientes() {
 
 seleccionarPaciente(paciente: string) {
   this.pacienteSeleccionado = paciente;
-  this.mostrarPacientes = false; // cerrar después de seleccionar
+  this.mostrarPacientes = false;
 }
 
 }

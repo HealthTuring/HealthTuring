@@ -11,6 +11,12 @@ import com.healthturing.healthturing_server.models.Patient;
 @Repository
 public interface PatientRepository extends CrudRepository<Patient, Long> {
 
+    List<Patient> findAll();
+
     List<Patient> findByUserId(Long userId);
+    List<Patient> findByDoctorId(Long doctorId);
+
+    int countByUserId(Long userId);
+    boolean existsByDni(String dni);
     
 }

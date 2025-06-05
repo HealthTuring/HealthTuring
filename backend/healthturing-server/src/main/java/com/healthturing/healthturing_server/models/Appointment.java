@@ -29,17 +29,20 @@ public class Appointment {
     @Column(nullable = false)
     private LocalDate date;
 
+    private String reason;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
     public Appointment() {}
 
-    public Appointment(LocalTime startTime, LocalTime endTime, LocalDate date, Patient patient) {
+    public Appointment(LocalTime startTime, LocalTime endTime, LocalDate date, Patient patient, String reason) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.date = date;
         this.patient = patient;
+        this.reason = reason;
     }
 
     public Long getId() {
@@ -72,6 +75,14 @@ public class Appointment {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public Patient getPatient() {

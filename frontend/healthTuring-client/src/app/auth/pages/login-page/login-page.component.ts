@@ -4,6 +4,7 @@ import { FormUtils } from '../../../../utils/form-utils';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { JwtService } from '../../../core/services/jwt.service';
+import { environments } from '../../../../environments/environments';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -39,7 +40,7 @@ export class LoginPageComponent {
         if (isAuthenticated) {
           const role = this.jwtService.getRole();
           if (role === 'ROLE_ADMIN') {
-            window.location.href = 'http://localhost:8080/vista';
+            window.location.href = `${environments.baseUrl}vista`;
           } else {
             this.router.navigateByUrl('/home');
           }

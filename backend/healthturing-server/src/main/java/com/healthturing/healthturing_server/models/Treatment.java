@@ -17,9 +17,7 @@ public class Treatment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    private String description;
+    private String reason;
 
     private LocalDate startDate;
 
@@ -39,9 +37,8 @@ public class Treatment {
 
     public Treatment() {}
 
-    public Treatment(String name, String description, LocalDate startDate, LocalDate endDate, String duration, String dosesPerPeriod, Patient patient, Medicament medicament) {
-        this.name = name;
-        this.description = description;
+    public Treatment(String reason, LocalDate startDate, LocalDate endDate, String duration, String dosesPerPeriod, Patient patient, Medicament medicament) {
+        this.reason = reason;
         this.startDate = startDate;
         this.endDate = endDate;
         this.duration = duration;
@@ -54,20 +51,12 @@ public class Treatment {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getReason() {
+        return reason;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public LocalDate getStartDate() {

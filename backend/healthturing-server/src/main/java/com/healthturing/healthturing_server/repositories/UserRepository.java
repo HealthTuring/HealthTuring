@@ -1,5 +1,6 @@
 package com.healthturing.healthturing_server.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.healthturing.healthturing_server.models.User;
 import com.healthturing.healthturing_server.models.VerificationToken;
+import com.healthturing.healthturing_server.models.enums.Role;
 
 /**
  * Repostiorio de la entidad User
@@ -23,5 +25,7 @@ public interface UserRepository extends CrudRepository<User, Long>{
     Optional<User> findByVerificationToken(VerificationToken verificationToken);
 
     boolean existsByEmail(String email);
+
+    List<User> findByRole(Role roleDoc);
     
 }

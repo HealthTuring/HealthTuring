@@ -1,25 +1,31 @@
 package com.healthturing.healthturing_server.models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.healthturing.healthturing_server.models.enums.BloodGroup;
+import com.healthturing.healthturing_server.models.enums.Gender;
 import com.healthturing.healthturing_server.models.enums.RhFactor;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.JoinColumn;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "patients")
 public class Patient {
 
@@ -30,21 +36,33 @@ public class Patient {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, unique = true, length = 20)
+    private String dni;
+
+    @Column(nullable = false)
+    private LocalDate dateOfBirth;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 1)
+    private Gender gender;
+
     private BloodGroup bloodGroup;
 
     private RhFactor rhFactor;
+
+    @Column(length = 200)
+    private String emergencyContact;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-        name = "patient_allergies",
-        joinColumns = @JoinColumn(name = "patient_id"),
-        inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    private List<Medicament> allergicIngredients = new ArrayList<>();
+    @Column(nullable = false)
+    private boolean doctorAssigned = false;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private User doctor;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Treatment> treatments = new ArrayList<>();
@@ -52,78 +70,21 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointments = new ArrayList<>();
 
-    public Patient() {}
+    public Patient() {
+    }
 
-    public Patient(String name, User user) {
+    public Patient(String name, String dni, LocalDate dateOfBirth, Gender gender, BloodGroup bloodGroup,
+            RhFactor rhFactor, String emergencyContact, User user, User doctor) {
         this.name = name;
-        this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BloodGroup getBloodGroup() {
-        return bloodGroup;
-    }
-
-    public void setBloodGroup(BloodGroup bloodGroup) {
+        this.dni = dni;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
         this.bloodGroup = bloodGroup;
-    }
-
-    public RhFactor getRhFactor() {
-        return rhFactor;
-    }
-
-    public void setRhFactor(RhFactor rhFactor) {
         this.rhFactor = rhFactor;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
+        this.emergencyContact = emergencyContact;
         this.user = user;
+        this.doctor = doctor;
+        this.doctorAssigned = true;
     }
-
-    public List<Medicament> getAllergicIngredients() {
-        return allergicIngredients;
-    }
-
-    public void setAllergicIngredients(List<Medicament> allergicIngredients) {
-        this.allergicIngredients = allergicIngredients;
-    }
-
-    public List<Treatment> getTreatments() {
-        return treatments;
-    }
-
-    public void setTreatments(List<Treatment> treatments) {
-        this.treatments = treatments;
-    }
-
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-    }
-
-    
-
 
 }

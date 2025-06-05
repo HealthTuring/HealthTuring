@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SelectPatientsComponent } from '../select-patients/select-patients.component';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'shared-sidebar',
-  imports: [CommonModule, SelectPatientsComponent, RouterLink],
+  imports: [CommonModule, SelectPatientsComponent, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })

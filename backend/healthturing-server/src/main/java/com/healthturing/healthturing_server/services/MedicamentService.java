@@ -5,24 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.healthturing.healthturing_server.dto.MedicamentDTO;
+import com.healthturing.healthturing_server.mapper.MedicamentMapper;
 import com.healthturing.healthturing_server.models.Medicament;
-/* import com.healthturing.healthturing_server.repositories.IncompatibilityRepository;
- */import com.healthturing.healthturing_server.repositories.MedicamentRepository;
-/* import com.healthturing.healthturing_server.repositories.SubstanceRepository;
- */
+import com.healthturing.healthturing_server.repositories.MedicamentRepository;
+
 @Service
 public class MedicamentService {
 
     @Autowired
     private MedicamentRepository medicamentRepository;
 
-/*     @Autowired 
-    private IncompatibilityRepository incompatibilityRepository;
 
-    @Autowired
-    private SubstanceRepository substanceRepository; */
 
-    public List<Medicament> getAllMedicaments() {
+    public List<Medicament> getAllMedicamentsAdmin() {
         return medicamentRepository.findAll();
     }
 
@@ -49,6 +45,10 @@ public class MedicamentService {
 
     public void deleteMedicament(Long id) {
         medicamentRepository.deleteById(id);
+    }
+
+    public List<MedicamentDTO> getAllMedicaments() {
+        return MedicamentMapper.toDtoList(medicamentRepository.findAll());
     }
     
 }

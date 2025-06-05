@@ -60,6 +60,10 @@ public class Medicament {
         this.prospectUrl = prospectUrl;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getCommonName() {
         return commonName;
     }

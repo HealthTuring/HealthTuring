@@ -6,9 +6,22 @@ html {
 
 body {
   font-family: var(--font-primary);
+  background-color: var(--my-white);
 }
 
 h1 {
   font-family: var(--font-title);
   color: var(--color-text);
+}
+
+.bg-primary {
+  background-color: var(--primary-blue);
+}
+
+.text-primary {
+  color: var(--primary-blue);
+}
+
+.bg-platinium {
+  background-color: var(--platinium);
 }
