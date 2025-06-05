@@ -16,28 +16,44 @@ export class SelectPatientsComponent {
   private jwtService = inject(JwtService);
 
   patientsByUser: PatientDto[] = [];
-  firstPatient: string | null = null;
+  selectedPatient: PatientDto | null = null;
   showPatients = false;
+
   @Input() isCollapsed: boolean = false;
 
-    ngOnInit(): void {
-    const userId = this.jwtService.getId() ?? 0; // Cambia por el ID real del usuario
+  ngOnInit(): void {
+    const userId = this.jwtService.getId() ?? 0;
     this.patientService.getPatientsByUser(userId).subscribe(patients => {
-      console.log('Pacientes:', patients);
       this.patientsByUser = patients;
       if (patients.length > 0) {
-        this.firstPatient = patients[0].name;
+        this.selectPatient(patients[0]);
       }
     });
   }
 
   togglePacientes() {
-  this.showPatients = !this.showPatients;
-}
+    this.showPatients = !this.showPatients;
+  }
 
-seleccionarPaciente(paciente: string) {
-  this.firstPatient = paciente;
-  this.showPatients = false; // cerrar después de seleccionar
-}
+  seleccionarPaciente(patient: PatientDto) {
+    this.selectPatient(patient);
+    this.showPatients = false;
+  }
+
+  private selectPatient(patient: PatientDto) {
+    this.selectedPatient = patient;
+    this.patientService.setPatient(patient);
+    this.patientService.setPatientId(patient.id);
+  }
+
+  getInitials(fullName: string): string {
+    if (!fullName) return '';
+    return fullName
+      .split(' ')
+      .map(w => w[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+  }
 
 }

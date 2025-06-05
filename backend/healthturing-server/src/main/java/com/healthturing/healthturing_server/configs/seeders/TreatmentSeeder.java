@@ -58,7 +58,6 @@ public class TreatmentSeeder implements CommandLineRunner {
         if (paracetamol != null) {
             treatments.add(new Treatment(
                     "Tratamiento de fiebre",
-                    "Paracetamol 500mg para bajar la fiebre",
                     LocalDate.now().minusDays(3),
                     LocalDate.now().plusDays(2),
                     "7 días",
@@ -70,7 +69,6 @@ public class TreatmentSeeder implements CommandLineRunner {
         if (amoxicilina != null) {
             treatments.add(new Treatment(
                     "Infección respiratoria",
-                    "Amoxicilina 500mg cada 8 horas",
                     LocalDate.now().minusDays(1),
                     LocalDate.now().plusDays(6),
                     "7 días",
@@ -83,7 +81,6 @@ public class TreatmentSeeder implements CommandLineRunner {
         if (ibuprofeno != null) {
             treatments.add(new Treatment(
                     "Dolor de cabeza",
-                    "Ibuprofeno 400mg cada 12 horas",
                     LocalDate.now(),
                     LocalDate.now().plusDays(4),
                     "5 días",
@@ -95,7 +92,6 @@ public class TreatmentSeeder implements CommandLineRunner {
         if (losartan != null) {
             treatments.add(new Treatment(
                     "Hipertensión arterial",
-                    "Losartán 50mg una vez al día",
                     LocalDate.now().minusDays(10),
                     LocalDate.now().plusDays(20),
                     "30 días",

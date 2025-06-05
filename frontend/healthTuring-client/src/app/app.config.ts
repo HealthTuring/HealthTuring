@@ -7,6 +7,7 @@ import { routes } from './app.routes';
 
 import { provideToastr } from 'ngx-toastr';
 import { authTokenInterceptor } from './core/interceptors/auth-token.interceptor';
+import { provideCalendar } from './calendar.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +22,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideToastr({
       preventDuplicates: true,
+      maxOpened: 1,
     }),
+    provideCalendar(),
   ],
 };

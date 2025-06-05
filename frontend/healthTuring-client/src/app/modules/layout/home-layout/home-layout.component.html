@@ -1,7 +1,13 @@
 <div class="bg-gray-100">
-  <shared-header></shared-header>
+  <shared-header (toggleSidebar)="toggleSidebar()"></shared-header>
   <div class="flex h-[calc(100vh-64px)]">
-    <shared-sidebar class="bg-white"></shared-sidebar>
+    @if (showSidebar) {
+      @if(isDoctor) {
+        <shared-doctor-sidebar class="bg-white"></shared-doctor-sidebar>
+      } @else {
+        <shared-sidebar class="bg-white"></shared-sidebar>
+      }
+    }
     <div class="flex-1 overflow-y-auto mt-6 mb-3 px-3 md:px-6">
       <router-outlet></router-outlet>
     </div>

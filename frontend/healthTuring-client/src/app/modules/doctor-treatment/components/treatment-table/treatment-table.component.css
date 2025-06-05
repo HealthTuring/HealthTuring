@@ -1,0 +1,4 @@
+.bg-hover:hover {
+    background-color: var(--primary-blue);
+    color: var(--my-white);
+}

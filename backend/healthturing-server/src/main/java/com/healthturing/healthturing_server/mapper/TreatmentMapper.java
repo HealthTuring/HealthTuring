@@ -11,7 +11,7 @@ public class TreatmentMapper {
         return new TreatmentDTO(
             treatment.getId(), 
             treatment.getMedicament().getCommonName(), 
-            treatment.getDescription(),
+            treatment.getReason(),
             treatment.getMedicament().getStrength(),
             treatment.getMedicament().getDosageForm(),
             treatment.getDosesPerPeriod(),
@@ -19,6 +19,7 @@ public class TreatmentMapper {
             treatment.getDuration(),
             treatment.getStartDate(),
             treatment.getEndDate(),
+            treatment.getMedicament().getProspectUrl(),
             treatment.getMedicament().getIncompatibilities().stream()
                 .map(IncompabilityMapper::toDto)
                 .toList()

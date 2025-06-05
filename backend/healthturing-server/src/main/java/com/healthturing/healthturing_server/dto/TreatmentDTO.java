@@ -7,7 +7,7 @@ public class TreatmentDTO {
 
     private Long id;
     private String nameMedication;
-    private String description;
+    private String reason;
     private String strength;
     private String dosageForm;
     private String frequency;
@@ -15,14 +15,15 @@ public class TreatmentDTO {
     private String duration;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String prospectUrl;
     private List<IncompabilityDTO> incompatibilities;
 
     public TreatmentDTO() {}
 
-    public TreatmentDTO(Long id, String nameMedication, String description, String strength, String dosageForm, String frequency, String drugRoute, String duration, LocalDate startDate, LocalDate endDate, List<IncompabilityDTO> incompatibilities) {
+    public TreatmentDTO(Long id, String nameMedication, String reason, String strength, String dosageForm, String frequency, String drugRoute, String duration, LocalDate startDate, LocalDate endDate, String prospectUrl, List<IncompabilityDTO> incompatibilities) {
         this.id = id;
         this.nameMedication = nameMedication;
-        this.description = description;
+        this.reason = reason;
         this.strength = strength;
         this.dosageForm = dosageForm;
         this.frequency = frequency;
@@ -30,6 +31,7 @@ public class TreatmentDTO {
         this.duration = duration;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.prospectUrl = prospectUrl;
         this.incompatibilities = incompatibilities;
     }
 
@@ -47,6 +49,14 @@ public class TreatmentDTO {
 
     public void setNameMedication(String nameMedication) {
         this.nameMedication = nameMedication;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public String getStrength() {
@@ -105,14 +115,14 @@ public class TreatmentDTO {
         this.endDate = endDate;
     }
 
-    public String getDescription() {
-        return description;
+    public String getProspectUrl() {
+        return prospectUrl;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setProspectUrl(String prospectUrl) {
+        this.prospectUrl = prospectUrl;
     }
-
+    
     public List<IncompabilityDTO> getIncompatibilities() {
         return incompatibilities;
     }

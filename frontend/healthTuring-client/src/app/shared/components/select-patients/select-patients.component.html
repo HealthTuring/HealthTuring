@@ -1,40 +1,55 @@
 <div class="w-full flex flex-col items-center">
-  
-  <span
-    (click)="togglePacientes()"
-    class="flex items-center gap-2 w-full p-2 rounded cursor-pointer transition profile-border font-medium hover:bg-gray-100"
-    [ngClass]="{ 'justify-center': isCollapsed, 'justify-between': !isCollapsed }"
-  >
-    <span class="material-icons-outlined">face</span>
+  <span (click)="togglePacientes()"
+    class="flex w-full p-2 items-center rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md font-medium select-none"
+    [ngClass]="isCollapsed ? 'justify-center' : 'justify-between'">
+    
+    <span
+      class="flex items-center justify-center min-w-9 min-h-9 rounded-full bg-gradient-to-tr from-blue-700 to-blue-900 text-white border-2 font-bold shadow-m">
+      {{ getInitials(selectedPatient?.name || '') }}
+    </span>
+
     @if (!isCollapsed) {
-      <span class="truncate flex-1 text-left">{{ firstPatient || 'Selecciona un paciente' }}</span>
-      <span class="material-icons-outlined transition-transform duration-200" [ngClass]="{ 'rotate-180': showPatients }">expand_more</span>
+      <span class="">
+        {{ selectedPatient?.name || 'Selecciona un paciente' }}
+      </span>
+      <span class="material-icons-outlined transform transition-transform duration-200"
+        [ngClass]="{ 'rotate-180': showPatients }">
+        expand_more
+      </span>
     }
+
+
   </span>
 </div>
 
-@if (showPatients && !isCollapsed) {
+@if (showPatients) {
   <div
-    class="absolute left-2 right-2 bottom-20 w-[calc(100%-16px)] max-h-80 bg-white rounded shadow-xl z-50 flex flex-col border border-gray-100"
-    style="min-width: 15rem;"
-  >
-    <div class="px-4 pt-4 pb-2 flex items-center justify-between">
-      <span class="text-xs font-semibold text-gray-500">PACIENTES</span>
-      <button class="material-icons-outlined text-primary hover:bg-gray-100 rounded p-1" title="Agregar paciente">add</button>
+    class="absolute left-2 bottom-15 w-60 z-50 rounded text-gray-800 border border-gray-200 bg-white shadow-md flex flex-col overflow-hidden">
+
+    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+      <span class="text-xs font-semibold">PACIENTES</span>
+      <button
+        class="material-icons-outlined p-1 rounded bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
+        title="Agregar paciente" aria-label="Agregar paciente">
+        add
+      </button>
     </div>
-    <ul class="overflow-y-auto max-h-56 px-2">
-      @for (paciente of patientsByUser; track paciente.id) {
-        <li
-          (click)="seleccionarPaciente(paciente.name)"
-          class="flex items-center gap-2 py-2 px-2 rounded hover:bg-gray-100 transition cursor-pointer"
-        >
-          <span class="material-icons-outlined text-gray-500">face</span>
-          <span class="text-sm truncate">{{ paciente.name }}</span>
-        </li>
-      }
-      @if (patientsByUser.length === 0) {
-        <li class="py-4 text-xs text-gray-400 text-center">No hay pacientes</li>
-      }
+  
+    <ul>
+      <li *ngFor="let paciente of patientsByUser" (click)="seleccionarPaciente(paciente)"
+        class="flex items-center gap-2 px-4 py-2 bg-lightness-blue border-l-5 cursor-pointer text-sm transition-all duration-150"
+        [ngClass]="selectedPatient?.id === paciente.id ?'border-primary' : 'border-white' ">
+        
+        <span
+          class="flex items-center justify-center w-9 h-9 rounded-full font-bold text-lg shadow-md border-2 transition-all duration-150"
+          [ngClass]="selectedPatient?.id === paciente.id
+                ? 'bg-gradient-to-tr from-blue-700 to-blue-900 text-white'
+                : 'bg-gradient-to-tr from-blue-400 to-blue-600 text-white'">
+          {{ getInitials(paciente.name) }}
+        </span>
+        <span class="truncate">{{ paciente.name }}</span>
+      </li>
+      <li *ngIf="patientsByUser.length === 0" class="py-4 text-xs text-gray-400 text-center">No hay pacientes</li>
     </ul>
   </div>
 }
