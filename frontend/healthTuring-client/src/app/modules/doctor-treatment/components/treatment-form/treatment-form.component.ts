@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MedicamentDto } from '../../interfaces/medicament-dto.interface';
 import { MedicamentService } from '../../services/medicaments.service';
 import { CommonModule } from '@angular/common';
@@ -36,14 +36,7 @@ export class TreatmentFormComponent implements OnInit {
   medicaments: MedicamentDto[] = [];
   patients: PatientDto[] = [];
 
-  treatmentForm = this.fb.group({
-    reason: ['', [Validators.required]],
-    startDate: ['', [Validators.required]],
-    endDate: [''],
-    dosesPerPeriod: ['', [Validators.required]],
-    patientId: ['', [Validators.required]],
-    medicamentId: ['', [Validators.required]],
-  })
+  treatmentForm!: FormGroup;
 
   ngOnInit(): void {
     this.medicamentService.getAllMedicaments().subscribe({
@@ -59,14 +52,26 @@ export class TreatmentFormComponent implements OnInit {
       });
     }
 
-    if (this.treatmentToEdit) {
-      this.treatmentForm.patchValue({
-        reason: this.treatmentToEdit.reason,
-        startDate: this.dateToInputString(this.treatmentToEdit.startDate),
-        endDate: this.dateToInputString(this.treatmentToEdit.endDate),
-        dosesPerPeriod: this.treatmentToEdit.frequency,
-      });
-    }
+if (this.treatmentToEdit) {
+
+    this.treatmentForm = this.fb.group({
+      reason: [this.treatmentToEdit.reason, [Validators.required]],
+      startDate: [this.dateToInputString(this.treatmentToEdit.startDate), [Validators.required]],
+      endDate: [this.dateToInputString(this.treatmentToEdit.endDate)],
+      dosesPerPeriod: [this.treatmentToEdit.frequency, [Validators.required]],
+
+    });
+  } else {
+
+    this.treatmentForm = this.fb.group({
+      reason: ['', [Validators.required]],
+      startDate: ['', [Validators.required]],
+      endDate: [''],
+      dosesPerPeriod: ['', [Validators.required]],
+      patientId: ['', [Validators.required]],
+      medicamentId: ['', [Validators.required]],
+    });
+  }
   }
 
   closeModal() {

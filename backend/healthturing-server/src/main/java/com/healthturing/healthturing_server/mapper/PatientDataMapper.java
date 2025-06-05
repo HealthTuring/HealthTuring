@@ -1,9 +1,11 @@
 package com.healthturing.healthturing_server.mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.healthturing.healthturing_server.dto.PatientDataDTO;
 import com.healthturing.healthturing_server.models.Patient;
+import com.healthturing.healthturing_server.models.User;
 
 public class PatientDataMapper {
         public static PatientDataDTO toDto(Patient patient) {
@@ -16,7 +18,8 @@ public class PatientDataMapper {
             patient.getBloodGroup(),
             patient.getRhFactor(),
             patient.getEmergencyContact(),
-            patient.getDoctor().getName());
+            Optional.ofNullable(patient.getDoctor()).map(User::getName).orElse(null)
+        );
     }
 
     public static List<PatientDataDTO> toDtoList(List<Patient> patients) {
