@@ -13,16 +13,16 @@ import com.healthturing.healthturing_server.services.MedicamentService;
 
 @Controller
 @RequestMapping("/admin/medicaments")
-public class MedAdRestController {
+public class MedAdController {
     private final MedicamentService medicamentService;
 
-    public MedAdRestController(MedicamentService medicamentService) {
+    public MedAdController(MedicamentService medicamentService) {
         this.medicamentService = medicamentService;
     }
 
     @GetMapping
     public String listMedicaments(Model model) {
-        model.addAttribute("medicaments", medicamentService.getAllMedicaments());
+        model.addAttribute("medicaments", medicamentService.getAllMedicamentsAdmin());
         return "medicaments/list";
     }
 

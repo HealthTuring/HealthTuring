@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>Substances List</title></head>
 <body class="flex flex-col min-h-screen">
-        <div th:replace="shared/header :: header"></div>
+    <div th:replace="shared/header :: header"></div>
 
     <div class="container mx-auto px-4 flex-grow" >
 
@@ -22,7 +22,7 @@
             </thead>
 
             <tbody>
-                <tr th:each="sub : ${substances}" class="">
+                <tr th:each="sub : ${substances}" >
                     <td th:text="${sub.id}"></td>
                     <td th:text="${sub.name}"></td>
                     <td>
@@ -43,6 +43,6 @@
 
 
 
-<div th:replace="shared/footer :: footer"></div>
+    <div th:replace="shared/footer :: footer"></div>
 </body>
 </html>

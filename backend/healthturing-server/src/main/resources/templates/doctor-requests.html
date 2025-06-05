@@ -6,33 +6,39 @@
 <body class="flex flex-col min-h-screen">
     <div th:replace="shared/header :: header"></div>
 
-        <div class="container mx-auto px-4 flex-grow">
-            <h1>Solicitudes de registro de médicos pendientes</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Email</th>
-                        <th>Nombre</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="req : ${requests}">
-                        <td th:text="${req.email}"></td>
-                        <td th:text="${req.name}"></td>
-                        <td>
+    <div class="container mx-auto px-4 flex-grow">
+
+        <h1 class="text-2xl font-bold">Solicitudes de registro de médicos pendientes</h1>
+        <table class="min-w-full border-separate border-spacing-y-2 border-spacing-x-2">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Email</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Nombre</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="req : ${requests}">
+                    <td th:text="${req.email}"></td>
+                    <td th:text="${req.name}"></td>
+                    <td>
+                        <div class="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0">
+
                             <form th:action="@{/admin/doctor-requests/approve/{id}(id=${req.id})}" method="post" style="display:inline">
-                                <button type="submit">Aprobar</button>
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded mr-2" type="submit">Aprobar</button>
                             </form>
                             <form th:action="@{/admin/doctor-requests/reject/{id}(id=${req.id})}" method="post" style="display:inline">
-                                <button type="submit">Rechazar</button>
+                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Rechazar</button>
                             </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            
+                        </div>
 
-        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
 
 
 

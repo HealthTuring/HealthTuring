@@ -11,7 +11,7 @@
 <header class="bg-primary flex justify-between items-center px-6 py-3" th:fragment="navbar">
     <div class="flex items-center gap-6">
         <!-- Logo + título alineados -->
-        <a th:href="@{/landing}" class="flex items-center gap-2">
+        <a th:href="@{/admin}" class="flex items-center gap-2">
             <img th:src="@{/images/LogoWhite.png}" alt="HealthTuring Logo" class="h-10" />
             <h2 class="text-xl font-semibold text-white mytitle-font">HealthTuring</h2>
         </a>
@@ -21,14 +21,26 @@
             <a th:href="@{/admin/medicaments}" class="text-white font-medium hover-bg-lightness-blue rounded p-2">Medicaments</a>
             <a th:href="@{/admin/substances}" class="text-white font-medium hover-bg-lightness-blue rounded p-2">Substances</a>
             <a th:href="@{/admin/incompatibilities}" class="text-white font-medium hover-bg-lightness-blue rounded p-2">Incompatibilities</a>
-            <a th:href="@{/admin/doctor-requests}" class="text-white font-medium hover-bg-lightness-blue rounded p-2">Requests</a>
+            <a th:href="@{/admin/doctor-requests}" class="text-white font-medium hover-bg-lightness-blue rounded p-2">Doctor Req</a>
+            <a th:href="@{/admin/patient-requests}" class="text-white font-medium hover-bg-lightness-blue rounded p-2">Patient Req</a>
         </div>
     </div>
 
     <!-- Cerrar sesión -->
-    <a href="/api/auth/logout" class="flex items-center justify-center p-2 bg-red-700 hover:bg-red-600 text-white rounded cursor-pointer w-10 h-10">
+<!--     <a href="/api/auth/logout" class="flex items-center justify-center p-2 bg-red-700 hover:bg-red-600 text-white rounded cursor-pointer w-10 h-10">
         <span class="material-icons">logout</span>
     </a>
+    <form id="logoutForm" th:action="@{/logout}" method="post" class="hidden">
+        <a href="#" onclick="document.getElementById('logoutForm').submit()" class="...">Cerrar sesión</a>
+    </form> -->
+
+
+        <a href="#" onclick="logout()" class="hidden md:flex flex items-center justify-center p-2 bg-red-700 hover:bg-red-600 text-white rounded cursor-pointer w-10 h-10">
+            <span class="material-icons">logout</span>
+        </a>
+
+    
+
 
 
     <!-- Botón hamburguesa -->
@@ -41,10 +53,14 @@
 
     <!-- Menú hamburguesa desplegable -->
     <div id="menu" class="md:hidden hidden flex-col absolute top-16 left-0 w-full bg-primary p-4 z-10 space-y-2">
-        <a th:href="@{/admin/medicaments}" class="text-white block hover-bg-lightness-blue p-2 rounded">Medicaments</a>
-        <a th:href="@{/admin/substances}" class="text-white block hover-bg-lightness-blue p-2 rounded">Substances</a>
-        <a th:href="@{/admin/incompatibilities}" class="text-white block hover-bg-lightness-blue p-2 rounded">Incompatibilities</a>
-        <a th:href="@{/admin/doctor-requests}" class="text-white block hover-bg-lightness-blue p-2 rounded">Requests</a>
+        <a th:href="@{/admin/medicaments}" class="text-white block font-medium hover-bg-lightness-blue p-2 rounded">Medicaments</a>
+        <a th:href="@{/admin/substances}" class="text-white block font-medium hover-bg-lightness-blue p-2 rounded">Substances</a>
+        <a th:href="@{/admin/incompatibilities}" class="text-white font-medium block hover-bg-lightness-blue p-2 rounded">Incompatibilities</a>
+        <a th:href="@{/admin/doctor-requests}" class="text-white block font-medium hover-bg-lightness-blue rounded p-2">Doctor Req</a>
+        <a th:href="@{/admin/patient-requests}" class="text-white block font-medium hover-bg-lightness-blue rounded p-2">Patient Req</a>
+        <a href="#" onclick="logout()" class="flex items-center justify-center p-2 bg-red-700 hover:bg-red-600 text-white rounded cursor-pointer w-10 h-10">
+            <span class="material-icons">logout</span>
+        </a>
         
     </div>
 
@@ -53,7 +69,23 @@
             const menu = document.getElementById('menu');
             menu.classList.toggle('hidden');
         }
+
+        function logout() {
+            sessionStorage.removeItem("token");
+
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include'
+            }).then(() => {
+                window.location.href = 'http://localhost:4200/auth/login'; // cambia si tu ruta es distinta
+            }).catch(err => {
+                console.error('Logout error:', err);
+            });
+        }
+
     </script>
+
+    
 </header>
 
 
