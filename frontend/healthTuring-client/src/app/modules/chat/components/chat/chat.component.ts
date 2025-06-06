@@ -38,20 +38,19 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     effect(() => {
       const patient = this.patientSignal();
 
-      console.log(patient)
-
       if (patient != null) {
         this.doctorName = patient.doctorName;
         const patientId = patient.id;
         const doctorId = patient.doctorId;
         let newRoomId: string;
+        console.log(doctorId)
 
         if (!doctorId) {
           this.hasDoctor = false;
           return;
         }
 
-
+        this.hasDoctor = true;
         if (this.jwtService.getRole() === 'ROLE_DOC') {
           newRoomId = `room${patientId}${doctorId}`;
         } else {
@@ -80,6 +79,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     this.scrollToBottom();
+    console.log(12122345678512345)
   }
 
   sendMessage() {
