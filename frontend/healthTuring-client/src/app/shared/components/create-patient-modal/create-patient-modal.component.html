@@ -22,7 +22,7 @@
 
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de nacimiento</label>
-        <input type="date" formControlName="dateOfBirth" class="w-full border rounded p-2 focus:outline-none group__input" />
+        <input type="date" formControlName="dateOfBirth" class="w-full border rounded p-2 focus:outline-none group__input" [max]="today"/>
         <div *ngIf="patientForm.get('dateOfBirth')?.invalid && patientForm.get('dateOfBirth')?.touched" class="text-xs text-red-500">Fecha requerida.</div>
       </div>
 
@@ -53,7 +53,7 @@
         <input formControlName="emergencyContact" class="w-full border rounded p-2 focus:outline-none group__input" />
         <div *ngIf="patientForm.get('emergencyContact')?.invalid && patientForm.get('emergencyContact')?.touched" class="text-xs text-red-500">Requerido y máximo 30 caracteres.</div>
       </div>
-      
+
       <div *ngIf="error" class="text-red-600 text-sm mt-2">{{ error }}</div>
 
       <div class="flex justify-end gap-2 mt-4">

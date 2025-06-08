@@ -22,10 +22,11 @@ export class CreatePatientModalComponent {
 
   loading = false;
   error: string | null = null;
-  
+  today: string = new Date().toISOString().split('T')[0];
+
   bloodGroups = ['A', 'B', 'AB', 'O'];
   rhFactors = ['POSITIVE', 'NEGATIVE'];
-  
+
   patientForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       dni: ['', [Validators.required, Validators.maxLength(20)]],

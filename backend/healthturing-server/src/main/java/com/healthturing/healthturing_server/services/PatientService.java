@@ -1,5 +1,6 @@
 package com.healthturing.healthturing_server.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -63,15 +64,19 @@ public class PatientService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
 
-        if (!user.getRole().equals(Role.ROLE_USER))
+        if (!user.getRole().equals(Role.ROLE_USER)) {
             throw new IllegalArgumentException("El propietario debe ser un usuario");
-
+        }
         int count = patientRepository.countByUserId(userId);
-        if (count >= 3)
+        if (count >= 3) {
             throw new IllegalStateException("Máximo de 3 pacientes por usuario.");
-
-        if (patientRepository.existsByDni(dto.getDni()))
+        }
+        if (patientRepository.existsByDni(dto.getDni())) {
             throw new IllegalStateException("El DNI ya está registrado en otro paciente.");
+        }
+        if (dto.getDateOfBirth().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede ser futura.");
+        }
 
         Patient patient = new Patient();
         patient.setName(dto.getName());
