@@ -33,3 +33,6 @@
 - [ngx-toastr (Toast Notifications)](https://www.npmjs.com/package/ngx-toastr)
 - [Tailwind CSS](https://v2.tailwindcss.com/docs)
 - [Material Icons](https://fonts.google.com/icons)
+- [angular-calendar](https://www.npmjs.com/package/angular-calendar)
+- [Chart.js](https://www.chartjs.org/)
+- [jwt-decode](https://www.npmjs.com/package/jwt-decode)
