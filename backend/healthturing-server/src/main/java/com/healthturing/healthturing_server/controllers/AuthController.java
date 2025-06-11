@@ -90,14 +90,13 @@ public class AuthController {
      * @return String token
      */
     @PostMapping("/login")
-    @CrossOrigin(origins = "http://front.internal.healthturing.site:4200", allowCredentials = "true")
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
         try {
             String token = authService.login(request.getEmail(), request.getPassword());
 
             ResponseCookie cookie = ResponseCookie.from("Authorization", token)
                     .httpOnly(true)
-                    .secure(false) // pon true en producción con HTTPS
+                    .secure(true) // pon true en producción con HTTPS
                     .path("/")
                     .maxAge(Duration.ofHours(1))
                     .build();
