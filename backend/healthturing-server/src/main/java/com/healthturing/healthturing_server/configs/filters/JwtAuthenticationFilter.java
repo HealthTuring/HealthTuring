@@ -46,6 +46,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     try {
 
+          String path = request.getRequestURI();
+
+      // Ignorar rutas públicas (como /api/auth/login)
+      if (path.startsWith("/api/auth")) {
+          filterChain.doFilter(request, response);
+          return;
+      }
+
       // Verifica que el token es válido y empieza con Bearer
       String authHeader = request.getHeader("Authorization");
       // Si no hay Authorization en cabecera, busca en cookies
