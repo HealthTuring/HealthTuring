@@ -10,7 +10,7 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    @Override
+    /* @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -25,8 +25,16 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 "</body>" +
                 "</html>"
             );
-    }
-}
+    } */
+
+        @Override
+        public void commence(HttpServletRequest request,
+                            HttpServletResponse response,
+                            AuthenticationException authException) throws IOException {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        }
+
+
 
 /* @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
@@ -51,3 +59,4 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             );
         }
     } */
+}

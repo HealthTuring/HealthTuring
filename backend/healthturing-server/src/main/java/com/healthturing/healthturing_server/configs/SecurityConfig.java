@@ -40,30 +40,15 @@ public class SecurityConfig {
    * @return
    * @throws Exception
    */
-  @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http,
-      JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) throws Exception {
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-        .csrf(csrf -> csrf.disable())
-        .cors(cors -> cors.configure(http))
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers(
-                "/api/auth/**",
-                "/images/**",
-                "/css/**",
-                "/v3/api-docs/**",
-                "/swagger-ui.html",
-                "/swagger-ui/**")
-            .permitAll()
-            .requestMatchers("/admin/**").hasRole("ADMIN")
-            .requestMatchers("/api/doctor/**").hasRole("DOC")
-
-            .anyRequest().authenticated())
-        .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+        .cors().and()
+        .csrf().disable()
+        .authorizeHttpRequests()
+            .anyRequest().permitAll(); // <--- Permite TODO
     return http.build();
-  }
+}
 
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
