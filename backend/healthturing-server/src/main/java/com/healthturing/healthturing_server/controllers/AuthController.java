@@ -90,14 +90,13 @@ public class AuthController {
      * @return String token
      */
     @PostMapping("/login")
-    @CrossOrigin(origins = "http://front.internal.healthturing.site:4200", allowCredentials = "true")
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
         try {
             String token = authService.login(request.getEmail(), request.getPassword());
 
             ResponseCookie cookie = ResponseCookie.from("Authorization", token)
                     .httpOnly(true)
-                    .secure(false) // pon true en producción con HTTPS
+                    .secure(true) // pon true en producción con HTTPS
                     .path("/")
                     .maxAge(Duration.ofHours(1))
                     .build();
@@ -177,7 +176,7 @@ public class AuthController {
     public ResponseEntity<Void> logout(HttpServletResponse response) {
         Cookie cookie = new Cookie("Authorization", null);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); // Solo si usas HTTPS, poner true
+        cookie.setSecure(true); // Solo si usas HTTPS, poner true
         cookie.setPath("/");
         cookie.setMaxAge(0); // Esto elimina la cookie
         response.addCookie(cookie);
@@ -189,7 +188,7 @@ public class AuthController {
     public String adminLogout(HttpServletResponse response) {
         Cookie cookie = new Cookie("Authorization", null);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); // Solo si usas HTTPS, poner true
+        cookie.setSecure(true); // Solo si usas HTTPS, poner true
         cookie.setPath("/");
         cookie.setMaxAge(0); // Esto elimina la cookie
         response.addCookie(cookie);

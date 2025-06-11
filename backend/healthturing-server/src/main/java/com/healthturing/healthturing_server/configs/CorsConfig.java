@@ -25,6 +25,7 @@ package com.healthturing.healthturing_server.configs;
              .allowedOrigins(allowedOrigins.split(","))
              .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
              .allowedHeaders("*")
+             .exposedHeaders("Content-Disposition")
              .allowCredentials(true);
        }
      };
