@@ -90,7 +90,7 @@ public class AuthController {
      * @return String token
      */
     @PostMapping("/login")
-    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+    @CrossOrigin(origins = "http://front.internal.healthturing.site:4200", allowCredentials = "true")
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
         try {
             String token = authService.login(request.getEmail(), request.getPassword());
@@ -193,7 +193,7 @@ public class AuthController {
         cookie.setPath("/");
         cookie.setMaxAge(0); // Esto elimina la cookie
         response.addCookie(cookie);
-        return "redirect:http://localhost:4200/auth/login";
+        return "redirect:http://healthturing.duckdns.org/auth/login";
     }
 
 
