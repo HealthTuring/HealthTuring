@@ -17,6 +17,7 @@ export const PATIENTS_NAMES_BYUSER_ENDPOINT = (userId: number) => `${API_URL}/pa
 export const PATIENTS_NAMES_BYDOCTOR_ENDPOINT = (doctorId: number) => `${API_URL}/doctor/user-patients-doctor/${doctorId}`;
 export const DOCTOR_BY_PATIENT = (patientId: number) => `${API_URL}/patient/doctor/${patientId}`;
 export const PATIENT_DATA_ENDPOINT = (patientId: number) => `${API_URL}/patient/data/${patientId}`;
+export const CREATE_PATIENT_ENDPOINT = (userId: number) => `${API_URL}/patient/create/${userId}`;
 
 /* TREATMENT ENDPOINTS */
 export const TREATMENTS_BY_PATIENT_ENDPOINT = (patientId: number) => `${API_URL}/treatments/${patientId}`;

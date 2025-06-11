@@ -2,7 +2,6 @@ package com.healthturing.healthturing_server.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.healthturing.healthturing_server.models.Incompatibility;
@@ -12,34 +11,42 @@ import com.healthturing.healthturing_server.repositories.IncompatibilityReposito
 import com.healthturing.healthturing_server.repositories.MedicamentRepository;
 import com.healthturing.healthturing_server.repositories.SubstanceRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class IncompatibilityService {
     
-    @Autowired
-    private IncompatibilityRepository incompatibilityRepository;
-
-    @Autowired
-    private MedicamentRepository medicamentRepository;
-
-    @Autowired
-    private SubstanceRepository substanceRepository;
+    private final IncompatibilityRepository incompatibilityRepository;
+    private final MedicamentRepository medicamentRepository;
+    private final SubstanceRepository substanceRepository;
 
    
+    /**
+     * Obtiene todas las incompatibilidades de la base de datos.
+     * @return List<Incompatibility>
+     */
     public List<Incompatibility> getAllIncompatibilities() {
         return incompatibilityRepository.findAll();
     }
 
    
+    /**
+     * Devuelve una incompatiblidad por id.
+     * @param id
+     * @return Incompatibility
+     */
     public Incompatibility getIncompatibilityById(Long id) {
         return incompatibilityRepository.findById(id).orElse(null);
     }
 
-   
-
-
-    
+    /**
+     * 
+     * @param incompatibility
+     * @return
+     */
     public Incompatibility saveIncompatibility(Incompatibility incompatibility) {
-        // Recuperar el medicamento completo
+
         Long medicamentId = incompatibility.getMedicament().getId();
         Medicament medicament = medicamentRepository.findById(medicamentId)
                             .orElseThrow(() -> new IllegalArgumentException("Medicament no encontrado"));
@@ -65,11 +72,7 @@ public class IncompatibilityService {
 
         return incompatibilityRepository.save(incompatibility);
     }
-
-
-
-
-   
+ 
     public Incompatibility updateIncompatibility(Long id, Incompatibility incompatibility) {
         Incompatibility existing = incompatibilityRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Incompatibility no encontrada con id " + id));
@@ -79,7 +82,6 @@ public class IncompatibilityService {
         return incompatibilityRepository.save(existing);
     }
 
-   
     public void deleteIncompatibility(Long id) {
         incompatibilityRepository.deleteById(id);
     }

@@ -42,7 +42,7 @@ public class UserSeeder implements CommandLineRunner{
             user.setEnabled(true);
 
             User user2 = new User("user2@mail.com" , "user2Name", passwordEncoder.encode("$Userpass1"));
-            user.setEnabled(true);
+            user2.setEnabled(true);
 
             User doctor = new User("doc@mail.com", "Paco Datos", passwordEncoder.encode("$Docpass1"));
             doctor.setRole(Role.ROLE_DOC);

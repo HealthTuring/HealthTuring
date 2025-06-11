@@ -1,5 +1,6 @@
 package com.healthturing.healthturing_server.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -21,20 +22,15 @@ import com.healthturing.healthturing_server.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class PatientService {
 
     private final PatientRepository patientRepository;
     private final UserRepository userRepository;
     private final PatientAssignationRequestRepository assignationRepository;
-
-    public PatientService(PatientRepository patientRepository, UserRepository userRepository, PatientAssignationRequestRepository assignationRepository) {
-        this.patientRepository = patientRepository;
-        this.userRepository = userRepository;
-        this.assignationRepository = assignationRepository;
-    }
 
     public List<PatientDTO> getPatientsByUserId(Long userId) {
         List<Patient> patients = patientRepository.findByUserId(userId);
@@ -57,39 +53,50 @@ public class PatientService {
                 .orElseThrow(() -> new EntityNotFoundException("Paciente no encontrado"));
         return PatientDataMapper.toDto(patient);
     }
+    
+    @Transactional
+    /**
+     * Crea tras las validaciones un nuevo perfil de paciente sin doctor asigando por id de usuario.
+     * @param dto
+     * @param userId
+     * @return Patient
+     */
+    public Patient createPatientForUser(PatientCreateDTO dto, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
 
-@Transactional
-public Patient createPatientForUser(PatientCreateDTO dto, Long userId) {
-    User user = userRepository.findById(userId)
-        .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+        if (!user.getRole().equals(Role.ROLE_USER)) {
+            throw new IllegalArgumentException("El propietario debe ser un usuario");
+        }
+        int count = patientRepository.countByUserId(userId);
+        if (count >= 3) {
+            throw new IllegalStateException("Máximo de 3 pacientes por usuario.");
+        }
+        if (patientRepository.existsByDni(dto.getDni())) {
+            throw new IllegalStateException("El DNI ya está registrado en otro paciente.");
+        }
+        if (dto.getDateOfBirth().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede ser futura.");
+        }
 
-    if (!user.getRole().equals(Role.ROLE_USER))
-        throw new IllegalArgumentException("El propietario debe ser un usuario");
+        Patient patient = new Patient();
+        patient.setName(dto.getName());
+        patient.setDni(dto.getDni());
+        patient.setDateOfBirth(dto.getDateOfBirth());
+        patient.setGender(dto.getGender());
+        patient.setBloodGroup(dto.getBloodGroup());
+        patient.setRhFactor(dto.getRhFactor());
+        patient.setEmergencyContact(dto.getEmergencyContact());
+        patient.setUser(user);
+        patient.setDoctorAssigned(false);
+        patient.setDoctor(null);
 
-    int count = patientRepository.countByUserId(userId);
-    if (count >= 3) throw new IllegalStateException("Máximo de 3 pacientes por usuario.");
+        Patient savedPatient = patientRepository.save(patient);
 
-    if (patientRepository.existsByDni(dto.getDni()))
-        throw new IllegalStateException("El DNI ya está registrado en otro paciente.");
+        PatientAssignationRequest request = new PatientAssignationRequest(savedPatient);
+        assignationRepository.save(request);
 
-    Patient patient = new Patient();
-    patient.setName(dto.getName());
-    patient.setDni(dto.getDni());
-    patient.setDateOfBirth(dto.getDateOfBirth());
-    patient.setGender(dto.getGender());           
-    patient.setBloodGroup(dto.getBloodGroup());
-    patient.setRhFactor(dto.getRhFactor());
-    patient.setEmergencyContact(dto.getEmergencyContact());
-    patient.setUser(user);
-    patient.setDoctorAssigned(false);
-    patient.setDoctor(null);
-
-    Patient savedPatient = patientRepository.save(patient);
-
-    PatientAssignationRequest request = new PatientAssignationRequest(savedPatient);
-    assignationRepository.save(request);
-
-    return savedPatient;
-}
+        return savedPatient;
+    }
 
 }

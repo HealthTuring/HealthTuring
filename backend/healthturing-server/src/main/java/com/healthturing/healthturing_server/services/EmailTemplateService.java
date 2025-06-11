@@ -3,23 +3,28 @@ package com.healthturing.healthturing_server.services;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.healthturing.healthturing_server.exceptions.EmailSendingException;
 
 import jakarta.mail.MessagingException;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class EmailTemplateService {
 
     @Value("${url.client}")
     private String clientUrl;
 
-    @Autowired
-    private EmailSenderService emailSenderService;
+    private final EmailSenderService emailSenderService;
 
+    /**
+     * Correo con enlace para resetear la contraseña del usuario.
+     * @param email
+     * @param token
+     */
     public void sendResetPasswordEmail(String email, String token) {
         String confirmationLink = clientUrl + "/auth/reset-password/" + token;
         String htmlContent = String.format(
@@ -70,6 +75,11 @@ public class EmailTemplateService {
         }
     }
 
+    /**
+     * Correo con enlace para la confimación del email al registrarse como nuevo usuario.
+     * @param email
+     * @param token
+     */
     public void sendConfirmationEmail(String email, String token) {
         String confirmationLink = clientUrl + "/auth/confirm-email/" + token;
         String htmlContent = String.format(
@@ -120,6 +130,14 @@ public class EmailTemplateService {
         }
     }
 
+    /**
+     * Correo con los datos de reserva de la cita confimándola.
+     * @param email
+     * @param name
+     * @param date
+     * @param startTime
+     * @param reason
+     */
     public void sendConfirmationAppointmentEmail(String email, String name, LocalDate date, LocalTime startTime,
             String reason) {
         String htmlContent = String.format(

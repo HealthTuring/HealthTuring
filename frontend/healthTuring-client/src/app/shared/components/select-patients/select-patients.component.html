@@ -30,7 +30,8 @@
       <span class="text-xs font-semibold">PACIENTES</span>
       <button
         class="material-icons-outlined p-1 rounded bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
-        title="Agregar paciente" aria-label="Agregar paciente">
+        title="Agregar paciente" aria-label="Agregar paciente"
+        (click)="openAddPatientModal()">
         add
       </button>
     </div>
@@ -53,3 +54,9 @@
     </ul>
   </div>
 }
+
+<create-patient-modal   *ngIf="showAddPatientModal"
+  (close)="showAddPatientModal = false"
+  (patientCreated)="onPatientCreated()">
+
+</create-patient-modal>

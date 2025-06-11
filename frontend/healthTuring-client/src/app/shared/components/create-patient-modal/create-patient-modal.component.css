@@ -1,0 +1,7 @@
+.group__input:focus {
+  border: 1px solid var(--primary-blue);
+}
+
+.bg-primary:hover {
+    background-color: var(--dark-blue);
+}

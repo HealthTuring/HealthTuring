@@ -1,6 +1,8 @@
 package com.healthturing.healthturing_server.models;
 
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,14 +19,17 @@ public class Treatment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String reason;
 
+    @Column(nullable = false)
     private LocalDate startDate;
 
     private LocalDate endDate;
 
     private String duration;
 
+    @Column(nullable = false)
     private String dosesPerPeriod;
 
     @ManyToOne(optional = false)

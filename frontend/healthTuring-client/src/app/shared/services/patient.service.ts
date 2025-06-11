@@ -1,14 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable } from 'rxjs';
-import { PATIENT_DATA_ENDPOINT, PATIENTS_NAMES_BYDOCTOR_ENDPOINT, PATIENTS_NAMES_BYUSER_ENDPOINT } from '../../config';
+import { catchError, map, Observable, of } from 'rxjs';
+import { CREATE_PATIENT_ENDPOINT, PATIENT_DATA_ENDPOINT, PATIENTS_NAMES_BYDOCTOR_ENDPOINT, PATIENTS_NAMES_BYUSER_ENDPOINT } from '../../config';
 import { PatientDto } from '../interfaces/patient-dto.interface';
 import { PatientDataDto } from '../../modules/patient-profile/interfaces/patient-data-dto.interface';
+import { PatientCreateDTO } from '../interfaces/patient-create-dto.interface';
+import { ApiResponseDto } from '../interfaces/response-dto.interface';
+import { NotificationService } from './notification-toast.service';
 
 @Injectable({ providedIn: 'root' })
 export class PatientService {
 
     private http = inject(HttpClient);
+    private toast = inject(NotificationService);
     private selectedPatientId = signal<number | null>(null);
     private selectedPatient = signal<PatientDto | null>(null);
 
@@ -40,4 +44,19 @@ export class PatientService {
         return this.selectedPatient.asReadonly();
     }
 
+    createPatientForUser(userId: number, dto: PatientCreateDTO): Observable<boolean> {
+        return this.http.post<ApiResponseDto>(CREATE_PATIENT_ENDPOINT(userId), dto).pipe(
+            map((resp) => {
+                this.toast.showSuccess(resp.message, "Proceso completado con éxito");
+                return true;
+            }),
+            catchError((error) => {
+                const backendMsg = error?.error?.message || 'Ha ocurrido un error inesperado';
+                this.toast.showError(backendMsg, "Error al crear el paciente");
+                return of(false);
+            })
+        )
+    }
 }
+
+

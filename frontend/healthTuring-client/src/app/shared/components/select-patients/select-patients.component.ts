@@ -3,10 +3,11 @@ import { PatientService } from '../../services/patient.service';
 import { JwtService } from '../../../core/services/jwt.service';
 import { PatientDto } from '../../interfaces/patient-dto.interface';
 import { CommonModule } from '@angular/common';
+import { CreatePatientModalComponent } from '../create-patient-modal/create-patient-modal.component';
 
 @Component({
   selector: 'shared-select-patients',
-  imports: [CommonModule],
+  imports: [CommonModule, CreatePatientModalComponent],
   templateUrl: './select-patients.component.html',
   styleUrl: './select-patients.component.css'
 })
@@ -18,17 +19,12 @@ export class SelectPatientsComponent {
   patientsByUser: PatientDto[] = [];
   selectedPatient: PatientDto | null = null;
   showPatients = false;
+  showAddPatientModal = false;
 
   @Input() isCollapsed: boolean = false;
 
   ngOnInit(): void {
-    const userId = this.jwtService.getId() ?? 0;
-    this.patientService.getPatientsByUser(userId).subscribe(patients => {
-      this.patientsByUser = patients;
-      if (patients.length > 0) {
-        this.selectPatient(patients[0]);
-      }
-    });
+    this.loadPatients();
   }
 
   togglePacientes() {
@@ -54,6 +50,25 @@ export class SelectPatientsComponent {
       .join('')
       .slice(0, 2)
       .toUpperCase();
+  }
+
+  private loadPatients() {
+    const userId = this.jwtService.getId() ?? 0;
+    this.patientService.getPatientsByUser(userId).subscribe(patients => {
+      this.patientsByUser = patients;
+      if (patients.length > 0) {
+        this.selectPatient(patients[0]);
+      }
+    });
+  }
+
+  openAddPatientModal() {
+    this.showAddPatientModal = true;
+  }
+
+  onPatientCreated() {
+    this.showAddPatientModal = false;
+    this.loadPatients();
   }
 
 }
