@@ -1,3 +1,3 @@
 export const environments = {
-  baseUrl: 'http://healthturing.duckdns.org/'
+  baseUrl: 'https://healthturing.duckdns.org/'
 }
