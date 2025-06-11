@@ -13,7 +13,10 @@ import com.healthturing.healthturing_server.models.User;
 import com.healthturing.healthturing_server.repositories.UserRepository;
 import com.healthturing.healthturing_server.validations.ValidationsFunctions;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class PasswordResetService {
 
     private final JwtService jwtService;
@@ -22,23 +25,16 @@ public class PasswordResetService {
     private final EmailTemplateService emailTemplateService;
     private final ValidationsFunctions validationsFunctions;
 
-    public PasswordResetService(JwtService jwtService, EmailSenderService emailSenderService, UserRepository userRepository, PasswordEncoder passwordEncoder, EmailTemplateService emailTemplateService, ValidationsFunctions validationsFunctions) {
-        this.validationsFunctions = validationsFunctions;
-        this.emailTemplateService = emailTemplateService;
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.jwtService = jwtService;
-    }
-
     /**
-     * Envía un email al usuario con un token (expira en 30min) para restablecer la contaseña.
+     * Envía un email al usuario con un token (expira en 30min) para restablecer la
+     * contaseña.
      * @param email
      * @return
      */
     public String sendPasswordResetEmail(String email) {
 
         Optional<User> userOptional = userRepository.findByEmail(email);
-    
+
         if (userOptional.isEmpty()) {
             throw new UserNotFoundException("No existe nigún usuario registrado con este email");
         }
@@ -51,26 +47,32 @@ public class PasswordResetService {
 
     }
 
-public void resetPassword(String token, String newPassword) {
-    if (jwtService.isTokenExpired(token)) {
-        throw new TokenExpiredException("El token de restablecimiento de contraseña ha expirado.");
+    /**
+     * Comprueba que el token y la nueva contraseña sean válidos,
+     * y encripta y guarda la nueva contraseña del usuario.
+     * @param token
+     * @param newPassword
+     */
+    public void resetPassword(String token, String newPassword) {
+        if (jwtService.isTokenExpired(token)) {
+            throw new TokenExpiredException("El token de restablecimiento de contraseña ha expirado.");
+        }
+
+        int userId = jwtService.extractUserId(token);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado."));
+
+        if (!validationsFunctions.isValidPassword(newPassword)) {
+            throw new InvalidPasswordException("La contraseña no cumple con los requisitos de seguridad.");
+        }
+
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
+            throw new SamePasswordException("La nueva contraseña no puede ser idéntica a la anterior.");
+        }
+
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encryptedPassword);
+        userRepository.save(user);
     }
 
-    int userId = jwtService.extractUserId(token);
-    User user = userRepository.findById(userId)
-            .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado."));
-
-    if (!validationsFunctions.isValidPassword(newPassword)) {
-        throw new InvalidPasswordException("La contraseña no cumple con los requisitos de seguridad.");
-    }
-
-    if (passwordEncoder.matches(newPassword, user.getPassword())) {
-        throw new SamePasswordException("La nueva contraseña no puede ser idéntica a la anterior.");
-    }
-
-    String encryptedPassword = passwordEncoder.encode(newPassword);
-    user.setPassword(encryptedPassword);
-    userRepository.save(user);
-}
-    
 }

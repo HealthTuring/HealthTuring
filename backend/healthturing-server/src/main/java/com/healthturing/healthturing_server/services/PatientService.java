@@ -22,20 +22,15 @@ import com.healthturing.healthturing_server.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class PatientService {
 
     private final PatientRepository patientRepository;
     private final UserRepository userRepository;
     private final PatientAssignationRequestRepository assignationRepository;
-
-    public PatientService(PatientRepository patientRepository, UserRepository userRepository,
-            PatientAssignationRequestRepository assignationRepository) {
-        this.patientRepository = patientRepository;
-        this.userRepository = userRepository;
-        this.assignationRepository = assignationRepository;
-    }
 
     public List<PatientDTO> getPatientsByUserId(Long userId) {
         List<Patient> patients = patientRepository.findByUserId(userId);
@@ -58,8 +53,14 @@ public class PatientService {
                 .orElseThrow(() -> new EntityNotFoundException("Paciente no encontrado"));
         return PatientDataMapper.toDto(patient);
     }
-
+    
     @Transactional
+    /**
+     * Crea tras las validaciones un nuevo perfil de paciente sin doctor asigando por id de usuario.
+     * @param dto
+     * @param userId
+     * @return Patient
+     */
     public Patient createPatientForUser(PatientCreateDTO dto, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));

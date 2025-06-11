@@ -1,6 +1,5 @@
 package com.healthturing.healthturing_server.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,21 +11,15 @@ import com.healthturing.healthturing_server.models.enums.Role;
 import com.healthturing.healthturing_server.repositories.UserRepository;
 import com.healthturing.healthturing_server.validations.ValidationsFunctions;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
     
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ValidationsFunctions validationsFunctions;
-
+    private final UserRepository userRepository;
+    private final ValidationsFunctions validationsFunctions;
     private final PasswordEncoder passwordEncoder;
-
-    public UserService(PasswordEncoder passwordEncoder){
-        this.passwordEncoder = passwordEncoder;
-    }
-
 
     public long getAuthenticatedUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
