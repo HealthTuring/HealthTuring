@@ -31,7 +31,7 @@
   </ul>
 
   <h3>Esquema E/R de la Base de Datos</h3>
-  <p><img src="assets/ER.HealthTuring.png" alt="Esquema E/R de la base de datos"></p>
+  <p><img src="/img/ER.HealthTuring.jpg" alt="Esquema E/R de la base de datos"></p>
 
   <h3>Tutorial de Uso</h3>
   <ol>
