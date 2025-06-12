@@ -116,7 +116,7 @@ public class AdminController {
         return "redirect:/admin/patient-requests";
     }
 
-    @GetMapping()
+    @GetMapping("/")
     public String homeLanding(Model model) {
         model.addAttribute("mensaje", "Redireccion a landing");
         return "landing"; 
