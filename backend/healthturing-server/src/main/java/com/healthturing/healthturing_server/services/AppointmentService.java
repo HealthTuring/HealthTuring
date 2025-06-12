@@ -42,6 +42,20 @@ public class AppointmentService {
     }
 
     /**
+     * Devuelve todas las citas de los pacientes asignados al doctor con ID proporcionado
+     * @param doctorId
+     * @return List<AppointmentDTO>
+     */
+    public List<AppointmentDTO> getAppointmentsByDoctorId(Long doctorId) {
+        List<Patient> patients = patientRepository.findByDoctorId(doctorId);
+        List<Appointment> allAppointments = new ArrayList<>();
+        for (Patient patient : patients) {
+            allAppointments.addAll(patient.getAppointments());
+        }
+        return AppointmentMapper.toDtoList(allAppointments);
+    }
+
+    /**
      * Busca slots (1h) entre los rangos indicados disponibles por id doctor
      * en una fecha concreta, omitiendo findes de semana.
      * @param doctorId
