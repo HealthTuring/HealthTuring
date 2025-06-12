@@ -1,87 +1,125 @@
+# HealthTuring - Aplicación Web Sanitaria
+
 ![Banner](/img/banner.jpg)
-<h1>HealthTuring - Aplicación Web Sanitaria</h1>
-    <p>Esta aplicación web está diseñada para gestionar información médica de pacientes, programar citas y facilitar la comunicación entre profesionales de la salud.</p>
 
-  <h3>Autores del Proyecto</h3>
-  <ul>
-    <li>Juan Francisco Chacón Macías</li>
-    <li>Álvaro López Guerrero</li>
-  </ul>
+HealthTuring es una aplicación web diseñada para gestionar información médica de pacientes, programar citas y facilitar la comunicación entre profesionales de la salud.
 
-  <h3>Descripción</h3>
-  <p>HealthTuring es una aplicación web diseñada para facilitar la gestión de tratamientos médicos, reservas de citas, seguimiento de historial clínico y comunicación directa entre pacientes y doctores a través de un chat en línea. Este proyecto ha sido desarrollado como trabajo de fin de curso del ciclo formativo en desarrollo de aplicaciones web.</p>
+---
 
-  <h3>Objetivos del Proyecto</h3>
-  <ul>
-    <li>Desarrollar una plataforma web segura y escalable para la gestión sanitaria.</li>
-    <li>Implementar un sistema de autenticación robusto que proteja la información sensible de los pacientes.</li>
-    <li>Mejorar la comunicación entre pacientes y médicos.</li>
-    <li>Optimizar el seguimiento de tratamientos médicos.</li>
-    <li>Aplicar conocimientos adquiridos sobre desarrollo web full-stack.</li>
-    <li>Trabajar colaborativamente utilizando buenas prácticas de desarrollo.</li>
-  </ul>
+## 📑 Índice
 
-  <h3>Tecnologías Utilizadas</h3>
-  <ul>
-    <li><strong>Frontend:</strong> Angular, Tailwind CSS, CSS3 (Landing Page)</li>
-    <li><strong>Backend:</strong> SpringBoot con Hibernate, Spring Data JPA</li>
-    <li><strong>Base de Datos:</strong> MySQL</li>
-    <li><strong>Herramientas:</strong> Git, GitHub, Figma, JWT, WebSocket</li>
-    <li><strong>Despliegue:</strong> AWS, Nginx</li>
-  </ul>
+1. [Autores del Proyecto](#autores-del-proyecto)  
+2. [Descripción General](#descripción-general)  
+3. [Objetivos del Proyecto](#objetivos-del-proyecto)  
+4. [Tecnologías Utilizadas](#tecnologías-utilizadas)  
+5. [Diseño y Recursos Visuales](#diseño-y-recursos-visuales)  
+6. [Enlaces Importantes](#enlaces-importantes)  
+7. [Documentación Técnica](#documentación-técnica)  
+8. [Bibliografía](#bibliografía)  
+9. [Licencia](#licencia)
 
-  <h3>Esquema E/R de la Base de Datos</h3>
-  <p><img src="/img/ER.HealthTuring.jpg" alt="Esquema E/R de la base de datos"></p>
+---
 
-  <h3>Vídeo del proyecto</h3>
-  <p><a href="https://youtu.be/oIjWwXb3p8M" target="_blank">Ver vídeo en YouTube</a></p>
+## 👥 Autores del Proyecto
 
-  <h3>Landing Page</h3>
-  <p><a href="https://saludconnect-landing.vercel.app" target="_blank">https://saludconnect-landing.vercel.app</a></p>
+- Juan Francisco Chacón Macías  
+- Álvaro López Guerrero
 
-  <h3>Diseño de la Aplicación</h3>
-  <p><a href="https://www.figma.com/design/CmWyjN19e1JvGNwSS9at7q/Proyecto-dise%C3%B1o?node-id=13-3&t=FCEvTD1tZ9ZOurUy-1" target="_blank">Diseño en Figma</a></p>
+---
 
-  <h3>Vídeo de Presentación del Proyecto</h3>
-  <p><a href="https://youtu.be/Zk5RYo0uuNk" target="_blank">Ver vídeo en YouTube</a></p>
+## 📌 Descripción General
 
-  <h3>Bitácora de Tareas</h3>
-  <a href="https://messy-muskox-c6b.notion.site/1e553eb02c1e80b99aecd3bc1395805c?v=1e553eb02c1e80009cd4000cb875567c">Bitácora de tareas</a>
-  
-  <h3>Presentación en PDF</h3>
-  <p><a href="https://drive.google.com/file/d/ejemplo/view" target="_blank">Ver presentación (PDF)</a></p>
-  
-  <h3>Anteproyecto</h3>
-  <p><a href="https://messy-muskox-c6b.notion.site/Anteproyecto-1c053eb02c1e800b8074d49e43f14007">Ver Anteproyecto en Notion</a></p>
-  
-  <h3>Vídeo CheckPoint</h3>
-  <p><a href="https://youtu.be/Zk5RYo0uuNk">Enlace</a></p>
-  
-  <h3>Documentación API</h3>
-  <p><a href="./API.md">Enlace</a></p>
+HealthTuring es una aplicación web desarrollada como trabajo de fin de curso del ciclo formativo en Desarrollo de Aplicaciones Web. Está orientada a facilitar la gestión de tratamientos médicos, reservas de citas, historial clínico y la comunicación directa entre pacientes y doctores mediante un sistema de chat en línea.
 
-<h2>Bibliografía</h2>
+---
 
-<h3>Documentación Backend</h3>
+## 🎯 Objetivos del Proyecto
 
-- [Spring Framework](https://docs.spring.io/spring-framework/reference/index.html)
-- [Spring Email Sender (JavaMailSender)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/mail/javamail/JavaMailSender.html)
-- [Spring Data JPA](https://docs.spring.io/spring-data/jpa/docs/current-SNAPSHOT/reference/html/#reference)
-- [Hibernate](https://hibernate.org/orm/documentation/6.6/)
-- [MySQL](https://dev.mysql.com/doc/)
-- [JWT (JSON Web Tokens)](https://jwt.io/)
+- Desarrollar una plataforma web **segura y escalable** para la gestión sanitaria.  
+- Implementar un sistema de **autenticación robusto** que proteja la información sensible de los pacientes.  
+- **Mejorar la comunicación** entre pacientes y médicos.  
+- **Optimizar el seguimiento** de tratamientos médicos.  
+- Aplicar conocimientos adquiridos sobre **desarrollo web full-stack**.  
+- Fomentar el **trabajo colaborativo** utilizando buenas prácticas de desarrollo.
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Frontend:** Angular, Tailwind CSS, CSS3 (Landing Page)  
+- **Backend:** SpringBoot con Hibernate, Spring Data JPA  
+- **Base de Datos:** MySQL  
+- **Herramientas y Librerías:** Git, GitHub, Figma, JWT, WebSocket  
+- **Despliegue:** AWS, Nginx
+
+---
+
+## 🎨 Diseño y Recursos Visuales
+
+- 📄 **Esquema E/R de la Base de Datos**  
+  ![Esquema E/R](/img/ER.HealthTuring.jpg)
+
+- 🎨 **Diseño en Figma:**  
+  [Ver Diseño en Figma](https://www.figma.com/design/CmWyjN19e1JvGNwSS9at7q/Proyecto-dise%C3%B1o?node-id=13-3&t=FCEvTD1tZ9ZOurUy-1)
+
+---
+
+## 🔗 Enlaces Importantes
+
+- 🌐 **Landing Page:**  
+  [https://healthturing.duckdns.org](https://healthturing.duckdns.org)
+
+- 📹 **Vídeo del Proyecto:**  
+  [Ver en YouTube](https://youtu.be/oIjWwXb3p8M)
+
+- 🎥 **Vídeo de Presentación:**  
+  [Ver en YouTube](https://youtu.be/Zk5RYo0uuNk)
+
+- 📋 **Bitácora de Tareas (Notion):**  
+  [Acceder a la bitácora](https://messy-muskox-c6b.notion.site/1e553eb02c1e80b99aecd3bc1395805c?v=1e553eb02c1e80009cd4000cb875567c)
+
+- 📄 **Presentación en PDF:**  
+  [Ver presentación](https://drive.google.com/file/d/ejemplo/view)
+
+- 🧪 **Anteproyecto (Notion):**  
+  [Ver Anteproyecto](https://messy-muskox-c6b.notion.site/Anteproyecto-1c053eb02c1e800b8074d49e43f14007)
+
+- 📑 **Documentación de la API:**  
+  [Ver API.md](./API.md)
+
+---
+
+## 📚 Documentación Técnica
+
+### Backend
+
+- [Spring Framework](https://docs.spring.io/spring-framework/reference/index.html)  
+- [Spring Email Sender (JavaMailSender)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/mail/javamail/JavaMailSender.html)  
+- [Spring Data JPA](https://docs.spring.io/spring-data/jpa/docs/current-SNAPSHOT/reference/html/#reference)  
+- [Hibernate](https://hibernate.org/orm/documentation/6.6/)  
+- [MySQL](https://dev.mysql.com/doc/)  
+- [JWT (JSON Web Tokens)](https://jwt.io/)  
 - [Docker](https://docs.docker.com/)
 
-<h3>Documentación Frontend</h3>
+### Frontend
 
-- [Angular](https://angular.dev/overview)
-- [ngx-toastr (Toast Notifications)](https://www.npmjs.com/package/ngx-toastr)
-- [Tailwind CSS](https://v2.tailwindcss.com/docs)
-- [Material Icons](https://fonts.google.com/icons)
-- [angular-calendar](https://www.npmjs.com/package/angular-calendar)
-- [Chart.js](https://www.chartjs.org/)
+- [Angular](https://angular.dev/overview)  
+- [ngx-toastr (Toast Notifications)](https://www.npmjs.com/package/ngx-toastr)  
+- [Tailwind CSS](https://v2.tailwindcss.com/docs)  
+- [Material Icons](https://fonts.google.com/icons)  
+- [angular-calendar](https://www.npmjs.com/package/angular-calendar)  
+- [Chart.js](https://www.chartjs.org/)  
 - [jwt-decode](https://www.npmjs.com/package/jwt-decode)
 
-  <footer>
-    <p>© 2025 - HealthTuring. Proyecto educativo desarrollado por alumnos del CFGS Desarrollo de Aplicaciones Web.</p>
-  </footer>
+---
+
+## 📖 Bibliografía
+
+Consulta la documentación oficial de cada herramienta en el apartado anterior:  
+Backend y Frontend organizados por categorías técnicas.
+
+---
+
+## 📄 Licencia
+
+© 2025 - HealthTuring. Proyecto educativo desarrollado por alumnos del CFGS Desarrollo de Aplicaciones Web.
