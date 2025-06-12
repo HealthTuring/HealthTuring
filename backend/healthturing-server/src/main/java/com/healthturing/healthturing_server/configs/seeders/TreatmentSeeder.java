@@ -54,6 +54,7 @@ public class TreatmentSeeder implements CommandLineRunner {
         Medicament amoxicilina = medicamentRepository.findByScientificName("Amoxicillinum").orElse(null);
         Medicament ibuprofeno = medicamentRepository.findByScientificName("Ibuprofenum").orElse(null);
         Medicament losartan = medicamentRepository.findByScientificName("Losartanum").orElse(null);
+        Medicament salbutamol = medicamentRepository.findByScientificName("Salbutamol").orElse(null);
 
         List<Treatment> treatments = new ArrayList<>();
 
@@ -67,6 +68,15 @@ public class TreatmentSeeder implements CommandLineRunner {
                     patient1,
                     paracetamol
             ));
+            treatments.add(new Treatment(
+                    "Tratamiento de fiebre",
+                    LocalDate.now().minusDays(3),
+                    LocalDate.now().plusDays(2),
+                    "7 días",
+                    "1 cada 8 horas",
+                    patient2,
+                    paracetamol
+            ));
         }
         if (amoxicilina != null) {
             treatments.add(new Treatment(
@@ -76,6 +86,15 @@ public class TreatmentSeeder implements CommandLineRunner {
                     "7 días",
                     "1 cada 8 horas",
                     patient1,
+                    amoxicilina
+            ));
+            treatments.add(new Treatment(
+                    "Infección respiratoria",
+                    LocalDate.now().minusDays(1),
+                    LocalDate.now().plusDays(6),
+                    "7 días",
+                    "1 cada 8 horas",
+                    patient2,
                     amoxicilina
             ));
         }
@@ -96,7 +115,16 @@ public class TreatmentSeeder implements CommandLineRunner {
                     LocalDate.now().plusDays(4),
                     "5 días",
                     "1 cada 12 horas",
-                    patient3,
+                    patient2,
+                    ibuprofeno
+            ));
+            treatments.add(new Treatment(
+                    "Inflamación tendinosa",
+                    LocalDate.now(),
+                    LocalDate.now().plusDays(3),
+                    "3 días",
+                    "1 cada 8 horas",
+                    patient2,
                     ibuprofeno
             ));
         }
@@ -118,6 +146,18 @@ public class TreatmentSeeder implements CommandLineRunner {
                     "1 vez al día",
                     patient3,
                     losartan
+            ));
+        }
+
+        if (salbutamol != null) {
+            treatments.add(new Treatment(
+                "Asma bronquial",
+                LocalDate.now().minusDays(7),
+                null,
+                "Indefinido",
+                "1 vez al día",
+                patient2,
+                salbutamol
             ));
         }
 
