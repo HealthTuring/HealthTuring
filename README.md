@@ -72,7 +72,7 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 - 📹 **Vídeo del Proyecto:**  
   [Ver en YouTube](https://youtu.be/oIjWwXb3p8M)
 
-- 🎥 **Vídeo de Presentación:**  
+- 🎥 **Vídeo de CheckPoint:**  
   [Ver en YouTube](https://youtu.be/Zk5RYo0uuNk)
 
 - 📋 **Bitácora de Tareas (Notion):**  
