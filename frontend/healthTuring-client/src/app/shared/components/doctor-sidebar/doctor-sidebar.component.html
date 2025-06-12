@@ -33,5 +33,13 @@
       </li>
     </ul>
   </div>
+      <div
+      class="flex items-center gap-4 m-2 p-2 rounded cursor-pointer hover:bg-red-700 hover:text-white duration-200 hover:shadow-md"
+      [ngClass]="{ 'justify-center': isCollapsed }"
+      (click)="logout()"
+    >
+      <span class="material-icons-outlined">logout</span>
+      <span *ngIf="!isCollapsed" class="font-medium">Cerrar sesión</span>
+    </div>
 
 </nav>
