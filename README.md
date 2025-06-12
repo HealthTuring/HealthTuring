@@ -8,15 +8,15 @@ HealthTuring es una aplicación web diseñada para gestionar información médic
 
 ## 📑 Índice
 
-1. [Autores del Proyecto](#autores-del-proyecto)  
-2. [Descripción General](#descripción-general)  
-3. [Objetivos del Proyecto](#objetivos-del-proyecto)  
-4. [Tecnologías Utilizadas](#tecnologías-utilizadas)  
-5. [Diseño y Recursos Visuales](#diseño-y-recursos-visuales)  
-6. [Enlaces Importantes](#enlaces-importantes)  
-7. [Documentación Técnica](#documentación-técnica)  
-8. [Bibliografía](#bibliografía)  
-9. [Licencia](#licencia)
+1. [Autores del Proyecto](#-autores-del-proyecto)  
+2. [Descripción General](#-descripción-general)  
+3. [Objetivos del Proyecto](#-objetivos-del-proyecto)  
+4. [Tecnologías Utilizadas](#-tecnologías-utilizadas)  
+5. [Diseño y Recursos Visuales](#-diseño-y-recursos-visuales)  
+6. [Enlaces Importantes](#-enlaces-importantes)  
+7. [Documentación Técnica](#-documentación-técnica)  
+8. [Licencia](#-licencia)
+
 
 ---
 
