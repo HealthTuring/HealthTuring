@@ -56,6 +56,9 @@
   
   <h3>Vídeo CheckPoint</h3>
   <p><a href="https://youtu.be/Zk5RYo0uuNk">Enlace</a></p>
+  
+  <h3>Documentación API</h3>
+  <p><a href="./API.md">Enlace</a></p>
 
 <h2>Bibliografía</h2>
 
