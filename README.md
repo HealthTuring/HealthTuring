@@ -67,11 +67,15 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 
 ## 🔗 Ejemplos de la aplicación
 
-- **Autenticación y autorización**
+- 🔐 **Autenticación y autorización**
+
   Inicio de sesión con autenticación con token firmado de **JWT** y registro con envío de email con token seguro para confirmar la cuenta a la hora del registro antes de poder iniciar sesión con la nueva cuenta en caso de ser usuario paciente. Si hace el registro como médico debera esperar a que la administración acepte tu solicitud.
+  
   Funcionalidad cambiar contraseña, tras solicitar el reseteo y acceder a través de un enlace del correo enviado al usuario con el token firmado de un solo uso y con caducidad de 30 min.
   Todos los formularios de la aplicación utilizan **ReactiveFormsModule** de Angular con **Validators** para las validaciones de campos.
+  
   En caso tanto de éxito como de fracaso en cada operación en la aplicación se usan toast como mensajes de notificación para el usuario del paquete **ngx-toastr**, para informar a los usuarios.
+  
   ![Auth](/img/auth.png)
 
 ---
