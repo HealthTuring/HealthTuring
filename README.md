@@ -103,11 +103,11 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 
 - 👮 **Vista Administrador**
 
-  Como usuario administrador, accedes al panel de administración desarrollado con vistas de Thymeleaf en Spring Boot MVC, donde puedes gestionar los medicamentos, incompatibilidades y sustancias de la aplicación, con la posibilidad de añadir, editar o eliminar registros.
+  Como usuario administrador, accedes al panel de administración desarrollado con vistas de **Thymeleaf en Spring Boot MVC**, donde puedes gestionar los medicamentos, incompatibilidades y sustancias de la aplicación, con la posibilidad de añadir, editar o eliminar registros.
 
   Además, desde este panel se administra la validación de nuevos usuarios registrados con el rol de médico, pudiendo aceptar o rechazar sus solicitudes. También permite asignar médicos con disponibilidad a los nuevos perfiles de pacientes, cuando un usuario crea dicho perfil a través del formulario modal para ello.
 
-![Admin](/img/admin.png)
+  ![Admin](/img/admin.png)
 
 ---
 
