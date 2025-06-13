@@ -1,4 +1,4 @@
-<img width="960" alt="image" src="https://github.com/user-attachments/assets/228d5004-4908-4a09-b86a-f5dea31283b1" /># HealthTuring - Aplicación Web Sanitaria
+# HealthTuring - Aplicación Web Sanitaria
 
 ![Banner](/img/banner.jpg)
 
