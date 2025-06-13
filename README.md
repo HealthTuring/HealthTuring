@@ -65,16 +65,19 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 
 ---
 
-## 🔗 Ejemplos de la aplicación
+## 💻 Ejemplos de la aplicación
 
 - 🔐 **Autenticación y autorización**
 
-  Inicio de sesión con autenticación con token firmado de **JWT** y registro con envío de email con token seguro para confirmar la cuenta a la hora del registro antes de poder iniciar sesión con la nueva cuenta en caso de ser usuario paciente. Si hace el registro como médico debera esperar a que la administración acepte tu solicitud.
+  Inicio de sesión con autenticación mediante **JWT** (token firmado), y protección de rutas y endpoints basada en el rol del usuario (USER, ADMIN, DOC), utilizando la configuración de seguridad de **Spring Security** y **Angular Guards** para proteger las rutas en el frontend.
+
+  Registro con envío de un correo electrónico que contiene un token seguro para confirmar la cuenta antes de poder iniciar sesión, en el caso de los usuarios tipo paciente. Si el registro se realiza como médico, deberá esperar a que el equipo de administración apruebe la solicitud.
   
-  Funcionalidad cambiar contraseña, tras solicitar el reseteo y acceder a través de un enlace del correo enviado al usuario con el token firmado de un solo uso y con caducidad de 30 min.
-  Todos los formularios de la aplicación utilizan **ReactiveFormsModule** de Angular con **Validators** para las validaciones de campos.
+  Funcionalidad para cambiar la contraseña tras solicitar el restablecimiento, accediendo mediante un enlace enviado por correo electrónico que incluye un token firmado de un solo uso, con una validez de 30 minutos.
   
-  En caso tanto de éxito como de fracaso en cada operación en la aplicación se usan toast como mensajes de notificación para el usuario del paquete **ngx-toastr**, para informar a los usuarios.
+  Todos los formularios de la aplicación utilizan **ReactiveFormsModule** de Angular, junto con **Validators** para las validaciones de campos.
+  
+  Tanto en caso de éxito como de error en cada operación, se muestran notificaciones tipo toast al usuario mediante el paquete **ngx-toastr**, para proporcionar retroalimentación clara sobre el estado de las acciones realizadas.
   
   ![Auth](/img/auth.png)
 
