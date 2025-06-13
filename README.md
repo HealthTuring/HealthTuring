@@ -81,6 +81,12 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
   
   ![Auth](/img/auth.png)
 
+  - 📆 **Calendario**
+ 
+  Calendario adaptado con angular-calendar, configurado para mostrar los eventos por meses (con navegación entre ellos), incluyendo los tratamientos asignados a los pacientes y las citas pendientes con su médico. También se utiliza en la vista del médico para visualizar sus citas programadas con los pacientes.
+
+  ![Calendar](/img/calendar.jpg)
+
 ---
 
 ## 🔗 Enlaces Importantes
