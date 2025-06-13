@@ -24,6 +24,7 @@ export const TREATMENTS_BY_PATIENT_ENDPOINT = (patientId: number) => `${API_URL}
 
 /* APPOINTMENT ENDPOINTS */
 export const APPOINTMENTS_BY_PATIENT_ENDPOINT = (patientId: number) => `${API_URL}/appointments/${patientId}`;
+export const APPOINTMENTS_BY_DOCTOR_ENDPOINT = (doctorId: number) => `${API_URL}/appointments/doctor/${doctorId}`;
 export const SLOTS_ENDPOINT = (doctorId: number) => `${API_URL}/appointments/doctor/${doctorId}/available-slots`;
 export const RESERVE_APPOINTMENT_ENDPOINT = `${API_URL}/appointments/reserve`;
 

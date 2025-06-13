@@ -44,6 +44,18 @@ public class AppointmentController {
         }
     }
 
+    @GetMapping("/doctor/{doctorId}")
+    @PreAuthorize("hasRole('DOC')")
+    public ResponseEntity<?> getAppointmentsByDoctorId(@PathVariable Long doctorId) {
+        try {
+            List<AppointmentDTO> appointments = appointmentService.getAppointmentsByDoctorId(doctorId);
+            return ResponseEntity.ok(appointments == null ? Collections.emptyList() : appointments);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al obtener las citas del doctor: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/doctor/{doctorId}/available-slots")
     public ResponseEntity<?> getAvailableSlots(
             @PathVariable Long doctorId,

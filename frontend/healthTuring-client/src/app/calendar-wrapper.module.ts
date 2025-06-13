@@ -4,11 +4,12 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarComponent } from './modules/calendar/components/calendar/calendar.component';
+import { DoctorCalendarComponent } from './modules/calendar/components/doctor-calendar/doctor-calendar.component';
 
 registerLocaleData(localeEs);
 
 @NgModule({
-  declarations: [CalendarComponent],
+  declarations: [CalendarComponent, DoctorCalendarComponent],
   imports: [
     CommonModule,
     CalendarModule.forRoot({
@@ -16,6 +17,6 @@ registerLocaleData(localeEs);
       useFactory: adapterFactory,
     }),
   ],
-  exports: [CalendarComponent],
+  exports: [CalendarComponent, DoctorCalendarComponent],
 })
 export class CalendarWrapperModule {}

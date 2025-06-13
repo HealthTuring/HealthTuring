@@ -53,11 +53,7 @@ public class IncompatibilitySeeder implements CommandLineRunner {
         incompatibilities.add(new Incompatibility(meds.get("loratadina"), null, subs.get("alcohol")));
 
         // Cafeína
-        incompatibilities.add(new Incompatibility(meds.get("metoprolol"), null, subs.get("cafeína")));
         incompatibilities.add(new Incompatibility(meds.get("sertralina"), null, subs.get("cafeína")));
-
-        // Vitamina K (antagoniza anticoagulantes como Clopidogrel)
-        incompatibilities.add(new Incompatibility(meds.get("clopidogrel"), null, subs.get("vitamina k")));
 
         // Pomelo (afecta metabolismo de estatinas)
         incompatibilities.add(new Incompatibility(meds.get("simvastatina"), null, subs.get("pomelo")));
@@ -69,42 +65,26 @@ public class IncompatibilitySeeder implements CommandLineRunner {
         incompatibilities.add(new Incompatibility(meds.get("amoxicilina"), null, subs.get("hierba de san juan")));
 
         // Tabaco (afecta a betabloqueantes y antidepresivos)
-        incompatibilities.add(new Incompatibility(meds.get("metoprolol"), null, subs.get("tabaco")));
         incompatibilities.add(new Incompatibility(meds.get("sertralina"), null, subs.get("tabaco")));
 
         // Lácteos (pueden reducir absorción de amoxicilina)
         incompatibilities.add(new Incompatibility(meds.get("amoxicilina"), null, subs.get("lácteos")));
 
-        // Ajo (potencia efecto de anticoagulantes)
-        incompatibilities.add(new Incompatibility(meds.get("clopidogrel"), null, subs.get("ajo")));
-
-        // Alimentos ricos en potasio (peligro con IECA y diuréticos)
-        incompatibilities.add(new Incompatibility(meds.get("enalapril"), null, subs.get("alimentos ricos en potasio")));
-        incompatibilities.add(new Incompatibility(meds.get("furosemida"), null, subs.get("alimentos ricos en potasio")));
-
         // Antiácidos (alteran absorción de levotiroxina, omeprazol)
         incompatibilities.add(new Incompatibility(meds.get("levotiroxina"), null, subs.get("antiácidos")));
         incompatibilities.add(new Incompatibility(meds.get("omeprazol"), null, subs.get("antiácidos")));
-
-        // Salicilatos (potencian efecto de furosemida)
-        incompatibilities.add(new Incompatibility(meds.get("furosemida"), null, subs.get("salicilatos")));
 
         // Alimentos ricos en calcio (afectan absorción de levotiroxina)
         incompatibilities.add(new Incompatibility(meds.get("levotiroxina"), null, subs.get("alimentos ricos en calcio")));
 
         // Regaliz (puede aumentar presión arterial, cuidado con antihipertensivos)
         incompatibilities.add(new Incompatibility(meds.get("amlodipino"), null, subs.get("regaliz")));
-        incompatibilities.add(new Incompatibility(meds.get("enalapril"), null, subs.get("regaliz")));
 
         // Alimentos ricos en fibra (afectan absorción de levotiroxina)
         incompatibilities.add(new Incompatibility(meds.get("levotiroxina"), null, subs.get("alimentos ricos en fibra")));
 
         // Incompatibilidades medicamento-medicamento (ejemplos)
-        incompatibilities.add(new Incompatibility(meds.get("ibuprofeno"), meds.get("enalapril"), null));
         incompatibilities.add(new Incompatibility(meds.get("ibuprofeno"), meds.get("losartán"), null));
-        incompatibilities.add(new Incompatibility(meds.get("enalapril"), meds.get("furosemida"), null));
-        incompatibilities.add(new Incompatibility(meds.get("metformina"), meds.get("furosemida"), null));
-        incompatibilities.add(new Incompatibility(meds.get("clopidogrel"), meds.get("omeprazol"), null));
         incompatibilities.add(new Incompatibility(meds.get("sertralina"), meds.get("diazepam"), null));
         incompatibilities.add(new Incompatibility(meds.get("atorvastatina"), meds.get("amoxicilina"), null));
         incompatibilities.add(new Incompatibility(meds.get("simvastatina"), meds.get("amoxicilina"), null));

@@ -3,7 +3,6 @@ package com.healthturing.healthturing_server.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,22 +21,18 @@ import com.healthturing.healthturing_server.repositories.PatientAssignationReque
 import com.healthturing.healthturing_server.repositories.PatientRepository;
 import com.healthturing.healthturing_server.repositories.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
-
-    @Autowired
-    private DoctorRegistrationRequestRepository doctorRequestRepo;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PatientAssignationRequestRepository patientRequestRepo;
-
-    @Autowired
-    private PatientRepository patientRepository;
+    
+    private final DoctorRegistrationRequestRepository doctorRequestRepo;
+    private final UserRepository userRepository;
+    private final PatientAssignationRequestRepository patientRequestRepo;
+    private final PatientRepository patientRepository;
 
     @GetMapping("/doctor-requests")
     public String showDoctorRequests(Model model) {
@@ -52,7 +47,6 @@ public class AdminController {
         if (optionalRequest.isPresent()) {
             DoctorRegistrationRequest request = optionalRequest.get();
 
-            // Verifica si ya fue aprobado
             if (!request.isApproved()) {
                 // Evita crear usuarios duplicados
                 if (!userRepository.existsByEmail(request.getEmail())) {

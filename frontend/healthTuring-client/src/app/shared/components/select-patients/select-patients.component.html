@@ -2,9 +2,9 @@
   <span (click)="togglePacientes()"
     class="flex w-full p-2 items-center rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md font-medium select-none"
     [ngClass]="isCollapsed ? 'justify-center' : 'justify-between'">
-    
+
     <span
-      class="flex items-center justify-center min-w-9 min-h-9 rounded-full bg-gradient-to-tr from-blue-700 to-blue-900 text-white border-2 font-bold shadow-m">
+      class="flex items-center justify-center min-w-9 min-h-9 rounded-full bg-gradient-to-tr from-teal-500 to-teal-700 text-white border-2 font-bold shadow-m">
       {{ getInitials(selectedPatient?.name || '') }}
     </span>
 
@@ -35,17 +35,17 @@
         add
       </button>
     </div>
-  
+
     <ul>
       <li *ngFor="let paciente of patientsByUser" (click)="seleccionarPaciente(paciente)"
         class="flex items-center gap-2 px-4 py-2 bg-lightness-blue border-l-5 cursor-pointer text-sm transition-all duration-150"
         [ngClass]="selectedPatient?.id === paciente.id ?'border-primary' : 'border-white' ">
-        
+
         <span
           class="flex items-center justify-center w-9 h-9 rounded-full font-bold text-lg shadow-md border-2 transition-all duration-150"
           [ngClass]="selectedPatient?.id === paciente.id
-                ? 'bg-gradient-to-tr from-blue-700 to-blue-900 text-white'
-                : 'bg-gradient-to-tr from-blue-400 to-blue-600 text-white'">
+                ? 'bg-gradient-to-tr from-teal-500 to-teal-700 text-white'
+                : 'bg-gradient-to-tr from-gray-700 to-gray-900 text-white'">
           {{ getInitials(paciente.name) }}
         </span>
         <span class="truncate">{{ paciente.name }}</span>

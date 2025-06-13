@@ -1,55 +1,85 @@
-<nav [ngClass]="{'w-64': !isCollapsed, 'w-20': isCollapsed}"
-  class="flex flex-col justify-between h-[calc(100vh-64px)] overflow-y-auto overflow-x-hidden text-gray-800 shadow-xl p-2 transition-all duration-200">
-
+<nav
+  [ngClass]="{ 'w-64': !isCollapsed, 'w-20': isCollapsed }"
+  class="flex flex-col justify-between h-[calc(100vh-64px)] overflow-y-auto overflow-x-hidden text-gray-800 shadow-xl p-2 transition-all duration-200"
+>
   <div>
     <div class="flex items-end justify-center gap-2 mb-5">
       <img src="assets/img/image.png" alt="HealthTuring Logo" class="h-10" />
-      <h1 *ngIf="!isCollapsed" class="text-xl text-gray-800 font-semibold mytitle-font">
+      <h1
+        *ngIf="!isCollapsed"
+        class="text-xl text-gray-800 font-semibold mytitle-font"
+      >
         HealthTuring
       </h1>
     </div>
 
     <div
       class="hidden md:flex items-center justify-center space-x-3 text-sm cursor-pointer rounded py-2 bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md select-none"
-      (click)="toggleSidebar()">
-      <span class="material-icons-outlined" [ngClass]="{'rotate-180': !isCollapsed}">start</span>
+      (click)="toggleSidebar()"
+    >
+      <span
+        class="material-icons-outlined"
+        [ngClass]="{ 'rotate-180': !isCollapsed }"
+        >start</span
+      >
       <span *ngIf="!isCollapsed">Colapsar</span>
     </div>
 
-    <ul class="flex flex-col mt-5 space-y-2 font-medium select-none" [ngClass]="{'items-center': isCollapsed}">
+    <ul
+      class="flex flex-col mt-5 space-y-2 font-medium select-none"
+      [ngClass]="{ 'items-center': isCollapsed }"
+    >
       <li
         class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
-        routerLink="/home/patient-profile" routerLinkActive="active">
+        routerLink="/home/patient-profile"
+        routerLinkActive="active"
+      >
         <span class="material-icons-outlined">medical_information</span>
         <span *ngIf="!isCollapsed">Datos del Paciente</span>
       </li>
       <li
         class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
-        routerLink="/home/calendar" routerLinkActive="active">
+        routerLink="/home/calendar"
+        routerLinkActive="active"
+      >
         <span class="material-icons-outlined">event</span>
         <span *ngIf="!isCollapsed">Calendario</span>
       </li>
       <li
         class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
-        routerLink="/home/chat" routerLinkActive="active">
+        routerLink="/home/chat"
+        routerLinkActive="active"
+      >
         <span class="material-icons-outlined">support_agent</span>
         <span *ngIf="!isCollapsed">Cita Online</span>
       </li>
       <li
         class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
-        routerLink="/home/appointment" routerLinkActive="active">
+        routerLink="/home/appointment"
+        routerLinkActive="active"
+      >
         <span class="material-icons-outlined">confirmation_number</span>
         <span *ngIf="!isCollapsed">Reservar Cita</span>
       </li>
       <li
         class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md"
-        routerLink="/home/treatments" routerLinkActive="active">
+        routerLink="/home/treatments"
+        routerLinkActive="active"
+      >
         <span class="material-icons-outlined">vaccines</span>
         <span *ngIf="!isCollapsed">Tratamientos</span>
       </li>
     </ul>
   </div>
-
-  <shared-select-patients [isCollapsed]="isCollapsed" />
-
+  <div>
+    <shared-select-patients [isCollapsed]="isCollapsed" />
+    <div
+      class="flex items-center gap-4 m-2 p-2 rounded cursor-pointer hover:bg-red-700 hover:text-white duration-200 hover:shadow-md"
+      [ngClass]="{ 'justify-center': isCollapsed }"
+      (click)="logout()"
+    >
+      <span class="material-icons-outlined">logout</span>
+      <span *ngIf="!isCollapsed" class="font-medium">Cerrar sesión</span>
+    </div>
+  </div>
 </nav>

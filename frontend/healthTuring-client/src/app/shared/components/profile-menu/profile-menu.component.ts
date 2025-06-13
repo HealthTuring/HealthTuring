@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../auth/services/auth.service';
+import { JwtService } from '../../../core/services/jwt.service';
 
 @Component({
   selector: 'shared-profile-menu',
@@ -10,6 +11,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 export class ProfileMenuComponent {
 
   private authService = inject(AuthService);
+  jwtService = inject(JwtService);
   menuOpen = false;
 
   toggleMenu(): void {
