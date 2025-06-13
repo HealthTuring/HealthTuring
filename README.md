@@ -12,10 +12,11 @@ HealthTuring es una aplicación web diseñada para gestionar información médic
 2. [Descripción General](#-descripción-general)  
 3. [Objetivos del Proyecto](#-objetivos-del-proyecto)  
 4. [Tecnologías Utilizadas](#-tecnologías-utilizadas)  
-5. [Diseño y Recursos Visuales](#-diseño-y-recursos-visuales)  
-6. [Enlaces Importantes](#-enlaces-importantes)  
-7. [Documentación Técnica](#-documentación-técnica)  
-8. [Licencia](#-licencia)
+5. [Diseño y Recursos Visuales](#-diseño-y-recursos-visuales)
+6. [Ejemplos de la Aplicación](#-ejemplos-de-la-aplicación)  
+7. [Enlaces Importantes](#-enlaces-importantes)  
+8. [Documentación Técnica](#-documentación-técnica)  
+9. [Licencia](#-licencia)
 
 
 ---
@@ -61,6 +62,17 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 
 - 🎨 **Diseño en Figma:**  
   [Ver Diseño en Figma](https://www.figma.com/design/CmWyjN19e1JvGNwSS9at7q/Proyecto-dise%C3%B1o?node-id=13-3&t=FCEvTD1tZ9ZOurUy-1)
+
+---
+
+## 🔗 Ejemplos de la aplicación
+
+- **Autenticación y autorización**
+  Inicio de sesión con autenticación con token firmado de **JWT** y registro con envío de email con token seguro para confirmar la cuenta a la hora del registro antes de poder iniciar sesión con la nueva cuenta en caso de ser usuario paciente. Si hace el registro como médico debera esperar a que la administración acepte tu solicitud.
+  Funcionalidad cambiar contraseña, tras solicitar el reseteo y acceder a través de un enlace del correo enviado al usuario con el token firmado de un solo uso y con caducidad de 30 min.
+  Todos los formularios de la aplicación utilizan **ReactiveFormsModule** de Angular con **Validators** para las validaciones de campos.
+  En caso tanto de éxito como de fracaso en cada operación en la aplicación se usan toast como mensajes de notificación para el usuario del paquete **ngx-toastr**, para informar a los usuarios.
+  ![Auth](/img/auth.png)
 
 ---
 
@@ -110,13 +122,6 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 - [angular-calendar](https://www.npmjs.com/package/angular-calendar)  
 - [Chart.js](https://www.chartjs.org/)  
 - [jwt-decode](https://www.npmjs.com/package/jwt-decode)
-
----
-
-## 📖 Bibliografía
-
-Consulta la documentación oficial de cada herramienta en el apartado anterior:  
-Backend y Frontend organizados por categorías técnicas.
 
 ---
 
