@@ -1,0 +1,49 @@
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import "tailwindcss";
+@import 'ngx-toastr/toastr';
+
+:root {
+  /* Colors */
+  --primary-blue: #2DABB9;
+  --light-blue: #81CDD5;
+  --lightness-blue: #C0E6EA;
+  --dark-blue: #299AA7;
+  --off-white: #FAF9F6;
+  --platinium: #E2F3F4;
+  --neutral: #1e2939;
+  --my-white: #f2f8fc;
+
+  /* Font */
+  --font-primary: "Roboto", sans-serif;
+  --font-title: "Merriweather", serif;
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.45s ease;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

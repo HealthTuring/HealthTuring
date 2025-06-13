@@ -1,0 +1,11 @@
+.border-primary {
+  border-left: 4px solid var(--primary-blue);
+}
+
+.bg-primary:hover {
+  background-color: var(--dark-blue);
+}
+
+.bg-primary {
+  background-color: var(--primary-blue);
+}

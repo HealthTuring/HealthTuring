@@ -1,0 +1,7 @@
+.bg-primary {
+    background-color: var(--primary-blue);
+}
+
+.bg-primary:hover {
+    background-color: var(--dark-blue);
+}

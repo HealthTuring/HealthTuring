@@ -1,0 +1,57 @@
+<div class="flex items-center mb-6 ps-2 py-2 gap-1 text-2xl rounded border-primary  text-gray-800">
+  <span class="text-gray-800 font-semibold ">Cita Online</span>
+  <span class="material-icons-outlined">support_agent</span>
+</div>
+
+@if (hasDoctor) {
+<div class="flex flex-col h-[70vh] max-h-screen bg-gray-50 rounded shadow-lg border border-gray-200">
+  <!-- Header -->
+  <div class="flex items-center px-4 py-3 bg-white border-b border-gray-200 rounded-t-lg">
+    <span class="material-icons-outlined">person</span>
+    <div class="ml-3 flex flex-col">
+      @if (isDoctor) {
+      <doctor-select-patient />
+      } @else {
+      <span class="font-semibold text-base text-gray-800 flex items-center gap-2 focus:outline-none">
+        {{ doctorName }}
+      </span>
+      }
+      <span class="text-xs text-gray-500">Conectado</span>
+    </div>
+  </div>
+  <!-- Messages -->
+  <div #messagesContainer class="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-gray-50">
+
+    <div *ngFor="let item of messageList" [ngClass]="{
+        'justify-start': item.message_side === 'receiver',
+        'justify-end': item.message_side === 'sender'
+        }" class="flex">
+      <div class="flex max-w-xs">
+        <div>
+          <div [ngClass]="{
+              'bg-gray-200 text-gray-800 rounded-bl-none': item.message_side === 'receiver',
+              'bg-primary text-white rounded-br-none': item.message_side === 'sender',
+              }" class="rounded-2xl px-3 py-2 shadow-sm mb-1">
+            {{ item.message }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="flex items-center px-4 py-3 bg-white border-t border-gray-200 rounded-b-lg">
+    <input type="text" placeholder="Escribe un mensaje..."
+      class="flex-1 px-3 py-2 rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800"
+      [(ngModel)]="messageInput" (keydown.enter)="sendMessage()" />
+    <button class="ml-3 px-4 py-2 bg-primary text-white rounded font-semibold shadow transition focus:outline-none"
+      (click)="sendMessage()" [disabled]="!messageInput || !messageInput.trim()">
+      Enviar
+    </button>
+  </div>
+</div>
+} @else {
+
+<div class="text-center text-gray-500 italic py-8">No hay chat disponible. No tienes ningún médico asignado.</div>
+
+}

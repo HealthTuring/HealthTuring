@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ProfileMenuComponent } from '../profile-menu/profile-menu.component';
 
 @Component({
@@ -9,5 +9,5 @@ import { ProfileMenuComponent } from '../profile-menu/profile-menu.component';
 })
 export class HeaderComponent {
 
-
+  @Output() toggleSidebar = new EventEmitter<void>();
 }

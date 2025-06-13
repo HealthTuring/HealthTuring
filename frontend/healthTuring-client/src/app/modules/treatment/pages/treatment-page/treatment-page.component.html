@@ -1,0 +1,16 @@
+<div class="flex items-center mb-6 ps-2 py-2 gap-1 text-2xl rounded border-primary  text-gray-800">
+  <span class="text-gray-800 font-semibold ">Tratamientos</span>
+  <span class="material-icons-outlined">vaccines</span>
+</div>
+
+@if (treatments.length === 0) {
+  <div class="text-center text-gray-500 italic py-8">
+      Este paciente no tiene ningún tratamiento asignado de momento
+  </div>
+} @else {
+  <div class="flex flex-wrap justify-center gap-6 items-start">
+    @for (t of treatments; track $index) {
+      <treatment-card [treatment]="t"></treatment-card>
+    }
+  </div>
+}

@@ -24,7 +24,6 @@ export class AuthLayoutComponent {
       .subscribe((event: NavigationEnd) => {
         const path = event.urlAfterRedirects;
 
-        // Buscar coincidencia que comience con la clave (rutas base)
         const matchedKey = Object.keys(this.imageMap).find(key => path.startsWith(key));
 
         this.imageSrc = matchedKey ? this.imageMap[matchedKey] : 'assets/img/default.webp';

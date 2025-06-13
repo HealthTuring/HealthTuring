@@ -33,9 +33,9 @@ export class RegisterPageComponent {
     this.registerForm.markAllAsTouched();
 
     if (this.registerForm.valid) {
-      const { name, email, password } = this.registerForm.value ?? {};
+      const { name, email, password, isDoctor } = this.registerForm.value ?? {};
 
-      this.authService.register(email!, name!, password!).subscribe((isAuthenticated) => {
+      this.authService.register(email!, name!, password!, isDoctor!).subscribe((isAuthenticated) => {
         if (isAuthenticated) {
           this.router.navigateByUrl('/auth/login');
           return;

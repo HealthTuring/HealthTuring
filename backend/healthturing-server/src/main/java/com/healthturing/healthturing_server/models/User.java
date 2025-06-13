@@ -32,7 +32,7 @@ public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -96,7 +96,7 @@ public class User implements UserDetails{
         this.role = role;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

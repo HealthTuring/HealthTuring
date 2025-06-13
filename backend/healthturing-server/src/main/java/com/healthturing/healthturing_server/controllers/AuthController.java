@@ -1,8 +1,11 @@
 package com.healthturing.healthturing_server.controllers;
 
+import java.time.Duration;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,16 +29,21 @@ import com.healthturing.healthturing_server.exceptions.UserNotFoundException;
 import com.healthturing.healthturing_server.services.AuthService;
 import com.healthturing.healthturing_server.services.PasswordResetService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
-
 /**
- * RestController con endpoints accesibles para el procedimiento de autenticación completo
- * Sirve de entrada para login, register, email-confirmation, y devuelve el token en caso de login
+ * RestController con endpoints accesibles para el procedimiento de
+ * autenticación completo
+ * Sirve de entrada para login, register, email-confirmation, y devuelve el
+ * token en caso de login
  */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+
 
     private final AuthService authService;
     private final PasswordResetService passwordResetService;
@@ -43,18 +51,24 @@ public class AuthController {
     public AuthController(AuthService authService, PasswordResetService passwordResetService) {
         this.authService = authService;
         this.passwordResetService = passwordResetService;
-    }   
+    }
 
     /**
      * Registra un nuevo usuario usando el método register de AuthService
-     * @param request Usuario a registrar -> Estructura request establecida mediante RegisterRequestDto
+     * 
+     * @param request Usuario a registrar -> Estructura request establecida mediante
+     *                RegisterRequestDto
      * @return ResponseEntity
      */
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequestDTO request) {
         try {
-            authService.register(request.getEmail(), request.getName(), request.getPassword());
-            return ResponseEntity.ok("Usuario registrado correctamente");
+            String message = authService.register(
+                    request.getEmail(),
+                    request.getName(),
+                    request.getPassword(),
+                    request.isDoctor());
+            return ResponseEntity.ok(message);
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (EmailSendingException e) {
@@ -67,14 +81,25 @@ public class AuthController {
     }
 
     /**
-     * Verifica el inicio de sesión respecto al email y contraseña recibidos y devuelve el token de inicio de sesión
+     * Verifica el inicio de sesión respecto al email y contraseña recibidos y
+     * devuelve el token de inicio de sesión
+     * 
      * @param request Email/Contraseña ->Estructura request de LoginRequestDto.java
      * @return String token
      */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDTO request) {
+    public ResponseEntity<String> login(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
         try {
             String token = authService.login(request.getEmail(), request.getPassword());
+
+            ResponseCookie cookie = ResponseCookie.from("Authorization", token)
+                    .httpOnly(true)
+                    .secure(false) // pon true en producción con HTTPS
+                    .path("/")
+                    .maxAge(Duration.ofHours(1))
+                    .build();
+
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
                     .body(token);
@@ -85,14 +110,16 @@ public class AuthController {
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
 
-
     /**
-     * Verifica que el token recibido corresponda a un correo para activarlo y pueda realizar el inicio de sesión
-     * @param token 
+     * Verifica que el token recibido corresponda a un correo para activarlo y pueda
+     * realizar el inicio de sesión
+     * 
+     * @param token
      * @return ResponseEntity
      */
     @PutMapping("/email-confirmation")
@@ -121,14 +148,15 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
-  
+
     @PutMapping("/reset-password/{token}")
     public ResponseEntity<String> resetPassword(@PathVariable String token, @RequestBody String newPassword) {
         try {
             passwordResetService.resetPassword(token, newPassword);
             return ResponseEntity.ok("Contraseña restablecida correctamente");
         } catch (TokenExpiredException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("El tiempo de restablecimiento de contraseña ha expirado.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("El tiempo de restablecimiento de contraseña ha expirado.");
         } catch (InvalidJwtException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         } catch (UserNotFoundException e) {
@@ -141,5 +169,29 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
-    
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("Authorization", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false); // Solo si usas HTTPS, poner true
+        cookie.setPath("/");
+        cookie.setMaxAge(0); // Esto elimina la cookie
+        response.addCookie(cookie);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @PostMapping("/adminlogout")
+    public String adminLogout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("Authorization", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false); // Solo si usas HTTPS, poner true
+        cookie.setPath("/");
+        cookie.setMaxAge(0); // Esto elimina la cookie
+        response.addCookie(cookie);
+        return "redirect:http://localhost:4200/auth/login";
+    }
+
+
 }

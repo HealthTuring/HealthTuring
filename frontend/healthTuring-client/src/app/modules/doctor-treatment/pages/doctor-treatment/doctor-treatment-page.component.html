@@ -1,0 +1,28 @@
+<div
+  class="flex items-center mb-6 ps-2 py-2 gap-1 text-2xl rounded border-primary text-gray-800"
+>
+  <span class="text-gray-800 font-semibold">Gestión Tratamientos</span>
+  <span class="material-icons-outlined">medication_liquid</span>
+</div>
+<div class="flex justify-between items-end mb-3">
+  <select-patients-treatment></select-patients-treatment>
+  <button
+    (click)="openTreatmentModal()"
+    class="flex items-center gap-1 p-2 rounded text-white bg-primary transition-colors duration-200 shadow cursor-pointer"
+  >
+    <span>Añadir</span>
+    <span class="material-icons-outlined">add</span>
+  </button>
+</div>
+<div>
+<treatment-table (editTreatment)="onEditTreatment($event)" />
+</div>
+
+@if (showTreatmentModal) {
+  <doctor-treatment-form
+    [treatmentToEdit]="selectedTreatment"
+    (close)="closeTreatmentModal()"
+    (treatmentCreated)="onTreatmentCreated()"
+    (treatmentUpdated)="onTreatmentUpdated()">
+  </doctor-treatment-form>
+}

@@ -2,6 +2,7 @@ package com.healthturing.healthturing_server.models;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,51 +19,49 @@ public class Treatment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(nullable = false)
+    private String reason;
 
-    private String description;
-
+    @Column(nullable = false)
     private LocalDate startDate;
 
     private LocalDate endDate;
+
+    private String duration;
+
+    @Column(nullable = false)
+    private String dosesPerPeriod;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "medicament_id")
+    private Medicament medicament;
+
     public Treatment() {}
 
-    public Treatment(String name, String description, LocalDate startDate, LocalDate endDate, Patient patient) {
-        this.name = name;
-        this.description = description;
+    public Treatment(String reason, LocalDate startDate, LocalDate endDate, String duration, String dosesPerPeriod, Patient patient, Medicament medicament) {
+        this.reason = reason;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.duration = duration;
+        this.dosesPerPeriod = dosesPerPeriod;
         this.patient = patient;
+        this.medicament = medicament;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getReason() {
+        return reason;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public LocalDate getStartDate() {
@@ -81,11 +80,35 @@ public class Treatment {
         this.endDate = endDate;
     }
 
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getDosesPerPeriod() {
+        return dosesPerPeriod;
+    }
+
+    public void setDosesPerPeriod(String dosesPerPeriod) {
+        this.dosesPerPeriod = dosesPerPeriod;
+    }
+
     public Patient getPatient() {
         return patient;
     }
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public Medicament getMedicament() {
+        return medicament;
+    }
+
+    public void setMedicament(Medicament medicament) {
+        this.medicament = medicament;
     }
 }
