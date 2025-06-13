@@ -1,4 +1,4 @@
-# HealthTuring - Aplicación Web Sanitaria
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/228d5004-4908-4a09-b86a-f5dea31283b1" /># HealthTuring - Aplicación Web Sanitaria
 
 ![Banner](/img/banner.jpg)
 
@@ -100,6 +100,14 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
   Como médico, puedes gestionar los tratamientos de tus pacientes desde una vista en formato tabla (adaptada a cards en dispositivos móviles), con paginación implementada gracias al uso de **JpaRepository de Spring Data JPA**. Desde esta interfaz, es posible añadir nuevos tratamientos, así como editar o eliminar los ya existentes de forma sencilla y eficiente.
 
   ![GestiónTratamientos](/img/treatments.jpg)
+
+- **Vista Administrador**
+
+Como usuario administrador, accedes al panel de administración desarrollado con vistas de Thymeleaf en Spring Boot MVC, donde puedes gestionar los medicamentos, incompatibilidades y sustancias de la aplicación, con la posibilidad de añadir, editar o eliminar registros.
+
+Además, desde este panel se administra la validación de nuevos usuarios registrados con el rol de médico, pudiendo aceptar o rechazar sus solicitudes. También permite asignar médicos con disponibilidad a los nuevos perfiles de pacientes, cuando un usuario crea dicho perfil a través del formulario modal para ello.
+
+![Admin](/img/admin.png)
 
 ---
 
