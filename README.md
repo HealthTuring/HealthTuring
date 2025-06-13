@@ -57,10 +57,12 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 
 ## 🎨 Diseño y Recursos Visuales
 
-- 📄 **Esquema E/R de la Base de Datos**  
+- 📄 **Esquema E/R de la Base de Datos**
+  
   ![Esquema E/R](/img/ER.HealthTuring.jpg)
 
-- 🎨 **Diseño en Figma:**  
+- 🎨 **Diseño en Figma:**
+
   [Ver Diseño en Figma](https://www.figma.com/design/CmWyjN19e1JvGNwSS9at7q/Proyecto-dise%C3%B1o?node-id=13-3&t=FCEvTD1tZ9ZOurUy-1)
 
 ---
@@ -81,11 +83,23 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
   
   ![Auth](/img/auth.png)
 
-  - 📆 **Calendario**
+- 📆 **Calendario**
  
-  Calendario adaptado con angular-calendar, configurado para mostrar los eventos por meses (con navegación entre ellos), incluyendo los tratamientos asignados a los pacientes y las citas pendientes con su médico. También se utiliza en la vista del médico para visualizar sus citas programadas con los pacientes.
+  Calendario adaptado con angular-calendar, configurado para mostrar los eventos por meses (con navegación entre ellos), incluyendo los tratamientos asignados a los pacientes y las citas pendientes con su médico, pudiendo cambiar en todo momento entre los perfiles de pacientes que tiene el usuario. También se utiliza en la vista del médico para visualizar sus citas programadas con los pacientes.
 
   ![Calendar](/img/calendar.jpg)
+
+- 💬 **Chat Online**
+
+  Chat en línea, seguro y privado entre pacientes y sus médicos, implementado mediante WebSocket. Con almacenamiento persistente de los mensajes intercambiados. Además, el acceso al chat está protegido según el rol y la relación entre paciente y médico, asegurando que solo los usuarios autorizados puedan comunicarse entre sí.
+
+  ![Chat](/img/chat.jpg)
+
+- 📋 **Gestión de tratamientos**
+
+  Como médico, puedes gestionar los tratamientos de tus pacientes desde una vista en formato tabla (adaptada a cards en dispositivos móviles), con paginación implementada gracias al uso de **JpaRepository de Spring Data JPA**. Desde esta interfaz, es posible añadir nuevos tratamientos, así como editar o eliminar los ya existentes de forma sencilla y eficiente.
+
+  ![GestiónTratamientos](/img/treatments.jpg)
 
 ---
 
