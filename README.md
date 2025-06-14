@@ -71,7 +71,7 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 
 - 🔐 **Autenticación y autorización**
 
-  Inicio de sesión con autenticación mediante **JWT** (token firmado), y protección de rutas y endpoints basada en el rol del usuario (USER, ADMIN, DOC), utilizando la configuración de seguridad de **Spring Security** y **Angular Guards** para proteger las rutas en el frontend.
+  Inicio de sesión con autenticación mediante **JWT** (token firmado), y protección de rutas y endpoints basada en el rol del usuario (USER, ADMIN, DOC), utilizando la configuración de seguridad de **Spring Security** y **Angular Guards** para proteger las rutas en el frontend. Todas las peticiones REST son interceptadas mediante un interceptor, que agrega automáticamente el token en las cabeceras para validar la autenticación y autorizar según el rol correspondiente.
 
   Registro con envío de un correo electrónico que contiene un token seguro para confirmar la cuenta antes de poder iniciar sesión, en el caso de los usuarios tipo paciente. Si el registro se realiza como médico, deberá esperar a que el equipo de administración apruebe la solicitud.
   
@@ -100,6 +100,14 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
   Como médico, puedes gestionar los tratamientos de tus pacientes desde una vista en formato tabla (adaptada a cards en dispositivos móviles), con paginación implementada gracias al uso de **JpaRepository de Spring Data JPA**. Desde esta interfaz, es posible añadir nuevos tratamientos, así como editar o eliminar los ya existentes de forma sencilla y eficiente.
 
   ![GestiónTratamientos](/img/treatments.jpg)
+
+- 💊 **Datos paciente y reserva de citas**
+
+  Como paciente, podrás acceder a todos tus datos personales y médicos. También tendrás la posibilidad de consultar tus tratamientos, incluyendo su duración, dosis, fechas y demás detalles relevantes, así como las incompatibilidades entre los medicamentos recetados.
+
+  Además, podrás reservar citas con tu médico asignado seleccionando un día disponible. Al hacerlo, se habilitará un campo para elegir entre los horarios libres (slots) de ese doctor. Una vez confirmada la cita, recibirás un correo electrónico con todos los detalles para su confirmación.
+
+  ![DatosCitas](/img/data-booking.png)
 
 - 👮 **Vista Administrador**
 
