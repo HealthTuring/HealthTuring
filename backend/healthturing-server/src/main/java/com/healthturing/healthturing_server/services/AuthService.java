@@ -3,8 +3,6 @@ package com.healthturing.healthturing_server.services;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,57 +22,24 @@ import com.healthturing.healthturing_server.repositories.UserRepository;
 import com.healthturing.healthturing_server.repositories.VerificationTokenRepository;
 import com.healthturing.healthturing_server.validations.ValidationsFunctions;
 
-/**
- * Servicio que gestiona las consultas relacionadas con la autenticación
- * Es empleada por AuthController para registrar, verificar, login...
- * Emplea los repositorios de user y verificationToken, los servicios JwtService
- * y EmailSenderService
- * y las clases AtuhenticacionManager, PasswordEncoder (Servicios implementados)
- * y ValidationFunctions(localizado en validations)
- */
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
-    @Value("${url.client}")
-    private String clientUrl;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private DoctorRegistrationRequestRepository doctorRegistrationRequestRepository;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private VerificationTokenRepository verificationTokenRepository;
-
-    @Autowired
-    private ValidationsFunctions validationsFunctions;
-
+    private final UserRepository userRepository;
+    private final DoctorRegistrationRequestRepository doctorRegistrationRequestRepository;
+    private final JwtService jwtService;
+    private final VerificationTokenRepository verificationTokenRepository;
+    private final ValidationsFunctions validationsFunctions;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final EmailTemplateService emailTemplateService;
 
     /**
-     * Constructor para las dependencias necesarias que no son services
-     * 
-     * @param authenticationManager
-     * @param passwordEncoder
-     * @param validationsFunctions
-     */
-    public AuthService(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder,
-            EmailTemplateService emailTemplateService) {
-        this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
-        this.emailTemplateService = emailTemplateService;
-    }
-
-    /**
      * Comprueba que los campos cumplen las condiciones para crear un nuevo usuario
-     * en la tabla usuario y enviar un email de verificación
-     * 
+     * en la tabla usuario y enviar un email de verificación.
      * @param email
      * @param name
      * @param password
@@ -126,9 +91,8 @@ public class AuthService {
     }
 
     /**
-     * Función de login que comprueba que las credenciales son correctas y devueleve
-     * un token
-     * 
+     * Función de login que comprueba que las credenciales son correctas y devuelve
+     * un token jwt firmado.
      * @param email
      * @param password
      * @return String token
@@ -158,8 +122,7 @@ public class AuthService {
     /**
      * Comprueba que el token recibido conincide con el almacenado en la base de
      * datos, verifica el correo correspondiente y elimina el token de la base de
-     * datos
-     * 
+     * datos. Habilita al usuario.
      * @param token
      * @return
      */

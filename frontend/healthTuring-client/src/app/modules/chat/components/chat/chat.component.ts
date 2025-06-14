@@ -28,6 +28,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   roomId: string = '';
   currentRoom: string | null = null;
   isDoctor = false;
+  hasDoctor = true;
 
   patientSignal: Signal<PatientDto | null> = this.patientService.getPatient();
   doctorName: string = 'Doctor';
@@ -42,7 +43,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         const patientId = patient.id;
         const doctorId = patient.doctorId;
         let newRoomId: string;
+        console.log(doctorId)
 
+        if (!doctorId) {
+          this.hasDoctor = false;
+          return;
+        }
+
+        this.hasDoctor = true;
         if (this.jwtService.getRole() === 'ROLE_DOC') {
           newRoomId = `room${patientId}${doctorId}`;
         } else {
@@ -71,9 +79,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     this.scrollToBottom();
+    console.log(12122345678512345)
   }
 
   sendMessage() {
+    if (!this.messageInput || !this.messageInput.trim()) {
+      return;
+    }
     const chatMessage: ChatMessage = {
       message: this.messageInput,
       user: this.userId,

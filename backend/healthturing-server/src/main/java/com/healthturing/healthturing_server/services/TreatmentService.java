@@ -23,33 +23,44 @@ import com.healthturing.healthturing_server.repositories.PatientRepository;
 import com.healthturing.healthturing_server.repositories.TreatmentRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class TreatmentService {
 
     private final TreatmentRepository treatmentRepository;
     private final PatientRepository patientRepository;
     private final MedicamentRepository medicamentRepository;
 
-    public TreatmentService(TreatmentRepository treatmentRepository, PatientRepository patientRepository,
-            MedicamentRepository medicamentRepository) {
-        this.treatmentRepository = treatmentRepository;
-        this.patientRepository = patientRepository;
-        this.medicamentRepository = medicamentRepository;
-    }
-
+    /**
+     * Devuelve una lista con todos los tratamientos de un paciente.
+     * @param patientId
+     * @return List<TreatmentDTO>
+     */
     public List<TreatmentDTO> getTreatmentsByPatientId(Long patientId) {
         List<Treatment> treatments = treatmentRepository.findByPatientId(patientId);
         return TreatmentMapper.toDtoList(treatments);
     }
 
-    // CON paginación
+    /**
+     * Devuelve lista de tratamientos por id de paciente, paginados y ordenados por fecha de inicio.
+     * @param patientId
+     * @param page
+     * @param size
+     * @return Page<TreatmentDTO>
+     */
     public Page<TreatmentDTO> getTreatmentsByPatientIdPaged(Long patientId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("startDate").descending());
         Page<Treatment> treatmentsPage = treatmentRepository.findByPatientId(patientId, pageable);
         return treatmentsPage.map(TreatmentMapper::toDto);
     }
 
+    /**
+     * Crear nuevo tratamiento para un paciente (se calcula la druación a partir de fechas de inicio y fin).
+     * @param dto
+     * @return Treatment
+     */
     public Treatment createTreatment(TreatmentCreateDTO dto) {
         Patient patient = patientRepository.findById(dto.getPatientId())
                 .orElseThrow(() -> new EntityNotFoundException("Paciente no encontrado"));
@@ -78,6 +89,11 @@ public class TreatmentService {
         return treatmentRepository.save(treatment);
     }
 
+    /**
+     * Elimina un tratamiento por id.
+     * @param treatmentId
+     * @return boolean
+     */
     public boolean deleteTreatment(Long treatmentId) {
         if (!treatmentRepository.existsById(treatmentId)) {
             throw new EntityNotFoundException("Tratamiento no encontrado");
@@ -86,6 +102,12 @@ public class TreatmentService {
         return true;
     }
 
+    /**
+     * Tras las validaciones edita un tratamiento existente.
+     * @param treatmentId
+     * @param dto
+     * @return Treatment
+     */
     public Treatment updateTreatment(Long treatmentId, TreatmentUpdateDTO dto) {
         Treatment treatment = treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> new EntityNotFoundException("Tratamiento no encontrado"));
@@ -118,6 +140,13 @@ public class TreatmentService {
         return treatmentRepository.save(treatment);
     }
 
+    /**
+     * Obtiene en el formato deseado el número de duración (años meses días),
+     * a partir de las fechas de incio y fin.
+     * @param startDate
+     * @param endDate
+     * @return String
+     */
     public String getDuration(LocalDate startDate, LocalDate endDate) {
         if (endDate.isBefore(startDate)) {
             throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");

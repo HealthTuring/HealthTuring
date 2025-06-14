@@ -1,6 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { CalendarDateFormatter, CalendarEvent, CalendarView } from 'angular-calendar';
-import { addMonths, format, startOfDay, subMonths } from 'date-fns';
+import { addMonths, format, subMonths } from 'date-fns';
 import { TreatmentService } from '../../../treatment/services/treatment.service';
 import { PatientService } from '../../../../shared/services/patient.service';
 import { TreatmentDto } from '../../../treatment/interfaces/treatment-dto.interface';

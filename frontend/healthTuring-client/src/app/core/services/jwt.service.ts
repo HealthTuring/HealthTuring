@@ -48,10 +48,24 @@ export class JwtService {
     }
   }
 
-  public setToken(token: string): void {
-    sessionStorage.setItem(this.TOKEN_KEY, token);
-    this.tokenSubject.next(token);
-    this.decodeToken(token);
+public setToken(token: string): void {
+    let decoded: any;
+    try {
+      decoded = jwtDecode<JwtPayload>(token);
+      this.role = decoded.role || null;
+      this.name = decoded.name || null;
+      this.id = decoded.id || null;
+    } catch {
+      this.clear();
+      return;
+    }
+
+    if (this.role === 'ROLE_ADMIN') {
+      this.tokenSubject.next(token);
+    } else {
+      sessionStorage.setItem(this.TOKEN_KEY, token);
+      this.tokenSubject.next(token);
+    }
   }
 
   public clear(): void {

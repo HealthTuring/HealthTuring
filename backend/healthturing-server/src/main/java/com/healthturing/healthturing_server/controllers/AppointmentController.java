@@ -2,6 +2,7 @@ package com.healthturing.healthturing_server.controllers;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,14 +37,22 @@ public class AppointmentController {
     public ResponseEntity<?> getAppointmentsByPatientId(@PathVariable Long patientId) {
         try {
             List<AppointmentDTO> appointments = appointmentService.getAppointmentsByPatientId(patientId);
-            if (appointments == null || appointments.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("No se encontraron citas para el paciente con ID: " + patientId);
-            }
-            return ResponseEntity.ok(appointments);
+            return ResponseEntity.ok(appointments == null ? Collections.emptyList() : appointments);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al obtener las citas: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/doctor/{doctorId}")
+    @PreAuthorize("hasRole('DOC')")
+    public ResponseEntity<?> getAppointmentsByDoctorId(@PathVariable Long doctorId) {
+        try {
+            List<AppointmentDTO> appointments = appointmentService.getAppointmentsByDoctorId(doctorId);
+            return ResponseEntity.ok(appointments == null ? Collections.emptyList() : appointments);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al obtener las citas del doctor: " + e.getMessage());
         }
     }
 

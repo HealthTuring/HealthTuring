@@ -19,7 +19,10 @@ import com.healthturing.healthturing_server.models.Patient;
 import com.healthturing.healthturing_server.repositories.AppointmentRepository;
 import com.healthturing.healthturing_server.repositories.PatientRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class AppointmentService {
 
     private static final LocalTime START_TIME = LocalTime.of(9, 0);
@@ -30,18 +33,35 @@ public class AppointmentService {
     private final PatientRepository patientRepository;
     private final EmailTemplateService emailTemplateService;
 
-    public AppointmentService(AppointmentRepository appointmentRepository, PatientRepository patientRepository,
-            EmailTemplateService emailTemplateService) {
-        this.appointmentRepository = appointmentRepository;
-        this.patientRepository = patientRepository;
-        this.emailTemplateService = emailTemplateService;
-    }
-
+    /**
+     * Devuelve una lista de citas por id de paciente.
+     */
     public List<AppointmentDTO> getAppointmentsByPatientId(Long patientId) {
         List<Appointment> appointments = appointmentRepository.findByPatientId(patientId);
         return AppointmentMapper.toDtoList(appointments);
     }
 
+    /**
+     * Devuelve todas las citas de los pacientes asignados al doctor con ID proporcionado
+     * @param doctorId
+     * @return List<AppointmentDTO>
+     */
+    public List<AppointmentDTO> getAppointmentsByDoctorId(Long doctorId) {
+        List<Patient> patients = patientRepository.findByDoctorId(doctorId);
+        List<Appointment> allAppointments = new ArrayList<>();
+        for (Patient patient : patients) {
+            allAppointments.addAll(patient.getAppointments());
+        }
+        return AppointmentMapper.toDtoList(allAppointments);
+    }
+
+    /**
+     * Busca slots (1h) entre los rangos indicados disponibles por id doctor
+     * en una fecha concreta, omitiendo findes de semana.
+     * @param doctorId
+     * @param date
+     * @return List<LocalTime>
+     */
     public List<LocalTime> getAvailableSlotsForDoctor(Long doctorId, LocalDate date) {
         LocalDate today = LocalDate.now();
         LocalDate maxDate = today.plusDays(7);
@@ -76,6 +96,16 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Crear una cita, después de las restricciones y comprobar que hay slot disponible,
+     * y envía un correo de confirmación con los datos de esta al usuario.
+     * @param patientId
+     * @param doctorId
+     * @param date
+     * @param startTime
+     * @param reason
+     * @return Appointment
+     */
     public Appointment createAppointment(Long patientId, Long doctorId, LocalDate date, LocalTime startTime,
             String reason) {
 

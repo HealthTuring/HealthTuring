@@ -1,9 +1,20 @@
-<div class="relative me-2">
-    <div class="h-10 w-10 border border-white rounded-full overflow-hidden cursor-pointer" (click)="toggleMenu()">
-        <img src="assets/img/Paco.png" alt="Imagen de Perfil" class="w-full h-full object-cover" />
+<div class="relative me-2 select-none">
+  <div
+    class="flex items-center gap-3 px-2"
+    (click)="toggleMenu()"
+  >
+    <div class="h-10 w-10 border-2 border-white rounded-full overflow-hidden">
+      <img
+        src="assets/img/default-avatar.jpg"
+        alt="Imagen de Perfil"
+        class="w-full h-full object-cover"
+      />
     </div>
-
-    @if (menuOpen) {
+    <div class="text-white text-sm font-medium leading-tight hidden md:block">
+      <h2 class="truncate max-w-[120px]">{{ jwtService.getName() }}</h2>
+    </div>
+  </div>
+<!--     @if (menuOpen) {
     <div class="absolute right-2 top-11 w-48 bg-white border border-gray-200 rounded shadow-lg z-10">
         <ul class="text-sm text-gray-700">
             <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer">
@@ -21,5 +32,5 @@
             </li>
         </ul>
     </div>
-    }
+    } -->
 </div>

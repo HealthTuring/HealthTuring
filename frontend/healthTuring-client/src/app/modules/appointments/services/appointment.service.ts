@@ -3,7 +3,7 @@ import { NotificationService } from '../../../shared/services/notification-toast
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppointmentDto } from '../interfaces/appointment-dto.interface';
 import { catchError, map, Observable, of } from 'rxjs';
-import { APPOINTMENTS_BY_PATIENT_ENDPOINT, RESERVE_APPOINTMENT_ENDPOINT, SLOTS_ENDPOINT } from '../../../config';
+import { APPOINTMENTS_BY_DOCTOR_ENDPOINT, APPOINTMENTS_BY_PATIENT_ENDPOINT, RESERVE_APPOINTMENT_ENDPOINT, SLOTS_ENDPOINT } from '../../../config';
 import { AppointmentRequest } from '../interfaces/appointment-request.interface';
 
 @Injectable({
@@ -16,6 +16,10 @@ export class AppointmentService {
 
   getAppointmentsByPatient(patientId: number): Observable<AppointmentDto[]> {
     return this.http.get<AppointmentDto[]>(APPOINTMENTS_BY_PATIENT_ENDPOINT(patientId));
+  }
+
+  getAppointmentsByDoctor(doctorId: number): Observable<AppointmentDto[]> {
+    return this.http.get<AppointmentDto[]>(APPOINTMENTS_BY_DOCTOR_ENDPOINT(doctorId));
   }
 
   getAvailableSlots(doctorId: number, date: string): Observable<string[]> {

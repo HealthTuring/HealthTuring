@@ -34,15 +34,15 @@ public class UserSeeder implements CommandLineRunner{
     @Override
     public void run(String... args){
         if(userRepository.count() == 0){
-            User admin = new User("admin@mail.com" , "adminName", passwordEncoder.encode("$Adminpass1"));
+            User admin = new User("admin@mail.com" , "SuperAdmin", passwordEncoder.encode("$Adminpass1"));
             admin.setRole(Role.ROLE_ADMIN);
             admin.setEnabled(true);
 
-            User user = new User("user@mail.com" , "userName", passwordEncoder.encode("$Userpass1"));
+            User user = new User("user@mail.com" , "Rafael Nadal", passwordEncoder.encode("$Userpass1"));
             user.setEnabled(true);
 
-            User user2 = new User("user2@mail.com" , "user2Name", passwordEncoder.encode("$Userpass1"));
-            user.setEnabled(true);
+            User user2 = new User("user2@mail.com" , "Novak Djokovic", passwordEncoder.encode("$Userpass1"));
+            user2.setEnabled(true);
 
             User doctor = new User("doc@mail.com", "Paco Datos", passwordEncoder.encode("$Docpass1"));
             doctor.setRole(Role.ROLE_DOC);

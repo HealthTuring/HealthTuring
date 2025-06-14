@@ -3,5 +3,9 @@
   <span class="material-icons-outlined">calendar_month</span>
 </div>
 <div class="min-w-80">
-  <calendar-component></calendar-component>
+  @if(jwtService.getRole() === 'ROLE_USER') {
+    <calendar-component></calendar-component>
+  } @else {
+    <doctor-calendar></doctor-calendar>
+  }
 </div>

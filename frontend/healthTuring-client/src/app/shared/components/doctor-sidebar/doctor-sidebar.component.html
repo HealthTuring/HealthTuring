@@ -19,10 +19,6 @@
 
     <!-- Navigation items -->
     <ul class="flex flex-col mt-5 space-y-2 font-medium select-none" [ngClass]="{'items-center': isCollapsed}">
-      <li class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md">
-        <span class="material-icons-outlined">medical_information</span>
-        <span *ngIf="!isCollapsed">Historial Clínico</span>
-      </li>
       <li class="flex items-center space-x-3 p-2 rounded cursor-pointer bg-lightness-blue duration-200 hover:-translate-y-0.5 hover:shadow-md" routerLink="/home/calendar" routerLinkActive="active">
         <span class="material-icons-outlined">event</span>
         <span *ngIf="!isCollapsed">Calendario</span>
@@ -37,5 +33,13 @@
       </li>
     </ul>
   </div>
+      <div
+      class="flex items-center gap-4 m-2 p-2 rounded cursor-pointer hover:bg-red-700 hover:text-white duration-200 hover:shadow-md"
+      [ngClass]="{ 'justify-center': isCollapsed }"
+      (click)="logout()"
+    >
+      <span class="material-icons-outlined">logout</span>
+      <span *ngIf="!isCollapsed" class="font-medium">Cerrar sesión</span>
+    </div>
 
 </nav>

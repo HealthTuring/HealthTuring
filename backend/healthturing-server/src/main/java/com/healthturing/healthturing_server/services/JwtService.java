@@ -18,11 +18,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
-/**
- * Servicio de JWT
- */
 @Service
 public class JwtService {
+    
     @Value("${jwt.secret}")
     private String secretkey;
 
