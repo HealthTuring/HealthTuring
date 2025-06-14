@@ -22,7 +22,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat-socket").setAllowedOrigins(allowedOrigins).withSockJS();
+        registry.addEndpoint("/chat-socket").setAllowedOrigins("https://healthturing.duckdns.org").withSockJS();
     }
 
 }
