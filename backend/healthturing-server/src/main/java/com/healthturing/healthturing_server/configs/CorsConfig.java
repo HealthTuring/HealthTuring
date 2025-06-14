@@ -21,6 +21,10 @@ package com.healthturing.healthturing_server.configs;
      return new WebMvcConfigurer() {
        @Override
        public void addCorsMappings(CorsRegistry registry) {
+          registry.addMapping("/actuator/health")
+          .allowedOrigins("*")
+          .allowedMethods("GET");
+          
          registry.addMapping("/**")
              .allowedOrigins(allowedOrigins.split(","))
              .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
