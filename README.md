@@ -135,8 +135,7 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 - 📋 **Bitácora de Tareas (Notion):**  
   [Acceder a la bitácora](https://messy-muskox-c6b.notion.site/1e553eb02c1e80b99aecd3bc1395805c?v=1e553eb02c1e80009cd4000cb875567c)
 
-- 📄 **Presentación en PDF:**
-  
+- 📄 **Presentación en PDF:**  
   [PDF de la presentación](/HealthTuring_Presentacion.pdf)
 
 - 🧪 **Anteproyecto (Notion):**  
