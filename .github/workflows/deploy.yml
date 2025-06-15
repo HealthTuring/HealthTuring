@@ -49,7 +49,7 @@ jobs:
 
     steps:
     - name: Verificar contenido de dist/Angular
-      run: ls -lhR HealthTuring/frontend/healthTuring-client/dist/health-turing-client/
+      run: ls -lhR frontend/healthTuring-client/dist/health-turing-client/
 
     - name: Upload Angular build to EC2
       uses: appleboy/scp-action@v0.1.6
@@ -57,7 +57,7 @@ jobs:
         host: ${{ secrets.AWS_HOST }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "HealthTuring/frontend/healthTuring-client/dist/health-turing-client/**"
+        source: "frontend/healthTuring-client/dist/health-turing-client/**"
         target: "/home/ubuntu/frontend-dist"
 
     - name: Deploy Angular App to NGINX
@@ -85,7 +85,7 @@ jobs:
 
     steps:
     - name: Verificar archivos JAR generados
-      run: ls -lhR HealthTuring/backend/healthturing-server/target/
+      run: ls -lhR backend/healthturing-server/target/
 
     - name: Upload Spring Boot JAR to EC2
       uses: appleboy/scp-action@v0.1.6
@@ -93,7 +93,7 @@ jobs:
         host: ${{ matrix.host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "HealthTuring/backend/healthturing-server/target/*.jar"
+        source: "backend/healthturing-server/target/*.jar"
         target: "/home/ubuntu/app.jar"
 
     - name: Restart Spring Boot App
