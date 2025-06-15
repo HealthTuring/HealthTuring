@@ -6,9 +6,19 @@ on:
       - prod
 
 jobs:
-  build:
-    name: Build Angular & Spring Boot
+  build-and-deploy:
+    name: Build and Deploy Fullstack
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        frontend_host: [3.95.121.200, 3.223.83.168]
+        backend_host: [52.202.49.64, 184.73.19.56]
+        exclude:
+          - frontend_host: 3.95.121.200
+            backend_host: 52.202.49.64
+          - frontend_host: 3.223.83.168
+            backend_host: 184.73.19.56
 
     steps:
     - name: Checkout repository
@@ -25,9 +35,6 @@ jobs:
         npm install
         npm run build -- --configuration production
 
-    - name: Verificar salida de Angular
-      run: find frontend/healthTuring-client/dist -type f || echo "⚠️ No hay archivos en dist"
-
     - name: Setup Java and Maven
       uses: actions/setup-java@v3
       with:
@@ -40,33 +47,21 @@ jobs:
         chmod +x mvnw
         ./mvnw clean package -DskipTests
 
-    - name: Verificar salida de Spring Boot
-      run: find backend/healthturing-server/target -type f || echo "⚠️ No hay archivos en target"
-
-  deploy-frontend:
-    name: Deploy to Frontend Instances
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        host:
-          - 3.95.121.200
-          - 3.223.83.168
-
-    steps:
-    - name: Upload Angular build to EC2
+    - name: Subir Angular build a EC2 (frontend)
+      if: matrix.frontend_host != ''
       uses: appleboy/scp-action@v0.1.6
       with:
-        host: ${{ matrix.host }}
+        host: ${{ matrix.frontend_host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         source: "frontend/healthTuring-client/dist/health-turing-client/**"
         target: "/home/ubuntu/frontend-dist"
 
-    - name: Deploy Angular App to NGINX
+    - name: Deploy Angular App en NGINX
+      if: matrix.frontend_host != ''
       uses: appleboy/ssh-action@v0.1.10
       with:
-        host: ${{ matrix.host }}
+        host: ${{ matrix.frontend_host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         script: |
@@ -76,30 +71,21 @@ jobs:
           sudo chmod -R 755 /var/www/html
           sudo systemctl restart nginx
 
-  deploy-backend:
-    name: Deploy to Backend Instances
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        host:
-          - 52.202.49.64
-          - 184.73.19.56
-
-    steps:
-    - name: Upload Spring Boot JAR to EC2
+    - name: Subir Spring Boot JAR a EC2 (backend)
+      if: matrix.backend_host != ''
       uses: appleboy/scp-action@v0.1.6
       with:
-        host: ${{ matrix.host }}
+        host: ${{ matrix.backend_host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         source: "backend/healthturing-server/target/*.jar"
         target: "/home/ubuntu/app.jar"
 
-    - name: Restart Spring Boot App
+    - name: Reiniciar Spring Boot en EC2
+      if: matrix.backend_host != ''
       uses: appleboy/ssh-action@v0.1.10
       with:
-        host: ${{ matrix.host }}
+        host: ${{ matrix.backend_host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         script: |
