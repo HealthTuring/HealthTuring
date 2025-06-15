@@ -1,45 +1,31 @@
-name: Deploy HealthTuring Fullstack
+name: Step 1 - Build Frontend and Backend (Verify paths only)
 
 on:
-  push:
-    branches:
-      - prod
+  workflow_dispatch:  # Lo ejecutas manualmente desde GitHub
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy Fullstack
+  build-check:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        frontend_host: [3.95.121.200, 3.223.83.168]
-        backend_host: [52.202.49.64, 184.73.19.56]
-        exclude:
-          - frontend_host: 3.95.121.200
-            backend_host: 52.202.49.64
-          - frontend_host: 3.223.83.168
-            backend_host: 184.73.19.56
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-
-      - name: Confirmar estructura tras checkout
-        run: ls -R
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22.2.0'
 
-      - name: Build Angular
+      - name: Build Angular App
         run: |
           cd frontend/healthTuring-client
           npm install
           npm run build -- --configuration production
 
-      - name: Verificar dist Angular generado
-        run: ls -lh frontend/healthTuring-client/dist/health-turing-client/browser/
+      - name: List Angular dist content
+        run: |
+          echo "📂 Verificando dist generado"
+          ls -lh frontend/healthTuring-client/dist/health-turing-client/browser
 
       - name: Setup Java and Maven
         uses: actions/setup-java@v3
@@ -47,93 +33,13 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build Spring Boot
+      - name: Build Spring Boot App
         run: |
           cd backend/healthturing-server
           chmod +x mvnw
           ./mvnw clean package -DskipTests
-          cp target/healthturing-server-0.0.1-SNAPSHOT.jar ../../app.jar
 
-      - name: Verificar JAR generado
-        run: ls -lh backend/healthturing-server/target/
-
-      - name: Upload Angular build to EC2 (frontend)
-        uses: appleboy/scp-action@v0.1.6
-        with:
-          host: ${{ matrix.frontend_host }}
-          username: ubuntu
-          key: ${{ secrets.AWS_SSH_KEY }}
-          source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
-          target: "/home/ubuntu/frontend-dist"
-
-      - name: Verificar archivos frontend en EC2
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ matrix.frontend_host }}
-          username: ubuntu
-          key: ${{ secrets.AWS_SSH_KEY }}
-          script: |
-            ls -lh /home/ubuntu/frontend-dist
-
-      - name: Deploy Angular App to NGINX
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ matrix.frontend_host }}
-          username: ubuntu
-          key: ${{ secrets.AWS_SSH_KEY }}
-          script: |
-            sudo rm -rf /var/www/html/*
-            sudo cp -r /home/ubuntu/frontend-dist/* /var/www/html/
-            sudo chown -R www-data:www-data /var/www/html
-            sudo chmod -R 755 /var/www/html
-            sudo systemctl restart nginx
-
-      - name: Verificar contenido NGINX
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ matrix.frontend_host }}
-          username: ubuntu
-          key: ${{ secrets.AWS_SSH_KEY }}
-          script: |
-            ls -lh /var/www/html
-            head -n 10 /var/www/html/index.html
-
-      - name: Upload Spring Boot JAR to EC2 (backend)
-        uses: appleboy/scp-action@v0.1.6
-        with:
-          host: ${{ matrix.backend_host }}
-          username: ubuntu
-          key: ${{ secrets.AWS_SSH_KEY }}
-          source: "app.jar"
-          target: "/home/ubuntu/app.jar"
-
-      - name: Verificar app.jar en EC2
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ matrix.backend_host }}
-          username: ubuntu
-          key: ${{ secrets.AWS_SSH_KEY }}
-          script: |
-            ls -lh /home/ubuntu/app.jar || echo "❌ No existe el app.jar"
-            file /home/ubuntu/app.jar
-            chmod +x /home/ubuntu/app.jar || echo "⚠️ No se pudo dar permisos"
-
-      - name: Restart Spring Boot App
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ matrix.backend_host }}
-          username: ubuntu
-          key: ${{ secrets.AWS_SSH_KEY }}
-          script: |
-            pkill -f 'java.*app.jar' || true
-            nohup java -jar /home/ubuntu/app.jar > backend.log 2>&1 &
-
-      - name: Verificar ejecución Spring Boot
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ matrix.backend_host }}
-          username: ubuntu
-          key: ${{ secrets.AWS_SSH_KEY }}
-          script: |
-            sleep 3
-            ps -ef | grep java || echo "⚠️ No hay proceso Java corriendo"
+      - name: List JAR generated
+        run: |
+          echo "📦 Verificando JAR generado"
+          ls -lh backend/healthturing-server/target
