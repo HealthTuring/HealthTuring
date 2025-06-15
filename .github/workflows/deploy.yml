@@ -21,7 +21,7 @@ jobs:
 
     - name: Build Angular App
       run: |
-        cd HealthTuring/frontend/healthTuring-client
+        cd frontend/healthTuring-client
         npm install
         npm run build -- --configuration production
 
@@ -33,7 +33,7 @@ jobs:
 
     - name: Build Spring Boot App
       run: |
-        cd HealthTuring/backend/healthturing-server
+        cd backend/healthturing-server
         chmod +x mvnw
         ./mvnw clean package -DskipTests
 
