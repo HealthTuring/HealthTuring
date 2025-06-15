@@ -1,4 +1,4 @@
-name: Step 1 - Build and Locate Frontend and Backend
+name: Build and Deploy Fullstack
 
 on:
   push:
@@ -6,9 +6,13 @@ on:
       - prod
 
 jobs:
-  build-locate:
-    name: Generate dist and JAR
+  build-and-deploy:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        frontend_host: [3.95.121.200]
+        backend_host: [184.73.19.56]
 
     steps:
       - name: Checkout repo
@@ -19,7 +23,7 @@ jobs:
         with:
           node-version: '22.2.0'
 
-      - name: Build Angular App
+      - name: Build Angular
         run: |
           cd frontend/healthTuring-client
           npm install
@@ -40,5 +44,41 @@ jobs:
           chmod +x mvnw
           ./mvnw clean package -DskipTests
 
-      - name: Show JAR contents
-        run: ls -lh backend/healthturing-server/target
+      - name: Show JAR generado
+        run: ls -lh backend/healthturing-server/target/
+
+      - name: Upload Angular build to EC2 (frontend)
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ matrix.frontend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
+          target: "/home/ubuntu/frontend-dist"
+
+      - name: Verificar archivos frontend en EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ matrix.frontend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: |
+            ls -lh /home/ubuntu/frontend-dist
+
+      - name: Upload Spring Boot JAR to EC2 (backend)
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ matrix.backend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          source: "backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar"
+          target: "/home/ubuntu/app.jar"
+
+      - name: Verificar app.jar en EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ matrix.backend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: |
+            ls -lh /home/ubuntu/app.jar
