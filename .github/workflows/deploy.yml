@@ -21,15 +21,15 @@ jobs:
             backend_host: 184.73.19.56
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22.16.0'
+          node-version: '22.2.0'
 
-      - name: Build Angular App
+      - name: Build Angular
         run: |
           cd frontend/healthTuring-client
           npm install
@@ -41,22 +41,22 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build Spring Boot App
+      - name: Build Spring Boot
         run: |
           cd backend/healthturing-server
           chmod +x mvnw
           ./mvnw clean package -DskipTests
 
-      - name: Subir Angular build a EC2 (frontend)
+      - name: Upload Angular build to EC2 (frontend)
         uses: appleboy/scp-action@v0.1.6
         with:
           host: ${{ matrix.frontend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "frontend/healthTuring-client/dist/health-turing-client/browser/**"
+          source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
           target: "/home/ubuntu/frontend-dist"
 
-      - name: Deploy Angular App en NGINX
+      - name: Deploy Angular App to NGINX
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ matrix.frontend_host }}
@@ -69,21 +69,21 @@ jobs:
             sudo chmod -R 755 /var/www/html
             sudo systemctl restart nginx
 
-      - name: Subir Spring Boot JAR a EC2 (backend)
+      - name: Upload Spring Boot JAR to EC2 (backend)
         uses: appleboy/scp-action@v0.1.6
         with:
           host: ${{ matrix.backend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           source: "backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar"
-          target: "/home/ubuntu/app.jar"
+          target: "/home/ubuntu/healthturing-server.jar"
 
-      - name: Reiniciar Spring Boot en EC2
+      - name: Restart Spring Boot App
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ matrix.backend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            pkill -f 'java.*app.jar' || true
-            nohup java -jar /home/ubuntu/app.jar > backend.log 2>&1 &
+            pkill -f 'java.*healthturing-server.jar' || true
+            nohup java -jar /home/ubuntu/healthturing-server.jar > backend.log 2>&1 &
