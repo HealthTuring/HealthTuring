@@ -33,7 +33,7 @@ public class EmailSenderService {
         + "</div>";
 
         String footer = "<div style='padding: 10px; text-align: center; border-radius: 5px; background-color: #f8f8f8;'><p style='font-size: 12px; color: #666;'>"
-        + "Este correo electrónico ha sido enviado desde <a href='https://healthturing.duckdns.org' style='text-decoration: none; color: #337ab7;'>healthturing.duckdns.org</a>.<br/>"
+        + "Este correo electrónico ha sido enviado desde <a href='https://healthturing.site' style='text-decoration: none; color: #337ab7;'>healthturing.site</a>.<br/>"
         + "Si tienes alguna pregunta o inquietud, no dudes en hacérnoslo saber.<br>¡Gracias por confiar en nosotros!</p>" + "<h2><span style='color:#2DABB9;'>Health</span><span style='color:#81CDD5;'>Turing</span></h2></div>";
 
         String htmlContentWithFooter = header + htmlContent + footer;

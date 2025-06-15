@@ -1,4 +1,3 @@
 export const environments = {
-  production: false,
-  baseUrl: 'http://localhost:8080/',
+  baseUrl: 'https://healthturing.site/'
 }

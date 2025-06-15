@@ -1,0 +1,63 @@
+name: compress-and-upload
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  compress-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.2.0'
+
+      - name: Build Angular
+        run: |
+          cd frontend/healthTuring-client
+          npm install
+          npm run build -- --configuration production
+
+      - name: Compress Angular dist
+        run: |
+          tar -czf frontend.tar.gz -C frontend/healthTuring-client/dist/health-turing-client/browser .
+
+      - name: Setup Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build Spring Boot
+        run: |
+          cd backend/healthturing-server
+          chmod +x mvnw
+          ./mvnw clean package -DskipTests
+
+      - name: Compress Spring Boot JAR
+        run: |
+          tar -czf backend.tar.gz -C backend/healthturing-server/target healthturing-server-0.0.1-SNAPSHOT.jar
+
+      - name: Upload Angular to EC2
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.AWS_FRONTEND_HOST }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          source: frontend.tar.gz
+          target: /home/ubuntu/
+
+      - name: Upload Spring Boot to EC2
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.AWS_BACKEND_HOST }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          source: backend.tar.gz
+          target: /home/ubuntu/
