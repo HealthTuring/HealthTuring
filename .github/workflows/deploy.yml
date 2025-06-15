@@ -1,0 +1,112 @@
+name: Deploy HealthTuring Fullstack
+
+on:
+  push:
+    branches:
+      - prod
+    paths:
+      - 'backend/healthturing-server/**'
+      - 'frontend/healthturing-client/**'
+
+jobs:
+  build:
+    name: Build Angular & Spring Boot
+    runs-on: ubuntu-latest
+    outputs:
+      frontend-dir: ${{ steps.set-outputs.outputs.frontend-dir }}
+      backend-jar: ${{ steps.set-outputs.outputs.backend-jar }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22.16.0'
+
+    - name: Build Angular App
+      run: |
+        cd frontend/healthturing-client
+        npm install
+        npm run build -- --configuration production
+
+    - name: Setup Java and Maven
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+
+    - name: Build Spring Boot App
+      run: |
+        cd backend/healthturing-server
+        chmod +x mvnw
+        ./mvnw clean package -DskipTests
+
+    - name: Set Output Paths
+      id: set-outputs
+      run: |
+        echo "frontend-dir=frontend/healthturing-client/dist" >> $GITHUB_OUTPUT
+        echo "backend-jar=backend/healthturing-server/target/*.jar" >> $GITHUB_OUTPUT
+
+  deploy-frontend:
+    name: Deploy to Frontend Instances
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        host: [${{ secrets.AWS_FRONT_HOSTS }}]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Upload Angular build to EC2
+      uses: appleboy/scp-action@v0.1.6
+      with:
+        host: ${{ matrix.host }}
+        username: ${{ secrets.AWS_USER }}
+        key: ${{ secrets.AWS_SSH_KEY }}
+        source: "frontend/healthturing-client/dist/**"
+        target: "~/frontend-dist"
+
+    - name: Deploy Angular App
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ matrix.host }}
+        username: ${{ secrets.AWS_USER }}
+        key: ${{ secrets.AWS_SSH_KEY }}
+        script: |
+          sudo rm -rf /var/www/html/*
+          sudo cp -r ~/frontend-dist/health-turing-client/* /var/www/html/
+          sudo chown -R www-data:www-data /var/www/html
+          sudo chmod -R 755 /var/www/html
+          sudo systemctl restart nginx
+
+  deploy-backend:
+    name: Deploy to Backend Instances
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        host: [${{ secrets.AWS_BACK_HOSTS }}]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Upload Spring Boot JAR to EC2
+      uses: appleboy/scp-action@v0.1.6
+      with:
+        host: ${{ matrix.host }}
+        username: ${{ secrets.AWS_USER }}
+        key: ${{ secrets.AWS_SSH_KEY }}
+        source: "backend/healthturing-server/target/*.jar"
+        target: "~/app.jar"
+
+    - name: Restart Spring Boot App
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ matrix.host }}
+        username: ${{ secrets.AWS_USER }}
+        key: ${{ secrets.AWS_SSH_KEY }}
+        script: |
+          pkill -f 'java.*app.jar' || true
+          nohup java -jar ~/app.jar > backend.log 2>&1 &
