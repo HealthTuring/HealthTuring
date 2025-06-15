@@ -22,6 +22,7 @@ jobs:
           cd frontend/healthTuring-client
           npm install
           npm run build -- --configuration production
+          echo "🔎 Mostrando contenido generado:"
           ls -lh dist/health-turing-client/browser
 
       - name: Setup Java and Maven
@@ -35,4 +36,5 @@ jobs:
           cd backend/healthturing-server
           chmod +x mvnw
           ./mvnw clean package -DskipTests
+          echo "🔎 Mostrando contenido generado:"
           ls -lh target/
