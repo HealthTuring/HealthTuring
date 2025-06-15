@@ -46,7 +46,6 @@ jobs:
           cd backend/healthturing-server
           chmod +x mvnw
           ./mvnw clean package -DskipTests
-          cp target/healthturing-server-0.0.1-SNAPSHOT.jar ../../healthturing-server.jar
 
       - name: Upload Angular build to EC2 (frontend)
         uses: appleboy/scp-action@v0.1.6
@@ -55,7 +54,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
-          target: "/home/ubuntu/frontend-dist"
+          target: "/home/ubuntu/frontend-dist/"
 
       - name: Deploy Angular App to NGINX
         uses: appleboy/ssh-action@v0.1.10
@@ -76,7 +75,7 @@ jobs:
           host: ${{ matrix.backend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "healthturing-server.jar"
+          source: "backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar"
           target: "/home/ubuntu/healthturing-server.jar"
 
       - name: Restart Spring Boot App
