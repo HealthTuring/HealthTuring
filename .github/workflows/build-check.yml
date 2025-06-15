@@ -1,14 +1,15 @@
 name: Step 1 - Build Frontend and Backend (Verify paths only)
 
 on:
-  workflow_dispatch:  # Lo ejecutas manualmente desde GitHub
+  workflow_dispatch:
 
 jobs:
   build-check:
+    name: Check frontend and backend build output
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -16,16 +17,12 @@ jobs:
         with:
           node-version: '22.2.0'
 
-      - name: Build Angular App
+      - name: Build Angular (dist output)
         run: |
           cd frontend/healthTuring-client
           npm install
           npm run build -- --configuration production
-
-      - name: List Angular dist content
-        run: |
-          echo "📂 Verificando dist generado"
-          ls -lh frontend/healthTuring-client/dist/health-turing-client/browser
+          ls -lh dist/health-turing-client/browser
 
       - name: Setup Java and Maven
         uses: actions/setup-java@v3
@@ -33,13 +30,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build Spring Boot App
+      - name: Build Spring Boot (jar output)
         run: |
           cd backend/healthturing-server
           chmod +x mvnw
           ./mvnw clean package -DskipTests
-
-      - name: List JAR generated
-        run: |
-          echo "📦 Verificando JAR generado"
-          ls -lh backend/healthturing-server/target
+          ls -lh target/
