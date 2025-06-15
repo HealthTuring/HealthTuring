@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - prod
-    paths:
-      - 'backend/healthturing-server/**'
-      - 'frontend/healthturing-client/**'
 
 jobs:
   build:
