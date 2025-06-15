@@ -1,4 +1,4 @@
-name: Build and Deploy Fullstack
+name: build-and-deploy
 
 on:
   push:
@@ -40,12 +40,12 @@ jobs:
           ./mvnw clean package -DskipTests
 
       - name: Show JAR generated
-        run: ls -lh backend/healthturing-server/target
+        run: ls -lh backend/healthturing-server/target/
 
       - name: Upload Angular dist to EC2
         uses: appleboy/scp-action@v0.1.6
         with:
-          host: ${{ secrets.AWS_FRONTEND_HOST }}
+          host: ${{ secrets.AWS_EC2_FRONTEND_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
@@ -54,36 +54,36 @@ jobs:
       - name: Upload Spring Boot JAR to EC2
         uses: appleboy/scp-action@v0.1.6
         with:
-          host: ${{ secrets.AWS_BACKEND_HOST }}
+          host: ${{ secrets.AWS_EC2_BACKEND_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar"
-          target: "/home/ubuntu/app.jar"
+          source: "backend/healthturing-server/target/*.jar"
+          target: "/home/ubuntu/app.jar/backend/healthturing-server/target"
 
       - name: Restart Spring Boot App (via screen)
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.AWS_BACKEND_HOST }}
+          host: ${{ secrets.AWS_EC2_BACKEND_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
             echo "🔁 Reiniciando Spring Boot"
 
             if ! command -v java > /dev/null; then
-              echo "❌ Java no está instalado en la instancia"
+              echo "❌ Java no está instalada en la instancia"
               exit 1
             fi
 
-            if [ ! -f /home/ubuntu/app.jar ]; then
-              echo "❌ El archivo app.jar no existe en /home/ubuntu"
+            if [ ! -f /home/ubuntu/app.jar/backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar ]; then
+              echo "❌ El archivo .jar no existe en /home/ubuntu/app.jar/backend/healthturing-server/target"
               exit 1
             fi
 
-            pkill -f 'java.*app.jar' || true
-            nohup java -jar /home/ubuntu/app.jar > backend.log 2>&1 &
+            pkill -f 'java.*healthturing-server' || true
+            screen -dmS springboot java -jar /home/ubuntu/app.jar/backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar > backend.log 2>&1 &
+
             sleep 5
-
-            if pgrep -f app.jar > /dev/null; then
+            if pgrep -f 'java.*healthturing-server' > /dev/null; then
               echo "✅ Spring Boot arrancado correctamente"
             else
               echo "❌ Spring Boot no arrancó. Mostrando backend.log:"
