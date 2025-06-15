@@ -48,9 +48,9 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 ## 🛠️ Tecnologías Utilizadas
 
 - **Frontend:** Angular, Tailwind CSS, CSS3 (Landing Page)  
-- **Backend:** SpringBoot con Hibernate, Spring Data JPA  
+- **Backend:** SpringBoot con Hibernate, Spring Data JPA, Spring Security  
 - **Base de Datos:** MySQL  
-- **Herramientas y Librerías:** Git, GitHub, Figma, JWT, WebSocket  
+- **Herramientas y Librerías:** Git, GitHub, Figma, JWT, Docker, Lombok  
 - **Despliegue:** AWS, Nginx
 
 ---
