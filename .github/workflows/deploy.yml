@@ -1,4 +1,4 @@
-name: Deploy HealthTuring Fullstack (Build Test)
+name: Deploy HealthTuring Fullstack
 
 on:
   push:
@@ -43,21 +43,65 @@ jobs:
     - name: Verificar salida de Spring Boot
       run: find backend/healthturing-server/target -type f || echo "⚠️ No hay archivos en target"
 
-    - name: Mostrar todos los archivos generados
-      run: |
-        echo "🗂 Todos los archivos generados:"
-        find . -type f | sort || true
-
-  deploy-test:
-    name: Confirm build output
+  deploy-frontend:
+    name: Deploy to Frontend Instances
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        host:
+          - 3.95.121.200
+          - 3.223.83.168
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+    - name: Upload Angular build to EC2
+      uses: appleboy/scp-action@v0.1.6
+      with:
+        host: ${{ matrix.host }}
+        username: ubuntu
+        key: ${{ secrets.AWS_SSH_KEY }}
+        source: "frontend/healthTuring-client/dist/health-turing-client/**"
+        target: "/home/ubuntu/frontend-dist"
 
-    - name: Confirmar estructura del workspace
-      run: |
-        echo "📦 Archivos esperados:"
-        find . -type f | grep -E 'target/.*\\.jar|dist/.*\\.(js|html)' || echo \"⚠️ No se encontraron .jar o archivos de Angular\"
+    - name: Deploy Angular App to NGINX
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ matrix.host }}
+        username: ubuntu
+        key: ${{ secrets.AWS_SSH_KEY }}
+        script: |
+          sudo rm -rf /var/www/html/*
+          sudo cp -r /home/ubuntu/frontend-dist/* /var/www/html/
+          sudo chown -R www-data:www-data /var/www/html
+          sudo chmod -R 755 /var/www/html
+          sudo systemctl restart nginx
+
+  deploy-backend:
+    name: Deploy to Backend Instances
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        host:
+          - 52.202.49.64
+          - 184.73.19.56
+
+    steps:
+    - name: Upload Spring Boot JAR to EC2
+      uses: appleboy/scp-action@v0.1.6
+      with:
+        host: ${{ matrix.host }}
+        username: ubuntu
+        key: ${{ secrets.AWS_SSH_KEY }}
+        source: "backend/healthturing-server/target/*.jar"
+        target: "/home/ubuntu/app.jar"
+
+    - name: Restart Spring Boot App
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ matrix.host }}
+        username: ubuntu
+        key: ${{ secrets.AWS_SSH_KEY }}
+        script: |
+          pkill -f 'java.*app.jar' || true
+          nohup java -jar /home/ubuntu/app.jar > backend.log 2>&1 &
