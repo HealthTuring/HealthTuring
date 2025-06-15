@@ -1,4 +1,4 @@
-name: Test Frontend Deploy
+name: Test Backend Deploy
 
 on:
   push:
@@ -7,38 +7,42 @@ on:
   workflow_dispatch:
 
 jobs:
-  frontend-test:
+  backend-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Java and Maven
+        uses: actions/setup-java@v3
         with:
-          node-version: '22.2.0'
+          distribution: 'temurin'
+          java-version: '21'
 
-      - name: Build Angular
+      - name: Build Spring Boot
         run: |
-          cd frontend/healthTuring-client
-          npm install
-          npm run build -- --configuration production
+          cd backend/healthturing-server
+          chmod +x mvnw
+          ./mvnw clean package -DskipTests
 
-      - name: Upload Angular build to EC2 (TEST)
+      - name: Upload Spring Boot JAR to EC2 (TEST)
         uses: appleboy/scp-action@v0.1.6
         with:
-          host: ${{ secrets.FRONTEND_HOST }}
+          host: ${{ secrets.BACKEND_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
-          target: "/home/ubuntu/frontend-dist"
+          source: "backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar"
+          target: "/home/ubuntu/"
 
-      - name: Check frontend files
+      - name: Run Spring Boot JAR in EC2
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.FRONTEND_HOST }}
+          host: ${{ secrets.BACKEND_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            ls -lh /home/ubuntu/frontend-dist || echo "⚠️ No frontend files deployed"
+            pkill -f 'java.*healthturing-server-0.0.1-SNAPSHOT.jar' || true
+            nohup java -jar /home/ubuntu/healthturing-server-0.0.1-SNAPSHOT.jar > backend.log 2>&1 &
+            sleep 3
+            pgrep -af java || echo "⚠️ No java process running"
