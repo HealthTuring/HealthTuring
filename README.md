@@ -64,6 +64,7 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 - 🎨 **Diseño en Figma:**
 
   [Ver Diseño en Figma](https://www.figma.com/design/CmWyjN19e1JvGNwSS9at7q/Proyecto-dise%C3%B1o?node-id=13-3&t=FCEvTD1tZ9ZOurUy-1)
+  
   [Ver PDF diseño](/Healthturingdesign.pdf)
 
 ---
@@ -135,7 +136,9 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
   [Acceder a la bitácora](https://messy-muskox-c6b.notion.site/1e553eb02c1e80b99aecd3bc1395805c?v=1e553eb02c1e80009cd4000cb875567c)
 
 - 📄 **Presentación en PDF:**
+  
   [PDF de la presentación](/HealthTuring_Presentacion.pdf)
+  
   [Ver presentación](https://drive.google.com/file/d/ejemplo/view)
 
 - 🧪 **Anteproyecto (Notion):**  
