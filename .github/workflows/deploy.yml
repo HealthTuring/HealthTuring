@@ -54,9 +54,8 @@ jobs:
         host: ${{ matrix.frontend_host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "frontend/healthTuring-client/dist/health-turing-client/*"
+        source: "frontend/healthTuring-client/dist/health-turing-client/browser/**"
         target: "/home/ubuntu/frontend-dist"
-        strip_components: 3
 
     - name: Deploy Angular App en NGINX
       if: matrix.frontend_host != ''
