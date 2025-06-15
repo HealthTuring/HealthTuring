@@ -65,6 +65,19 @@ jobs:
           script: |
             ls -lh /home/ubuntu/frontend-dist
 
+      - name: Deploy Angular App en NGINX
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ matrix.frontend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: |
+            sudo rm -rf /var/www/html/*
+            sudo cp -r /home/ubuntu/frontend-dist/* /var/www/html/
+            sudo chown -R www-data:www-data /var/www/html
+            sudo chmod -R 755 /var/www/html
+            sudo systemctl restart nginx
+
       - name: Upload Spring Boot JAR to EC2 (backend)
         uses: appleboy/scp-action@v0.1.6
         with:
@@ -80,5 +93,14 @@ jobs:
           host: ${{ matrix.backend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
+          script: ls -lh /home/ubuntu/app.jar
+
+      - name: Restart Spring Boot App
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ matrix.backend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            ls -lh /home/ubuntu/app.jar
+            pkill -f 'java.*app.jar' || true
+            nohup java -jar /home/ubuntu/app.jar > backend.log 2>&1 &
