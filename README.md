@@ -122,7 +122,7 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 ## 🔗 Enlaces Importantes
 
 - 🌐 **Landing Page:**  
-  [https://healthturing.duckdns.org](https://healthturing.duckdns.org)
+  [https://healthturing.site](https://healthturing.site)
 
 - 📹 **Vídeo del Proyecto:**  
   [Ver en YouTube](https://youtu.be/oIjWwXb3p8M)
