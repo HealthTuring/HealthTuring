@@ -1,9 +1,6 @@
 name: Test Angular SCP Upload
 
 on:
-  push:
-    branches:
-      - prod
   workflow_dispatch:
 
 jobs:
@@ -14,7 +11,7 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Setup Node
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '22.16.0'
@@ -25,21 +22,21 @@ jobs:
         npm install
         npm run build -- --configuration production
 
-    - name: Upload Angular to EC2 (TEST ONLY)
+    - name: Upload Angular to EC2 (NO SECRET)
       uses: appleboy/scp-action@v0.1.6
       with:
-        host: ${{ secrets.TEST_FRONTEND_HOST }}
+        host: 3.95.121.200   # <- CAMBIA por la IP que tú quieras
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         source: "frontend/healthTuring-client/dist/health-turing-client/browser/**"
         target: "/home/ubuntu/test-nginx"
 
-    - name: List uploaded files
+    - name: Ver contenido en el servidor
       uses: appleboy/ssh-action@v0.1.10
       with:
-        host: ${{ secrets.TEST_FRONTEND_HOST }}
+        host: 3.95.121.200   # <- misma IP
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         script: |
-          echo "Contenido recibido en /home/ubuntu/test-nginx:"
+          echo "Contenido en /home/ubuntu/test-nginx:"
           ls -lah /home/ubuntu/test-nginx
