@@ -1,14 +1,24 @@
-name: Test Frontend Deploy
+name: Deploy HealthTuring Fullstack
 
 on:
   push:
     branches:
       - prod
-  workflow_dispatch:
 
 jobs:
-  frontend-test:
+  build-and-deploy:
+    name: Build and Deploy Fullstack
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        frontend_host: [3.95.121.200, 3.223.83.168]
+        backend_host: [52.202.49.64, 184.73.19.56]
+        exclude:
+          - frontend_host: 3.95.121.200
+            backend_host: 52.202.49.64
+          - frontend_host: 3.223.83.168
+            backend_host: 184.73.19.56
 
     steps:
       - name: Checkout repo
@@ -25,20 +35,58 @@ jobs:
           npm install
           npm run build -- --configuration production
 
-      - name: Upload Angular build to EC2 (TEST)
+      - name: Setup Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build Spring Boot
+        run: |
+          cd backend/healthturing-server
+          chmod +x mvnw
+          ./mvnw clean package -DskipTests
+          cp target/healthturing-server-0.0.1-SNAPSHOT.jar ../../healthturing-server.jar
+
+      - name: Upload Angular build to EC2 (frontend)
         uses: appleboy/scp-action@v0.1.6
         with:
-          host: ${{ secrets.FRONTEND_HOST }}
+          host: ${{ matrix.frontend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
-          target: "/home/ubuntu/frontend-dist"
+          source: "frontend/healthTuring-client/dist/health-turing-client/browser/"
+          target: "/home/ubuntu/frontend-dist/"
+          strip_components: 5
+          recursive: true
 
-      - name: Check frontend files
+      - name: Deploy Angular App to NGINX
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.FRONTEND_HOST }}
+          host: ${{ matrix.frontend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            ls -lh /home/ubuntu/frontend-dist || echo "⚠️ No frontend files deployed"
+            sudo rm -rf /var/www/html/*
+            sudo cp -r /home/ubuntu/frontend-dist/* /var/www/html/
+            sudo chown -R www-data:www-data /var/www/html
+            sudo chmod -R 755 /var/www/html
+            sudo systemctl restart nginx
+
+      - name: Upload Spring Boot JAR to EC2 (backend)
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ matrix.backend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          source: "healthturing-server.jar"
+          target: "/home/ubuntu/healthturing-server-0.0.1-SNAPSHOT.jar"
+
+      - name: Restart Spring Boot App
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ matrix.backend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: |
+            pkill -f 'healthturing-server-0.0.1-SNAPSHOT.jar' || true
+            nohup java -jar /home/ubuntu/healthturing-server-0.0.1-SNAPSHOT.jar > backend.log 2>&1 &
