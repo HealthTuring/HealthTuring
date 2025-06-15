@@ -1,4 +1,4 @@
-package com.healthturing.healthturing_server.controllers;
+package com.healthturing.healthturing_server.controllers.api;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

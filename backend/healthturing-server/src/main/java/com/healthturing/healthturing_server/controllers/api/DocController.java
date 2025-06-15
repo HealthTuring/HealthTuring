@@ -1,4 +1,4 @@
-package com.healthturing.healthturing_server.controllers;
+package com.healthturing.healthturing_server.controllers.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

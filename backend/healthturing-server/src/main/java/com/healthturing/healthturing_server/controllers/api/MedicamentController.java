@@ -1,4 +1,4 @@
-package com.healthturing.healthturing_server.controllers;
+package com.healthturing.healthturing_server.controllers.api;
 
 import com.healthturing.healthturing_server.dto.MedicamentDTO;
 import com.healthturing.healthturing_server.services.MedicamentService;

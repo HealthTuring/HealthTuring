@@ -1,4 +1,4 @@
-package com.healthturing.healthturing_server.controllers;
+package com.healthturing.healthturing_server.controllers.admin;
 
 import java.util.List;
 import java.util.Optional;
