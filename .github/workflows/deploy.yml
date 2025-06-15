@@ -54,7 +54,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
-          target: "/home/ubuntu/frontend-dist/"
+          target: "/home/ubuntu/frontend-dist"
 
       - name: Deploy Angular App to NGINX
         uses: appleboy/ssh-action@v0.1.10
@@ -76,7 +76,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           source: "backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar"
-          target: "/home/ubuntu/healthturing-server.jar"
+          target: "/home/ubuntu/"
 
       - name: Restart Spring Boot App
         uses: appleboy/ssh-action@v0.1.10
@@ -85,5 +85,5 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            pkill -f 'java.*healthturing-server.jar' || true
-            nohup java -jar /home/ubuntu/healthturing-server.jar > backend.log 2>&1 &
+            pkill -f 'java.*healthturing-server-0.0.1-SNAPSHOT.jar' || true
+            nohup java -jar /home/ubuntu/healthturing-server-0.0.1-SNAPSHOT.jar > backend.log 2>&1 &
