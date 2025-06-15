@@ -31,7 +31,7 @@ jobs:
 
     - name: Build Angular App
       run: |
-        cd frontend/healthTuring-client
+        cd HealthTuring/frontend/healthTuring-client
         npm install
         npm run build -- --configuration production
 
@@ -43,10 +43,9 @@ jobs:
 
     - name: Build Spring Boot App
       run: |
-        cd backend/healthturing-server
+        cd HealthTuring/backend/healthturing-server
         chmod +x mvnw
         ./mvnw clean package -DskipTests
-        cp backend/healthturing-server/target/*.jar app.jar
 
     - name: Subir Angular build a EC2 (frontend)
       if: matrix.frontend_host != ''
@@ -55,7 +54,7 @@ jobs:
         host: ${{ matrix.frontend_host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
+        source: "HealthTuring/frontend/healthTuring-client/dist/health-turing-client/browser/*"
         target: "/home/ubuntu/frontend-dist"
 
     - name: Deploy Angular App en NGINX
@@ -79,7 +78,7 @@ jobs:
         host: ${{ matrix.backend_host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar"
+        source: "HealthTuring/backend/healthturing-server/target/*.jar"
         target: "/home/ubuntu/app.jar"
 
     - name: Reiniciar Spring Boot en EC2
