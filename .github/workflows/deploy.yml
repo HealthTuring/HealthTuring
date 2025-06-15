@@ -54,7 +54,7 @@ jobs:
         host: ${{ matrix.host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "frontend/healthTuring-client/dist/**"
+        source: "HealthTuring/frontend/healthTuring-client/dist/**"
         target: "/home/ubuntu/frontend-dist"
 
     - name: Deploy Angular App to NGINX
@@ -88,7 +88,7 @@ jobs:
         host: ${{ matrix.host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "backend/healthturing-server/target/*.jar"
+        source: "HealthTuring/backend/healthturing-server/target/*.jar"
         target: "/home/ubuntu/app.jar"
 
     - name: Restart Spring Boot App
