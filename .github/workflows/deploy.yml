@@ -25,6 +25,9 @@ jobs:
         npm install
         npm run build -- --configuration production
 
+    - name: Verificar salida de Angular
+      run: find frontend/healthTuring-client/dist -type f
+
     - name: Setup Java and Maven
       uses: actions/setup-java@v3
       with:
@@ -37,74 +40,19 @@ jobs:
         chmod +x mvnw
         ./mvnw clean package -DskipTests
 
-    - name: Ver estructura del repo tras build
-      run: find . -type f | sort
+    - name: Verificar salida de Spring Boot
+      run: find backend/healthturing-server/target -type f
 
-  deploy-frontend:
-    name: Deploy to Frontend Instances
+  deploy-test:
+    name: Confirm build output
     needs: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        host:
-          - 3.95.121.200
-          - 3.223.83.168
 
     steps:
-    - name: Verificar contenido de dist/Angular
-      run: ls -lhR frontend/healthTuring-client/dist/health-turing-client/
+    - name: Checkout
+      uses: actions/checkout@v3
 
-    - name: Upload Angular build to EC2
-      uses: appleboy/scp-action@v0.1.6
-      with:
-        host: ${{ matrix.host }}
-        username: ubuntu
-        key: ${{ secrets.AWS_SSH_KEY }}
-        source: "frontend/healthTuring-client/dist/health-turing-client/**"
-        target: "/home/ubuntu/frontend-dist"
-
-    - name: Deploy Angular App to NGINX
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ matrix.host }}
-        username: ubuntu
-        key: ${{ secrets.AWS_SSH_KEY }}
-        script: |
-          sudo rm -rf /var/www/html/*
-          sudo cp -r /home/ubuntu/frontend-dist/* /var/www/html/
-          sudo chown -R www-data:www-data /var/www/html
-          sudo chmod -R 755 /var/www/html
-          sudo systemctl restart nginx
-
-  deploy-backend:
-    name: Deploy to Backend Instances
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        host:
-          - 52.202.49.64
-          - 184.73.19.56
-
-    steps:
-    - name: Verificar archivos JAR generados
-      run: ls -lhR backend/healthturing-server/target/
-
-    - name: Upload Spring Boot JAR to EC2
-      uses: appleboy/scp-action@v0.1.6
-      with:
-        host: ${{ matrix.host }}
-        username: ubuntu
-        key: ${{ secrets.AWS_SSH_KEY }}
-        source: "backend/healthturing-server/target/*.jar"
-        target: "/home/ubuntu/app.jar"
-
-    - name: Restart Spring Boot App
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ matrix.host }}
-        username: ubuntu
-        key: ${{ secrets.AWS_SSH_KEY }}
-        script: |
-          pkill -f 'java.*app.jar' || true
-          nohup java -jar /home/ubuntu/app.jar > backend.log 2>&1 &
+    - name: Mostrar estructura post-build
+      run: |
+        echo "Verificando si los archivos .jar y dist existen"
+        find . -type f | grep -E 'target/.*\\.jar|dist/.*\\.js'
