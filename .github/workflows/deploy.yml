@@ -1,4 +1,4 @@
-name: Test Backend Deploy
+name: Test Frontend Deploy
 
 on:
   push:
@@ -7,42 +7,38 @@ on:
   workflow_dispatch:
 
 jobs:
-  backend-test:
+  frontend-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Java and Maven
-        uses: actions/setup-java@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          node-version: '22.2.0'
 
-      - name: Build Spring Boot
+      - name: Build Angular
         run: |
-          cd backend/healthturing-server
-          chmod +x mvnw
-          ./mvnw clean package -DskipTests
+          cd frontend/healthTuring-client
+          npm install
+          npm run build -- --configuration production
 
-      - name: Upload Spring Boot JAR to EC2 (TEST)
+      - name: Upload Angular build to EC2 (TEST)
         uses: appleboy/scp-action@v0.1.6
         with:
-          host: ${{ secrets.BACKEND_HOST }}
+          host: ${{ secrets.FRONTEND_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar"
-          target: "/home/ubuntu/"
+          source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
+          target: "/home/ubuntu/frontend-dist"
 
-      - name: Run Spring Boot JAR in EC2
+      - name: Check frontend files
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.BACKEND_HOST }}
+          host: ${{ secrets.FRONTEND_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            pkill -f 'java.*healthturing-server-0.0.1-SNAPSHOT.jar' || true
-            nohup java -jar /home/ubuntu/healthturing-server-0.0.1-SNAPSHOT.jar > backend.log 2>&1 &
-            sleep 3
-            pgrep -af java || echo "⚠️ No java process running"
+            ls -lh /home/ubuntu/frontend-dist || echo "⚠️ No frontend files deployed"
