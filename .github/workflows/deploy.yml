@@ -13,6 +13,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        path: HealthTuring
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -21,7 +23,7 @@ jobs:
 
     - name: Build Angular App
       run: |
-        cd frontend/healthTuring-client
+        cd HealthTuring/frontend/healthTuring-client
         npm install
         npm run build -- --configuration production
 
@@ -33,7 +35,7 @@ jobs:
 
     - name: Build Spring Boot App
       run: |
-        cd backend/healthturing-server
+        cd HealthTuring/backend/healthturing-server
         chmod +x mvnw
         ./mvnw clean package -DskipTests
 
@@ -49,15 +51,15 @@ jobs:
 
     steps:
     - name: Verificar contenido de dist/Angular
-      run: ls -lh frontend/healthTuring-client/dist/health-turing-client/
+      run: ls -lhR HealthTuring/frontend/healthTuring-client/dist/health-turing-client/
 
     - name: Upload Angular build to EC2
       uses: appleboy/scp-action@v0.1.6
       with:
-        host: ${{ matrix.host }}
+        host: ${{ secrets.AWS_HOST }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "frontend/healthTuring-client/dist/**"
+        source: "HealthTuring/frontend/healthTuring-client/dist/health-turing-client/**"
         target: "/home/ubuntu/frontend-dist"
 
     - name: Deploy Angular App to NGINX
@@ -67,9 +69,8 @@ jobs:
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         script: |
-
           sudo rm -rf /var/www/html/*
-          sudo cp -r /home/ubuntu/frontend-dist/health-turing-client/* /var/www/html/
+          sudo cp -r /home/ubuntu/frontend-dist/* /var/www/html/
           sudo chown -R www-data:www-data /var/www/html
           sudo chmod -R 755 /var/www/html
           sudo systemctl restart nginx
@@ -86,7 +87,7 @@ jobs:
 
     steps:
     - name: Verificar archivos JAR generados
-      run: ls -lh backend/healthturing-server/target/
+      run: ls -lhR HealthTuring/backend/healthturing-server/target/
 
     - name: Upload Spring Boot JAR to EC2
       uses: appleboy/scp-action@v0.1.6
@@ -94,7 +95,7 @@ jobs:
         host: ${{ matrix.host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "**/target/*.jar"
+        source: "HealthTuring/backend/healthturing-server/target/*.jar"
         target: "/home/ubuntu/app.jar"
 
     - name: Restart Spring Boot App
