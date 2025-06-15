@@ -125,11 +125,9 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
   [https://healthturing.site](https://healthturing.site)
 
 - ✏️ **Diseño de la aplicación inicial:**
-
   [Figma](https://www.figma.com/design/CmWyjN19e1JvGNwSS9at7q/Healthturing?t=WfCyIUXw6BeiWDwL-1)
 
 - 📒 **PDF del diseño inicial:**
-
   [PDF](https://github.com/HealthTuring/HealthTuring/blob/main/Healthturingdesign.pdf)
       
 - 📹 **Vídeo del Proyecto:**  
