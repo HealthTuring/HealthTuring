@@ -21,17 +21,17 @@ jobs:
             backend_host: 184.73.19.56
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22.16.0'
+          node-version: '22.2.0'
 
-      - name: Build Angular App
+      - name: Build Angular
         run: |
-          cd HealthTuring/frontend/healthTuring-client
+          cd frontend/healthTuring-client
           npm install
           npm run build -- --configuration production
 
@@ -41,23 +41,23 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build Spring Boot App
+      - name: Build Spring Boot
         run: |
-          cd HealthTuring/backend/healthturing-server
+          cd backend/healthturing-server
           chmod +x mvnw
           ./mvnw clean package -DskipTests
+          cp target/healthturing-server-0.0.1-SNAPSHOT.jar ../../app.jar
 
-      - name: Upload Angular to EC2 (frontend)
+      - name: Upload Angular build to EC2 (frontend)
         uses: appleboy/scp-action@v0.1.6
         with:
           host: ${{ matrix.frontend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "HealthTuring/frontend/healthTuring-client/dist/health-turing-client/browser/**"
+          source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
           target: "/home/ubuntu/frontend-dist"
-          strip_components: 5
 
-      - name: Deploy Angular App en NGINX
+      - name: Deploy Angular App to NGINX
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ matrix.frontend_host }}
@@ -76,11 +76,10 @@ jobs:
           host: ${{ matrix.backend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "HealthTuring/backend/healthturing-server/target/*.jar"
+          source: "app.jar"
           target: "/home/ubuntu/app.jar"
-          strip_components: 4
 
-      - name: Restart Spring Boot on EC2
+      - name: Restart Spring Boot App
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ matrix.backend_host }}
