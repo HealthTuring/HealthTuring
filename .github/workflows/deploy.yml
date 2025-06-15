@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22.2.0'
+          node-version: '22.1.0'
 
       - name: Build Angular
         run: |
@@ -41,23 +41,25 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build Spring Boot
+      - name: Build Spring Boot App
         run: |
           cd backend/healthturing-server
           chmod +x mvnw
           ./mvnw clean package -DskipTests
-          cp target/healthturing-server-0.0.1-SNAPSHOT.jar ../../app.jar
 
-      - name: Upload Angular build to EC2 (frontend)
+      - name: Upload Angular to EC2 (frontend)
+        if: matrix.frontend_host != ''
         uses: appleboy/scp-action@v0.1.6
         with:
           host: ${{ matrix.frontend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
+          source: "frontend/healthTuring-client/dist/health-turing-client/browser/**"
           target: "/home/ubuntu/frontend-dist"
+          strip_components: 3
 
       - name: Deploy Angular App to NGINX
+        if: matrix.frontend_host != ''
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ matrix.frontend_host }}
@@ -71,15 +73,17 @@ jobs:
             sudo systemctl restart nginx
 
       - name: Upload Spring Boot JAR to EC2 (backend)
+        if: matrix.backend_host != ''
         uses: appleboy/scp-action@v0.1.6
         with:
           host: ${{ matrix.backend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "app.jar"
+          source: "backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar"
           target: "/home/ubuntu/app.jar"
 
       - name: Restart Spring Boot App
+        if: matrix.backend_host != ''
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ matrix.backend_host }}
