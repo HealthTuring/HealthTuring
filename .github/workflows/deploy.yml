@@ -1,10 +1,12 @@
-name: Step 1 - Build Frontend and Backend (Verify paths only)
+name: compress-and-upload
 
 on:
-  workflow_dispatch:  # Lo ejecutas manualmente desde GitHub
+  push:
+    branches:
+      - prod
 
 jobs:
-  build-check:
+  compress-and-upload:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,16 +18,15 @@ jobs:
         with:
           node-version: '22.2.0'
 
-      - name: Build Angular App
+      - name: Build Angular
         run: |
           cd frontend/healthTuring-client
           npm install
           npm run build -- --configuration production
 
-      - name: List Angular dist content
+      - name: Compress Angular dist
         run: |
-          echo "📂 Verificando dist generado"
-          ls -lh frontend/healthTuring-client/dist/health-turing-client/browser
+          tar -czf frontend.tar.gz -C frontend/healthTuring-client/dist/health-turing-client/browser .
 
       - name: Setup Java and Maven
         uses: actions/setup-java@v3
@@ -33,13 +34,30 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build Spring Boot App
+      - name: Build Spring Boot
         run: |
           cd backend/healthturing-server
           chmod +x mvnw
           ./mvnw clean package -DskipTests
 
-      - name: List JAR generated
+      - name: Compress Spring Boot JAR
         run: |
-          echo "📦 Verificando JAR generado"
-          ls -lh backend/healthturing-server/target
+          tar -czf backend.tar.gz -C backend/healthturing-server/target healthturing-server-0.0.1-SNAPSHOT.jar
+
+      - name: Upload Angular to EC2
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.AWS_FRONTEND_HOST }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          source: frontend.tar.gz
+          target: /home/ubuntu/
+
+      - name: Upload Spring Boot to EC2
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.AWS_BACKEND_HOST }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          source: backend.tar.gz
+          target: /home/ubuntu/
