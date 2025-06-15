@@ -64,6 +64,7 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 - 🎨 **Diseño en Figma:**
 
   [Ver Diseño en Figma](https://www.figma.com/design/CmWyjN19e1JvGNwSS9at7q/Proyecto-dise%C3%B1o?node-id=13-3&t=FCEvTD1tZ9ZOurUy-1)
+  [Ver PDF diseño](/Healthturingdesign.pdf)
 
 ---
 
@@ -123,12 +124,6 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 
 - 🌐 **Landing Page:**  
   [https://healthturing.site](https://healthturing.site)
-
-- ✏️ **Diseño de la aplicación inicial:**
-  [Figma](https://www.figma.com/design/CmWyjN19e1JvGNwSS9at7q/Healthturing?t=WfCyIUXw6BeiWDwL-1)
-
-- 📒 **PDF del diseño inicial:**
-  [PDF](https://github.com/HealthTuring/HealthTuring/blob/main/Healthturingdesign.pdf)
       
 - 📹 **Vídeo del Proyecto:**  
   [Ver en YouTube](https://youtu.be/oIjWwXb3p8M)
@@ -139,14 +134,15 @@ HealthTuring es una aplicación web desarrollada como trabajo de fin de curso de
 - 📋 **Bitácora de Tareas (Notion):**  
   [Acceder a la bitácora](https://messy-muskox-c6b.notion.site/1e553eb02c1e80b99aecd3bc1395805c?v=1e553eb02c1e80009cd4000cb875567c)
 
-- 📄 **Presentación en PDF:**  
+- 📄 **Presentación en PDF:**
+  [PDF de la presentación](/HealthTuring_Presentacion.pdf)
   [Ver presentación](https://drive.google.com/file/d/ejemplo/view)
 
 - 🧪 **Anteproyecto (Notion):**  
   [Ver Anteproyecto](https://messy-muskox-c6b.notion.site/Anteproyecto-1c053eb02c1e800b8074d49e43f14007)
 
-- 📑 **Documentación de la API:**  
-  [Ver API.md](./API.md)
+- 📑 **Documentación de la API (Swagger):**  
+  [Ver documentación](./swaggerDocumentacion.html)
 
 ---
 
