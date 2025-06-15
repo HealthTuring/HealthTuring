@@ -1,4 +1,4 @@
-name: HealthTuring Build and Deploy (Step 1, 2, 3)
+name: Build and Deploy Fullstack
 
 on:
   push:
@@ -67,8 +67,17 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
+            echo "🔁 Reiniciando Spring Boot"
             pkill -f 'java.*app.jar' || true
-            screen -dmS springboot java -jar /home/ubuntu/app.jar
+            nohup java -jar /home/ubuntu/app.jar > backend.log 2>&1 &
+            sleep 3
+            if pgrep -f app.jar > /dev/null; then
+              echo "✅ Spring Boot arrancado correctamente"
+            else
+              echo "❌ Spring Boot no está en ejecución"
+              cat backend.log
+              exit 1
+            fi
 
       - name: Verificar ejecución Spring Boot
         uses: appleboy/ssh-action@v0.1.10
@@ -77,4 +86,5 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            pgrep -f 'java.*app.jar' && echo "✅ Spring Boot está corriendo" || echo "❌ No se está ejecutando"
+            echo "🧪 Verificando proceso Spring Boot"
+            pgrep -a java || echo "❌ No se encontró ningún proceso java"
