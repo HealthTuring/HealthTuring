@@ -6,7 +6,8 @@ on:
       - prod
 
 jobs:
-  deploy:
+  build-and-deploy:
+    name: Build and Deploy Fullstack
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +26,8 @@ jobs:
           npm run build -- --configuration production
 
       - name: Show Angular dist contents
-        run: ls -lh frontend/healthTuring-client/dist/health-turing-client/browser
+        run: |
+          ls -lh frontend/healthTuring-client/dist/health-turing-client/browser
 
       - name: Setup Java and Maven
         uses: actions/setup-java@v3
@@ -40,8 +42,10 @@ jobs:
           ./mvnw clean package -DskipTests
 
       - name: Show JAR generated
-        run: ls -lh backend/healthturing-server/target/
+        run: |
+          ls -lh backend/healthturing-server/target/
 
+      # ⬇️ Upload Angular build
       - name: Upload Angular dist to EC2
         uses: appleboy/scp-action@v0.1.6
         with:
@@ -51,6 +55,7 @@ jobs:
           source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
           target: "/home/ubuntu/frontend-dist"
 
+      # ⬇️ Upload Spring Boot JAR
       - name: Upload Spring Boot JAR to EC2
         uses: appleboy/scp-action@v0.1.6
         with:
@@ -59,7 +64,9 @@ jobs:
           key: ${{ secrets.AWS_SSH_KEY }}
           source: "backend/healthturing-server/target/healthturing-server-0.0.1-SNAPSHOT.jar"
           target: "/home/ubuntu/app.jar"
+          strip_components: 4
 
+      # ⬇️ Restart backend JAR
       - name: Restart Spring Boot App (via screen)
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -67,7 +74,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            echo "🔁 Reiniciando Spring Boot"
+            echo "🔄 Reiniciando Spring Boot"
             if ! command -v java > /dev/null; then
               echo "❌ Java no está instalado en la instancia"
               exit 1
