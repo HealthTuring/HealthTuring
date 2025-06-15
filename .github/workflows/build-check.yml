@@ -1,40 +1,11 @@
-name: Step 1 - Build Frontend and Backend (Verify paths only)
+name: Step 1 - Manual Trigger Test
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-check:
-    name: Check frontend and backend build output
+  echo-test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22.2.0'
-
-      - name: Build Angular (dist output)
-        run: |
-          cd frontend/healthTuring-client
-          npm install
-          npm run build -- --configuration production
-          echo "🔎 Mostrando contenido generado:"
-          ls -lh dist/health-turing-client/browser
-
-      - name: Setup Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      - name: Build Spring Boot (jar output)
-        run: |
-          cd backend/healthturing-server
-          chmod +x mvnw
-          ./mvnw clean package -DskipTests
-          echo "🔎 Mostrando contenido generado:"
-          ls -lh target/
+      - name: Say hello
+        run: echo "✅ Workflow manual ejecutado correctamente"
