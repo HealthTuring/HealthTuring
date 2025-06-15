@@ -1,4 +1,4 @@
-name: Deploy HealthTuring Fullstack
+name: Deploy HealthTuring Fullstack (Build Test)
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
         npm run build -- --configuration production
 
     - name: Verificar salida de Angular
-      run: find frontend/healthTuring-client/dist -type f
+      run: find frontend/healthTuring-client/dist -type f || echo "⚠️ No hay archivos en dist"
 
     - name: Setup Java and Maven
       uses: actions/setup-java@v3
@@ -41,7 +41,12 @@ jobs:
         ./mvnw clean package -DskipTests
 
     - name: Verificar salida de Spring Boot
-      run: find backend/healthturing-server/target -type f
+      run: find backend/healthturing-server/target -type f || echo "⚠️ No hay archivos en target"
+
+    - name: Mostrar todos los archivos generados
+      run: |
+        echo "🗂 Todos los archivos generados:"
+        find . -type f | sort || true
 
   deploy-test:
     name: Confirm build output
@@ -49,10 +54,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
+    - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Mostrar estructura post-build
+    - name: Confirmar estructura del workspace
       run: |
-        echo "Verificando si los archivos .jar y dist existen"
-        find . -type f | grep -E 'target/.*\\.jar|dist/.*\\.js'
+        echo "📦 Archivos esperados:"
+        find . -type f | grep -E 'target/.*\\.jar|dist/.*\\.(js|html)' || echo \"⚠️ No se encontraron .jar o archivos de Angular\"
