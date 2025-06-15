@@ -14,10 +14,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Mostrar estructura de carpetas del repo
-      run: find . -type d | sort
-
-
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
@@ -28,11 +24,6 @@ jobs:
         cd frontend/healthTuring-client
         npm install
         npm run build -- --configuration production
-    - name: Ver estructura de Angular tras build
-      run: |
-        echo "📁 Estructura de dist:"
-        find frontend/healthTuring-client/dist/ -type f | sort
-
 
     - name: Setup Java and Maven
       uses: actions/setup-java@v3
@@ -46,11 +37,8 @@ jobs:
         chmod +x mvnw
         ./mvnw clean package -DskipTests
 
-    - name: Ver estructura de Spring Boot tras build
-      run: |
-        echo "📁 Estructura de target:"
-        find backend/healthturing-server/target/ -type f | sort
-
+    - name: Ver estructura del repo tras build
+      run: find . -type f | sort
 
   deploy-frontend:
     name: Deploy to Frontend Instances
@@ -69,7 +57,7 @@ jobs:
     - name: Upload Angular build to EC2
       uses: appleboy/scp-action@v0.1.6
       with:
-        host: ${{ secrets.AWS_HOST }}
+        host: ${{ matrix.host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         source: "frontend/healthTuring-client/dist/health-turing-client/**"
