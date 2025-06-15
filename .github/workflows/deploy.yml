@@ -24,6 +24,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      # ✅ PRUEBA 1: Verificar estructura tras checkout
+      - name: Confirmar estructura tras checkout
+        run: ls -R
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -34,6 +38,10 @@ jobs:
           cd frontend/healthTuring-client
           npm install
           npm run build -- --configuration production
+
+      # ✅ PRUEBA 2: Confirmar artefactos Angular
+      - name: Verificar dist Angular generado
+        run: ls -lh frontend/healthTuring-client/dist/health-turing-client/browser/
 
       - name: Setup Java and Maven
         uses: actions/setup-java@v3
@@ -46,7 +54,11 @@ jobs:
           cd backend/healthturing-server
           chmod +x mvnw
           ./mvnw clean package -DskipTests
-          cp target/healthturing-server-0.0.1-SNAPSHOT.jar ../../healthturing-server.jar
+          cp target/healthturing-server-0.0.1-SNAPSHOT.jar ../../app.jar
+
+      # ✅ PRUEBA 2: Confirmar artefacto JAR
+      - name: Verificar JAR generado
+        run: ls -lh backend/healthturing-server/target/
 
       - name: Upload Angular build to EC2 (frontend)
         uses: appleboy/scp-action@v0.1.6
@@ -54,10 +66,17 @@ jobs:
           host: ${{ matrix.frontend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "frontend/healthTuring-client/dist/health-turing-client/browser/"
-          target: "/home/ubuntu/frontend-dist/"
-          strip_components: 5
-          recursive: true
+          source: "frontend/healthTuring-client/dist/health-turing-client/browser/*"
+          target: "/home/ubuntu/frontend-dist"
+
+      # ✅ PRUEBA 3: Verificar archivos subidos a EC2 (frontend)
+      - name: Verificar archivos frontend en EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ matrix.frontend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: ls -lh /home/ubuntu/frontend-dist
 
       - name: Deploy Angular App to NGINX
         uses: appleboy/ssh-action@v0.1.10
@@ -72,14 +91,34 @@ jobs:
             sudo chmod -R 755 /var/www/html
             sudo systemctl restart nginx
 
+      # ✅ PRUEBA 6: Validar contenido final en NGINX
+      - name: Verificar contenido NGINX
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ matrix.frontend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: |
+            ls -lh /var/www/html
+            head -n 10 /var/www/html/index.html
+
       - name: Upload Spring Boot JAR to EC2 (backend)
         uses: appleboy/scp-action@v0.1.6
         with:
           host: ${{ matrix.backend_host }}
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "healthturing-server.jar"
-          target: "/home/ubuntu/healthturing-server-0.0.1-SNAPSHOT.jar"
+          source: "app.jar"
+          target: "/home/ubuntu/app.jar"
+
+      # ✅ PRUEBA 3: Verificar JAR subido
+      - name: Verificar app.jar en EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ matrix.backend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: ls -lh /home/ubuntu/app.jar
 
       - name: Restart Spring Boot App
         uses: appleboy/ssh-action@v0.1.10
@@ -88,5 +127,23 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            pkill -f 'healthturing-server-0.0.1-SNAPSHOT.jar' || true
-            nohup java -jar /home/ubuntu/healthturing-server-0.0.1-SNAPSHOT.jar > backend.log 2>&1 &
+            pkill -f 'java.*app.jar' || true
+            nohup java -jar /home/ubuntu/app.jar > backend.log 2>&1 &
+
+      # ✅ PRUEBA 5: Verificar proceso Java en EC2
+      - name: Verificar proceso Java backend
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ matrix.backend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: ps aux | grep java || echo "No hay procesos Java"
+
+      # ✅ PRUEBA EXTRA: Ver último log del backend
+      - name: Ver último log de backend
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ matrix.backend_host }}
+          username: ubuntu
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: tail -n 50 /home/ubuntu/backend.log || echo "No log generado"
