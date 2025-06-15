@@ -47,6 +47,18 @@ jobs:
         chmod +x mvnw
         ./mvnw clean package -DskipTests
 
+    - name: Preparar permisos en carpeta destino (frontend)
+      if: matrix.frontend_host != ''
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ matrix.frontend_host }}
+        username: ubuntu
+        key: ${{ secrets.AWS_SSH_KEY }}
+        script: |
+          sudo rm -rf /home/ubuntu/frontend-dist
+          sudo mkdir -p /home/ubuntu/frontend-dist
+          sudo chown -R ubuntu:ubuntu /home/ubuntu/frontend-dist
+
     - name: Subir Angular build a EC2 (frontend)
       if: matrix.frontend_host != ''
       uses: appleboy/scp-action@v0.1.6
@@ -78,16 +90,4 @@ jobs:
         host: ${{ matrix.backend_host }}
         username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "backend/healthturing-server/target/*.jar"
-        target: "/home/ubuntu/app.jar"
-
-    - name: Reiniciar Spring Boot en EC2
-      if: matrix.backend_host != ''
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ matrix.backend_host }}
-        username: ubuntu
-        key: ${{ secrets.AWS_SSH_KEY }}
-        script: |
-          pkill -f 'java.*app.jar' || true
-          nohup java -jar /home/ubuntu/app.jar > backend.log 2>&1 &
+        sourc
