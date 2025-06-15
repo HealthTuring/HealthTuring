@@ -1,11 +1,44 @@
-name: Step 1 - Manual Trigger Test
+name: Step 1 - Build and Locate Frontend and Backend
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - prod
 
 jobs:
-  echo-test:
+  build-locate:
+    name: Generate dist and JAR
     runs-on: ubuntu-latest
+
     steps:
-      - name: Say hello
-        run: echo "✅ Workflow manual ejecutado correctamente"
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.2.0'
+
+      - name: Build Angular App
+        run: |
+          cd frontend/healthTuring-client
+          npm install
+          npm run build -- --configuration production
+
+      - name: Show Angular dist contents
+        run: ls -lh frontend/healthTuring-client/dist/health-turing-client/browser
+
+      - name: Setup Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build Spring Boot
+        run: |
+          cd backend/healthturing-server
+          chmod +x mvnw
+          ./mvnw clean package -DskipTests
+
+      - name: Show JAR contents
+        run: ls -lh backend/healthturing-server/target
