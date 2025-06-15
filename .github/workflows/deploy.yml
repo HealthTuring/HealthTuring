@@ -1,6 +1,9 @@
 name: Test Backend Deploy
 
 on:
+  push:
+    branches:
+      - prod
   workflow_dispatch:
 
 jobs:
