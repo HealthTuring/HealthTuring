@@ -21,7 +21,7 @@ jobs:
 
     - name: Build Angular App
       run: |
-        cd frontend/healthturing-client
+        cd frontend/healthTuring-client
         npm install
         npm run build -- --configuration production
 
@@ -54,7 +54,7 @@ jobs:
         host: ${{ matrix.host }}
         username: ${{ secrets.AWS_USER }}
         key: ${{ secrets.AWS_SSH_KEY }}
-        source: "frontend/healthturing-client/dist/**"
+        source: "frontend/healthTuring-client/dist/**"
         target: "/home/ubuntu/frontend-dist"
 
     - name: Deploy Angular App to NGINX
