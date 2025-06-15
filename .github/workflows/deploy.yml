@@ -52,7 +52,7 @@ jobs:
       uses: appleboy/scp-action@v0.1.6
       with:
         host: ${{ matrix.host }}
-        username: ${{ secrets.AWS_USER }}
+        username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         source: "frontend/healthTuring-client/dist/**"
         target: "/home/ubuntu/frontend-dist"
@@ -61,7 +61,7 @@ jobs:
       uses: appleboy/ssh-action@v0.1.10
       with:
         host: ${{ matrix.host }}
-        username: ${{ secrets.AWS_USER }}
+        username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         script: |
 
@@ -86,7 +86,7 @@ jobs:
       uses: appleboy/scp-action@v0.1.6
       with:
         host: ${{ matrix.host }}
-        username: ${{ secrets.AWS_USER }}
+        username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         source: "backend/healthturing-server/target/*.jar"
         target: "/home/ubuntu/app.jar"
@@ -95,7 +95,7 @@ jobs:
       uses: appleboy/ssh-action@v0.1.10
       with:
         host: ${{ matrix.host }}
-        username: ${{ secrets.AWS_USER }}
+        username: ubuntu
         key: ${{ secrets.AWS_SSH_KEY }}
         script: |
           pkill -f 'java.*app.jar' || true
